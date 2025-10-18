@@ -267,13 +267,13 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo-header">
-            <span class="logo-icon">👷</span>
+        <a href="landingpage.html" class="logo-header">
+            <span class="logo-icon">🌍</span>
             <span class="logo-text">LinkTradeNetwork</span>
         </a>
         <nav class="header-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#features">Features</a>
+            <a href="landingpage.html">Home</a>
+            <a href="landingpage.html#features">Features</a>
             <a href="signup.html">Sign Up</a>
         </nav>
     </header>
@@ -372,11 +372,11 @@
                 localStorage.setItem('linktradeUser', JSON.stringify(userData));
 
                 messageDiv.className = 'message success';
-                messageDiv.textContent = '✅ Welcome! Redirecting to homepage...';
+                messageDiv.textContent = '✅ Welcome! Redirecting to landing page...';
                 messageDiv.style.display = 'block';
 
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'landingpage.html';
                 }, 1500);
 
             } catch (error) {
