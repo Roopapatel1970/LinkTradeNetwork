@@ -417,11 +417,11 @@
                 localStorage.setItem('linktradeUser', JSON.stringify(userData));
 
                 messageDiv.className = 'message success';
-                messageDiv.textContent = '✅ Welcome! Redirecting to landing page...';
+                messageDiv.textContent = '✅ Welcome! Redirecting to home page...';
                 messageDiv.style.display = 'block';
 
                 setTimeout(() => {
-                    window.location.href = 'landingpage.html';
+                    window.location.href = 'home.html';
                 }, 500);
 
             } catch (error) {
