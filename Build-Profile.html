@@ -561,8 +561,17 @@
             });
 
             try {
-                // Here you would send to Google Sheets
-                // For now, we'll save to localStorage
+                // Send to Google Sheets
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                // Also save to localStorage for quick access
                 localStorage.setItem('userProfile', JSON.stringify(profileData));
                 
                 messageDiv.className = 'message success';
