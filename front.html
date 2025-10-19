@@ -115,6 +115,26 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
+        .hero-ltn-logo {
+            display: inline-block;
+            background: #fbbf24;
+            color: #1f2937;
+            font-size: 3.5rem;
+            font-weight: 800;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 4px solid #f59e0b;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .hero-ltn-logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
         /* Features Section */
         .features {
             padding: 5rem 2rem;
@@ -143,16 +163,34 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.07);
             transition: all 0.3s;
             text-align: center;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+            cursor: pointer;
         }
 
         .feature-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
+        }
+
+        .ltn-logo {
+            display: inline-block;
+            background: #fbbf24;
+            color: #1f2937;
+            font-size: 2.5rem;
+            font-weight: 800;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+            border: 3px solid #f59e0b;
+            letter-spacing: 2px;
         }
 
         .feature-card h3 {
@@ -225,12 +263,12 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="landingpage.html" class="logo">
+            <a href="front.html" class="logo">
                 <span class="logo-icon">🌍</span>
                 <span class="logo-text">LinkTradeNetwork</span>
             </a>
             <ul class="nav-links">
-                <li><a href="landingpage.html">Home</a></li>
+                <li><a href="front.html">Home</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -242,7 +280,7 @@
         <div class="hero-content">
             <h1>The Professional Network for Skilled Trades</h1>
             <p>Connect trade workers with businesses. Find jobs. Hire talent. Build your career in the trades.</p>
-            <a href="terms.html" class="btn-primary">Get Started</a>
+            <a href="terms.html" class="hero-ltn-logo">LTN</a>
         </div>
     </section>
 
@@ -250,15 +288,15 @@
     <section class="features" id="features">
         <h2>Platform Features</h2>
         <div class="feature-grid">
+            <a href="build-profile.html" class="feature-card">
+                <div class="ltn-logo">LTN</div>
+                <h3>Build Your Profile</h3>
+                <p>Create your professional portfolio and get discovered</p>
+            </a>
             <div class="feature-card">
-                <div class="feature-icon">💼</div>
+                <div class="ltn-logo">LTN</div>
                 <h3>Job Postings</h3>
-                <p>Browse opportunities from electrical, plumbing, HVAC, construction and more</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">👷</div>
-                <h3>Worker Profiles</h3>
-                <p>Showcase your skills, certifications, and experience to employers</p>
+                <p>Access professional opportunities across specialized trades</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏢</div>
@@ -281,7 +319,7 @@
 
     <!-- Footer -->
     <footer>
-    <p>&copy; 2025 LinkTradeNetwork. Connecting skilled trades with opportunity.</p>
+        <p>&copy; 2025 LinkTradeNetwork. Connecting skilled trades with opportunity.</p>
         <p style="margin-top: 1rem;">
             <a href="terms.html" style="color: white; text-decoration: underline; opacity: 0.8;">Terms and Conditions</a>
         </p>
