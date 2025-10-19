@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Profile - LinkTradeNetwork</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #64748b;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #000000;
+            text-decoration: none;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #9ca3af;
+            overflow: hidden;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .experience-item {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        .add-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-btn:hover {
+            background: #2563eb;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-tag button {
+            background: none;
+            border: none;
+            color: #1e40af;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .submit-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: #ea580c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+            display: block;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .profile-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="front.html" class="logo-header">
+            <span class="logo-icon">🌍</span>
+            <span class="logo-text">LinkTradeNetwork</span>
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Build Your Profile</h1>
+            <p>Showcase your skills, certifications, and experience to employers</p>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <form id="profileForm">
+            <!-- Basic Information -->
+            <div class="profile-card">
+                <h2 class="section-title">Basic Information</h2>
+                
+                <div class="photo-upload">
+                    <div class="photo-preview" id="photoPreview">
+                        👤
+                    </div>
+                    <div>
+                        <label for="photo">Profile Photo</label>
+                        <input type="file" id="photo" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="headline">Professional Headline *</label>
+                    <input type="text" id="headline" placeholder="e.g., Licensed Electrician with 10+ years experience" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="trade">Primary Trade *</label>
+                        <select id="trade" required>
+                            <option value="">Select your trade</option>
+                            <option value="Electrician">Electrician</option>
+                            <option value="Low Voltage">Low Voltage</option>
+                            <option value="Physical Security">Physical Security</option>
+                            <option value="HVAC">HVAC</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="General Contractor">General Contractor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location *</label>
+                        <input type="text" id="location" placeholder="City, State" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone *</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="summary">About / Professional Summary</label>
+                    <textarea id="summary" placeholder="Tell employers about yourself, your experience, and what you're looking for..."></textarea>
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="profile-card">
+                <h2 class="section-title">Work Experience</h2>
+                <div id="experienceContainer"></div>
+                <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+            </div>
+
+            <!-- Skills & Certifications -->
+            <div class="profile-card">
+                <h2 class="section-title">Skills & Certifications</h2>
+                
+                <div class="form-group">
+                    <label for="skillInput">Add Skills</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="skillInput" placeholder="Enter a skill and press Enter">
+                        <button type="button" class="add-btn" onclick="addSkill()">Add</button>
+                    </div>
+                    <div class="skills-container" id="skillsContainer"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="certifications">Certifications & Licenses</label>
+                    <textarea id="certifications" placeholder="List your certifications, licenses, and credentials (e.g., Master Electrician License #12345)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="availability">Current Availability *</label>
+                    <select id="availability" required>
+                        <option value="">Select availability</option>
+                        <option value="Actively Looking">Actively Looking for Work</option>
+                        <option value="Open to Offers">Open to Offers</option>
+                        <option value="Currently Employed">Currently Employed</option>
+                        <option value="Not Available">Not Available</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button type="submit" class="btn-submit">Save Profile</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
+        let experienceCount = 0;
+        let skills = [];
+
+        // Photo preview
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').innerHTML = `<img src="${e.target.result}" alt="Profile">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add experience
+        function addExperience() {
+            experienceCount++;
+            const container = document.getElementById('experienceContainer');
+            const expDiv = document.createElement('div');
+            expDiv.className = 'experience-item';
+            expDiv.id = `experience-${experienceCount}`;
+            expDiv.innerHTML = `
+                <div class="experience-header">
+                    <h3 style="color: #374151; margin: 0;">Experience #${experienceCount}</h3>
+                    <button type="button" class="remove-btn" onclick="removeExperience(${experienceCount})">Remove</button>
+                </div>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" name="jobTitle-${experienceCount}" placeholder="e.g., Senior Electrician">
+                </div>
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" name="company-${experienceCount}">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="text" name="startDate-${experienceCount}" placeholder="e.g., Jan 2020">
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="text" name="endDate-${experienceCount}" placeholder="Present or Month Year">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description-${experienceCount}" placeholder="Describe your responsibilities and achievements..."></textarea>
+                </div>
+            `;
+            container.appendChild(expDiv);
+        }
+
+        function removeExperience(id) {
+            document.getElementById(`experience-${id}`).remove();
+        }
+
+        // Add skills
+        function addSkill() {
+            const skillInput = document.getElementById('skillInput');
+            const skill = skillInput.value.trim();
+            
+            if (skill && !skills.includes(skill)) {
+                skills.push(skill);
+                updateSkillsDisplay();
+                skillInput.value = '';
+            }
+        }
+
+        document.getElementById('skillInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
+            }
+        });
+
+        function removeSkill(skill) {
+            skills = skills.filter(s => s !== skill);
+            updateSkillsDisplay();
+        }
+
+        function updateSkillsDisplay() {
+            const container = document.getElementById('skillsContainer');
+            container.innerHTML = skills.map(skill => `
+                <div class="skill-tag">
+                    ${skill}
+                    <button type="button" onclick="removeSkill('${skill}')">×</button>
+                </div>
+            `).join('');
+        }
+
+        // Add initial experience field
+        addExperience();
+
+        // Form submission
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('.btn-submit');
+            const messageDiv = document.getElementById('message');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving Profile...';
+            
+            // Collect all form data
+            const profileData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                headline: document.getElementById('headline').value,
+                trade: document.getElementById('trade').value,
+                location: document.getElementById('location').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                summary: document.getElementById('summary').value,
+                skills: skills.join(', '),
+                certifications: document.getElementById('certifications').value,
+                availability: document.getElementById('availability').value,
+                experiences: [],
+                createdAt: new Date().toISOString()
+            };
+
+            // Collect experiences
+            document.querySelectorAll('.experience-item').forEach((item, index) => {
+                const id = item.id.split('-')[1];
+                profileData.experiences.push({
+                    jobTitle: document.querySelector(`[name="jobTitle-${id}"]`).value,
+                    company: document.querySelector(`[name="company-${id}"]`).value,
+                    startDate: document.querySelector(`[name="startDate-${id}"]`).value,
+                    endDate: document.querySelector(`[name="endDate-${id}"]`).value,
+                    description: document.querySelector(`[name="description-${id}"]`).value
+                });
+            });
+
+            try {
+                // Here you would send to Google Sheets
+                // For now, we'll save to localStorage
+                localStorage.setItem('userProfile', JSON.stringify(profileData));
+                
+                messageDiv.className = 'message success';
+                messageDiv.textContent = '✅ Profile saved successfully!';
+                messageDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = 'front.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Failed to save profile. Please try again.';
+                messageDiv.style.display = 'block';
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Save Profile';
+            }
+        });
+    </script>
+</body>
+</html>
