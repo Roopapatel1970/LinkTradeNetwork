@@ -1,13 +1,7 @@
 {
-  "routes": [],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["*.{png,jpg,gif,css,js,html}", "/images/*", "/css/*"]
-  },
-  "responseOverrides": {
-    "404": {
-      "rewrite": "/index.html"
-    }
+    "exclude": ["/build-profile.html", "/front.html", "/landingpage.html", "/*.{css,js,png,jpg,gif,svg,ico}"]
   },
   "globalHeaders": {
     "content-security-policy": "default-src 'self' 'unsafe-inline' https:",
