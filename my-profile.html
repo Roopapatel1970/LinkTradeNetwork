@@ -5,354 +5,135 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>My Profile – LinkTradeNetwork</title>
 <style>
-  :root{--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--bg:#f3f4f6;--card:#fff;--brand:#0a66c2;--brand2:#004182;--chip:#eef2ff}
+  :root{--bg:#f3f4f6;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--brand:#0a66c2;--brand2:#004182}
   *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
   a{color:inherit;text-decoration:none}
 
-  header{background:#64748b;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;color:#fff}
-  .brand .logo-icon{font-size:2rem}
-  .brand .brand-text{font-weight:800}
-  .actions{display:flex;gap:8px;align-items:center}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
+  /* Header */
+  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+  .bar{max-width:1100px;margin:0 auto;padding:12px 16px;
+       display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand b{font-size:18px}
+  .nav a{color:#fff;opacity:.95;margin-left:12px}
+  .nav a:hover{opacity:.85}
+
+  /* Layout */
+  .wrap{max-width:900px;margin:24px auto;padding:0 16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:16px;padding:20px}
+  .flex{display:flex;gap:18px;align-items:flex-start}
+  .avatar{width:120px;height:120px;border-radius:50%;background:#eef2ff;
+          display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .h1{font-size:28px;font-weight:800;margin:0}
+  .muted{color:#6b7280;font-size:14px}
+  .row{margin-top:8px}
+  .section h2{font-size:20px;font-weight:700;border-bottom:2px solid #e5e7eb;padding-bottom:6px;margin:0 0 10px}
+  .p{line-height:1.6;margin-bottom:8px}
+  .skill{display:inline-block;background:#e0e7ff;color:#1e3a8a;border-radius:999px;padding:6px 12px;
+         margin:4px;font-size:14px;font-weight:600}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.6rem 1rem;
+       font-weight:800;cursor:pointer}
   .btn:hover{background:var(--brand2)}
   .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.7);color:#fff}
-  .status{font-size:.95rem;color:#047857;background:#d1fae5;border:1px solid #10b981;padding:.35rem .6rem;border-radius:8px;display:none}
-  .status.show{display:inline-block}
-
-  .wrap{max-width:1100px;margin:0 auto;padding:16px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-  .profile-card{padding:16px}
-  .profile-row{display:flex;gap:16px;align-items:flex-start}
-  .avatar{position:relative;width:128px;height:128px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:56px;color:#9aa2b1;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px var(--line)}
-  .avatar img{width:100%;height:100%;object-fit:cover}
-  .avatar .edit-badge{display:none;position:absolute;bottom:8px;right:8px;background:#000a;color:#fff;padding:.25rem .45rem;border-radius:8px;font-size:12px}
-  .edit-mode .avatar .edit-badge{display:block;cursor:pointer}
-
-  .flex-1{flex:1;min-width:0}
-  .headline{font-size:26px;font-weight:800;margin:2px 0}
-  .sub{color:var(--muted)}
-  .meta{display:flex;gap:14px;flex-wrap:wrap;color:#4b5563;margin-top:8px}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
-  .chip.select{padding:0}
-  .chip select{appearance:none;background:transparent;border:none;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px;outline:none;color:#92400e}
-
-  .toolbar{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-  .grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;margin-top:16px}
-  .section{padding:16px}
-  .section h2{font-size:18px;margin:0 0 8px}
-  .about[contenteditable="true"], .editable[contenteditable="true"]{outline:2px solid #e0ecff;border-radius:8px;padding:6px}
-  .about{white-space:pre-wrap;line-height:1.7;color:#374151;min-height:1.5em}
-
-  .exp-item{padding:12px 0;border-bottom:1px solid var(--line)}
-  .exp-item:last-child{border-bottom:none}
-  .exp-title{font-weight:800}
-  .exp-meta{color:#6b7280;font-size:14px;margin:4px 0}
-  .exp-desc{white-space:pre-wrap;color:#374151;margin-top:6px}
-  .exp-tools{display:none;gap:6px;margin-top:6px}
-  .edit-mode .exp-tools{display:flex}
-  .icon-btn{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px}
-  .icon-btn.danger{background:#fff5f5;border-color:#fecaca;color:#b91c1c}
-
-  .skills{display:flex;flex-wrap:wrap;gap:8px}
-  .skill{background:var(--chip);border:1px solid #dfe3f6;padding:6px 12px;border-radius:999px;font-weight:700;color:#27316f}
-  .skill.edit{cursor:pointer}
-  .add-skill{display:none;margin-top:10px;gap:6px}
-  .add-skill input{flex:1;border:1px solid #d1d5db;border-radius:8px;padding:.5rem .6rem}
-  .edit-mode .add-skill{display:flex}
-
-  .side .row{display:flex;align-items:center;gap:8px;margin:8px 0;color:#374151}
-  .side .pill{display:inline-block;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;color:#374151}
-
-  footer{color:#64748b;font-size:13px;text-align:center;padding:24px}
-  @media (max-width:900px){ .grid{grid-template-columns:1fr} .profile-row{flex-direction:column;align-items:start} }
-  @media print{ header,.toolbar,.actions{display:none!important} body{background:#fff} .about[contenteditable], .editable[contenteditable]{outline:none} }
+  .toolbar{display:flex;justify-content:flex-end;gap:10px;margin-bottom:10px}
 </style>
 </head>
 <body>
 <header>
-  <div class="topbar">
-    <a class="brand" href="front.html" title="Home">
-      <span class="logo-icon">🌍</span>
-      <span class="brand-text">LinkTradeNetwork</span>
-    </a>
-    <div class="actions">
-      <a class="btn ghost" href="front.html">Home</a>
-      <span id="saveStatus" class="status">Saved ✓</span>
-      <button class="btn gray" id="exportBtn" type="button">Export PDF</button>
-      <button class="btn" id="saveBtn" type="button" title="Save locally">Save</button>
-      <button class="btn edit-toggle" id="editToggle" type="button">Edit</button>
+  <div class="bar">
+    <a class="brand" href="front.html"><span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b></a>
+    <div class="nav">
+      <a href="front.html">Home</a>
+      <a href="network.html">Network</a>
+      <a href="messages.html">Messaging</a>
+      <a href="build-profile.html">Edit</a>
     </div>
   </div>
 </header>
 
-<main class="wrap" id="mainWrap">
-  <!-- profile header -->
-  <section class="card profile-card">
-    <div class="profile-row">
-      <div class="avatar" id="avatar">
-        <span>👤</span>
-        <span class="edit-badge" id="avatarEdit">Edit photo</span>
-        <input id="photoInput" type="file" accept="image/*" style="display:none">
-      </div>
-      <div class="flex-1">
-        <div class="headline">
-          <span id="name" class="editable" data-field="name" contenteditable="false">Your Name</span>
-        </div>
-        <div class="sub">
-          <span id="headline" class="editable" data-field="headline" contenteditable="false">Headline</span>
-        </div>
-        <div class="meta">
-          <div><strong>🔧</strong> <span id="trade" class="editable" data-field="trade" contenteditable="false">—</span></div>
-          <div><strong>📍</strong> <span id="location" class="editable" data-field="location" contenteditable="false">—</span></div>
-          <div><strong>📧</strong> <span id="email" class="editable" data-field="email" contenteditable="false">—</span></div>
-          <div><strong>📞</strong> <span id="phone" class="editable" data-field="phone" contenteditable="false">—</span></div>
-        </div>
-        <div class="chips" id="availWrap">
-          <span class="chip" id="availabilityChip">Employed</span>
-          <span class="chip select" id="availabilitySelectWrap" style="display:none">
-            <select id="availabilitySelect">
-              <option>Employed</option>
-              <option>Actively Looking</option>
-              <option>Open to Offers</option>
-              <option>Not Available</option>
-            </select>
-          </span>
-        </div>
-
-        <div class="toolbar">
-          <a class="btn gray" href="build-profile.html" target="_blank" rel="noopener">Open Builder</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- content -->
-  <section class="grid">
-    <div>
-      <div class="card section" id="aboutSec">
-        <h2>About</h2>
-        <div class="about editable" id="about" data-field="summary" contenteditable="false">No summary yet.</div>
-      </div>
-
-      <div class="card section" id="expSec" style="display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h2>Experience</h2>
-          <button class="btn gray" id="addExpBtn" type="button" style="display:none">Add Experience</button>
-        </div>
-        <div id="expList"></div>
-      </div>
-
-      <div class="card section" id="skillsSec" style="display:none">
-        <h2>Skills</h2>
-        <div class="skills" id="skillsList"></div>
-        <div class="add-skill">
-          <input id="skillInput" placeholder="Add a skill and press Enter or +"/>
-          <button class="btn" id="addSkillBtn" type="button">+</button>
-        </div>
-      </div>
-
-      <div class="card section" id="certsSec" style="display:none">
-        <h2>Certifications & Licenses</h2>
-        <div class="about editable" id="certs" data-field="certifications" contenteditable="false">—</div>
-      </div>
-    </div>
-
-    <aside class="card section side">
-      <h2>Contact & Status</h2>
-      <div class="row"><strong>📧</strong><a id="emailLink" href="#">—</a></div>
-      <div class="row"><strong>📞</strong><a id="phoneLink" href="#">—</a></div>
-      <div class="row"><strong>📍</strong><span id="locSide">—</span></div>
-      <div class="row"><strong>🔧</strong><span id="tradeSide">—</span></div>
-      <div class="row"><span class="pill" id="availSide">Employed</span></div>
-    </aside>
-  </section>
+<main class="wrap">
+  <div class="toolbar">
+    <button class="btn gray" onclick="window.location.href='front.html'">Home</button>
+    <button class="btn" id="saveBtn">Save</button>
+  </div>
+  <div id="profileContainer" class="card"></div>
 </main>
 
-<footer>© LinkTradeNetwork — Profile</footer>
-
 <script>
-/* ===== Config & keys ===== */
-const STORAGE_KEY = 'userProfile:v1';
-const LEGACY_KEY  = 'userProfile';
-
-/* ===== State ===== */
-let profile = null;
-let editMode = false;
-let currentPhotoDataUrl = '';
-
-/* ===== Elements ===== */
-const $ = id => document.getElementById(id);
-const els = {
-  saveBtn: $('saveBtn'), exportBtn: $('exportBtn'), editToggle: $('editToggle'), saveStatus: $('saveStatus'),
-  avatar: $('avatar'), avatarEdit: $('avatarEdit'), photoInput: $('photoInput'),
-  name: $('name'), headline: $('headline'), trade: $('trade'), location: $('location'), email: $('email'), phone: $('phone'),
-  availabilityChip: $('availabilityChip'), availabilitySelectWrap: $('availabilitySelectWrap'), availabilitySelect: $('availabilitySelect'),
-  about: $('about'), certs: $('certs'),
-  expSec: $('expSec'), expList: $('expList'), addExpBtn: $('addExpBtn'),
-  skillsSec: $('skillsSec'), skillsList: $('skillsList'), addSkillBtn: $('addSkillBtn'), skillInput: $('skillInput'),
-  emailLink: $('emailLink'), phoneLink: $('phoneLink'), locSide: $('locSide'), tradeSide: $('tradeSide'), availSide: $('availSide'),
-  aboutSec: $('aboutSec'), certsSec: $('certsSec')
-};
-
-/* ===== Utils ===== */
-const debounce = (fn, ms=500)=>{ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; };
-const escapeHTML = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-const telHref = raw => { const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; };
-const mailHref = e => e?`mailto:${e}`:'#';
-function fmtPhone(raw){ const d=(raw||'').replace(/\D/g,'').slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||''); }
-function availChip(a){ if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
-  if(a==='Open to Offers') return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
-  if(a==='Not Available')  return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
-  return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'}; }
-
-/* ===== Storage ===== */
-function loadProfile(){ const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY); try{return raw?JSON.parse(raw):null}catch{return null}}
-function saveProfile(){ const json = JSON.stringify(profile); localStorage.setItem(STORAGE_KEY,json); localStorage.setItem(LEGACY_KEY,json); tickSaved(); }
-const tickSaved = debounce(()=>{ els.saveStatus.textContent='Saved ✓'; els.saveStatus.classList.add('show'); setTimeout(()=>els.saveStatus.classList.remove('show'),1200); },50);
-
-/* ===== Render ===== */
-function updateAvailabilityUI(value){
-  const ac = availChip(value);
-  els.availabilityChip.textContent = ac.txt;
-  Object.assign(els.availabilityChip.style,{background:ac.bg,color:ac.color,border:`1px solid ${ac.border}`,borderRadius:'999px'});
-  els.availabilitySelect.value = value || 'Employed';
-  els.availSide.textContent = ac.txt;
+const KEY='userProfile:v1';
+const LEGACY='userProfile';
+function load(){
+  try{ return JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(LEGACY)||'null'); }
+  catch{ return null; }
 }
-function renderExperiences(){
-  els.expList.innerHTML = '';
-  const exps = Array.isArray(profile.experiences) ? profile.experiences : [];
-  if(!exps.length && !editMode){ els.expSec.style.display='none'; return; }
-  els.expSec.style.display='block';
-  exps.forEach((exp, idx)=>{
-    const title = escapeHTML(exp.jobTitle||'Position');
-    const company = escapeHTML(exp.company||'Company');
-    const dates = [exp.startDate||'', exp.endDate||''].filter(Boolean).join(' – ');
-    const desc = escapeHTML(exp.description||'');
-    const div = document.createElement('div');
-    div.className='exp-item';
-    div.innerHTML = `
-      <div class="exp-title">${title}</div>
-      <div class="exp-meta">${company}${dates ? ' · ' + escapeHTML(dates) : ''}</div>
-      ${desc ? `<div class="exp-desc">${desc}</div>`:''}
-    `;
-    els.expList.appendChild(div);
-  });
-}
-function renderSkills(){
-  els.skillsList.innerHTML = '';
-  const skills = (profile.skills||'').split(',').map(s=>s.trim()).filter(Boolean);
-  if(!skills.length && !editMode){ els.skillsSec.style.display='none'; return; }
-  els.skillsSec.style.display='block';
-  skills.forEach(s=>{ const span=document.createElement('span'); span.className='skill'; span.textContent=s; els.skillsList.appendChild(span); });
+function save(profile){ 
+  const json=JSON.stringify(profile); 
+  localStorage.setItem(KEY,json); 
+  localStorage.setItem(LEGACY,json);
+  alert('Profile saved locally ✓');
 }
 
-function renderAll(){
+function render(profile){
   if(!profile){
-    document.getElementById('mainWrap').innerHTML =
-      `<section class="card section" style="margin-top:16px;text-align:center">
-         <h2>No Profile Found</h2>
-         <p class="sub" style="margin:.5rem 0 1rem">Create your profile to see it here.</p>
-         <a class="btn gray" href="build-profile.html">Build Profile</a>
-       </section>`;
+    document.getElementById('profileContainer').innerHTML=`
+      <div style="text-align:center;padding:40px">
+        <h2>No profile found</h2>
+        <p>Create your profile first.</p>
+        <a href="build-profile.html" class="btn">Build Profile</a>
+      </div>`;
     return;
   }
-  // photo
-  currentPhotoDataUrl = profile.photo || '';
-  els.avatar.innerHTML = currentPhotoDataUrl
-    ? `<img src="${escapeHTML(currentPhotoDataUrl)}" alt="Profile photo"><span class="edit-badge" id="avatarEdit">Edit photo</span><input id="photoInput" type="file" accept="image/*" style="display:none">`
-    : `<span>👤</span><span class="edit-badge" id="avatarEdit">Edit photo</span><input id="photoInput" type="file" accept="image/*" style="display:none">`;
-  els.avatarEdit = document.getElementById('avatarEdit');
-  els.photoInput = document.getElementById('photoInput');
-  bindPhotoControls();
 
-  const fullName = `${profile.firstName||''} ${profile.lastName||''}`.trim();
-  els.name.textContent = fullName || 'Your Name';
-  els.headline.textContent = profile.headline || 'Headline';
-  els.trade.textContent = profile.trade || '—';
-  els.location.textContent = profile.location || '—';
-  els.email.textContent = profile.email || '—';
-  els.phone.textContent = profile.phone || '—';
+  let expHTML='';
+  if(profile.experiences?.length){
+    expHTML='<div class="section"><h2>Experience</h2>'+profile.experiences.map(e=>`
+      <div class="row">
+        <b>${e.jobTitle||''}</b> – ${e.company||''}<br>
+        <span class="muted">${[e.startDate,e.endDate].filter(Boolean).join(' – ')}</span>
+        <div class="p">${e.description||''}</div>
+      </div>
+    `).join('')+'</div>';
+  }
 
-  // availability + sidebar
-  updateAvailabilityUI(profile.availability||'Employed');
-  els.emailLink.href = profile.email ? mailHref(profile.email) : '#'; els.emailLink.textContent = profile.email || '—';
-  els.phoneLink.href = profile.phone ? telHref(profile.phone) : '#'; els.phoneLink.textContent = profile.phone ? fmtPhone(profile.phone) : '—';
-  els.locSide.textContent = profile.location || '—'; els.tradeSide.textContent = profile.trade || '—';
+  const skills=(profile.skills||'').split(',').map(s=>s.trim()).filter(Boolean);
+  let skillsHTML='';
+  if(skills.length){ skillsHTML='<div class="section"><h2>Skills</h2>'+skills.map(s=>`<span class="skill">${s}</span>`).join('')+'</div>'; }
 
-  // about/skills/experience/certs
-  const hasAbout = !!(profile.summary && profile.summary.trim());
-  els.about.textContent = hasAbout ? profile.summary : 'No summary yet.'; els.aboutSec.style.display='block';
-  const hasCerts = !!(profile.certifications && profile.certifications.trim());
-  els.certs.textContent = hasCerts ? profile.certifications : '—'; els.certsSec.style.display = hasCerts ? 'block' : 'none';
+  let certHTML='';
+  if(profile.certifications){ certHTML=`<div class="section"><h2>Certifications</h2><div class="p">${profile.certifications}</div></div>`; }
 
-  renderExperiences(); renderSkills();
+  document.getElementById('profileContainer').innerHTML=`
+    <div class="flex">
+      <div class="avatar">${profile.photo?`<img src="${profile.photo}">`:'👤'}</div>
+      <div>
+        <h1 class="h1">${profile.firstName||''} ${profile.lastName||''}</h1>
+        <div class="muted">${profile.headline||''}</div>
+        <div class="row">${profile.trade||''} • ${profile.location||''}</div>
+        <div class="row muted">${profile.email||''} | ${profile.phone||''}</div>
+        <div class="row"><span style="background:#dbeafe;color:#1e40af;padding:4px 10px;border-radius:999px;font-weight:700">${profile.availability||'Employed'}</span></div>
+      </div>
+    </div>
+    <div class="section"><h2>About</h2><div class="p">${profile.summary||''}</div></div>
+    ${expHTML}
+    ${skillsHTML}
+    ${certHTML}
+  `;
 }
 
-/* ===== Inline editing ===== */
-function setEditable(on){
-  ['name','headline','trade','location','email','phone','about','certs'].forEach(id=>{ const n=$(id); n.contentEditable = on?'true':'false'; });
-  document.body.classList.toggle('edit-mode', on);
-  els.availabilitySelectWrap.style.display = on ? 'inline-block' : 'none';
-}
-function splitName(full){
-  const t = full.trim().replace(/\s+/g,' ');
-  if(!t) return {firstName:'',lastName:''};
-  const parts = t.split(' '); const firstName = parts.shift()||''; const lastName = parts.join(' ');
-  return {firstName,lastName};
-}
-function onInlineChange(){
-  profile.firstName = splitName(els.name.innerText).firstName;
-  profile.lastName  = splitName(els.name.innerText).lastName;
-  profile.headline  = els.headline.innerText.trim();
-  profile.trade     = els.trade.innerText.trim();
-  profile.location  = els.location.innerText.trim();
-  profile.email     = els.email.innerText.trim();
-  profile.phone     = els.phone.innerText.trim();
-  profile.summary   = els.about.innerText.trim();
-  profile.certifications = els.certs.innerText.trim();
-  saveProfile(); renderAll();
-}
-['name','headline','trade','location','email','phone','about','certs'].forEach(id=>{
-  $(id).addEventListener('input', debounce(onInlineChange, 300));
-});
-els.availabilitySelect.addEventListener('change', ()=>{
-  profile.availability = els.availabilitySelect.value; saveProfile(); renderAll();
-});
+/* load profile on page load */
+const profile=load();
+render(profile);
 
-/* ===== Photo ===== */
-function bindPhotoControls(){
-  if(!els.avatarEdit || !els.photoInput) return;
-  els.avatarEdit.onclick = ()=>els.photoInput.click();
-  els.photoInput.onchange = e=>{
-    const f = e.target.files?.[0]; if(!f) return;
-    const r = new FileReader();
-    r.onload = ()=>{ profile.photo = r.result; saveProfile(); renderAll(); };
-    r.readAsDataURL(f);
-  };
-}
-
-/* ===== Buttons ===== */
-els.editToggle.onclick = ()=>{
-  editMode = !editMode;
-  els.editToggle.textContent = editMode ? 'Done' : 'Edit';
-  setEditable(editMode);
+/* “Save” just re-saves current copy (keeps UI identical to LinkedIn’s quick save) */
+document.getElementById('saveBtn').onclick=()=>{
+  const p=load();
+  if(!p){ alert('Nothing to save yet — build your profile first.'); return; }
+  save(p);
 };
-els.exportBtn.onclick = ()=>window.print();
-els.saveBtn.onclick = ()=>{ saveProfile(); }; // explicit save (local only)
-
-/* ===== Init ===== */
-(function init(){
-  profile = loadProfile() || {
-    firstName:'', lastName:'', headline:'', trade:'', availability:'Employed',
-    location:'', email:'', phone:'', photo:'', summary:'', skills:'', certifications:'', experiences:[]
-  };
-  renderAll();
-})();
 </script>
 </body>
 </html>
