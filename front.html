@@ -2,113 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LinkTradeNetwork - The Professional Network for Skilled Trades</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;line-height:1.6;color:#1f2937}
-    /* Header (shared) */
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;line-height:1.6;color:#1f2937}
+
+    /* Shared header (gray) */
     header{background:#64748b;padding:1rem 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.1)}
     nav{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-    .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+    .logo{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
     .logo-icon{font-size:2rem}
-    .logo-text{font-size:1.5rem;font-weight:800}
-    .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
-    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:opacity .25s}
-    .nav-links a:hover{opacity:.85}
+    .logo-text{font-size:1.5rem;font-weight:700}
+    .nav-links{display:flex;gap:1.5rem;list-style:none;align-items:center}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:500;opacity:.95}
+    .nav-links a:hover{opacity:.8}
 
     /* Hero */
     .hero{background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);color:#fff;padding:6rem 2rem;text-align:center}
     .hero-content{max-width:900px;margin:0 auto}
     .hero h1{font-size:3rem;margin-bottom:1rem;line-height:1.2;font-weight:800}
     .hero p{font-size:1.2rem;margin-bottom:2rem;opacity:.95}
-    .btn-primary{background:#fff;color:#6366f1;padding:1rem 2rem;border:none;border-radius:999px;font-weight:800;text-decoration:none;display:inline-block}
-    .btn-primary:hover{filter:brightness(.95)}
+    .btn{background:#fff;color:#6366f1;padding:1rem 2rem;border:none;border-radius:999px;font-weight:800;text-decoration:none;display:inline-block}
+    .btn:hover{box-shadow:0 10px 30px rgba(0,0,0,.2);transform:translateY(-2px)}
 
     /* Features */
-    .features{padding:4rem 2rem;background:#f9fafb}
-    .features h2{text-align:center;font-size:2.25rem;margin-bottom:2rem;color:#6366f1}
-    .feature-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
-    .feature-card{background:#fff;padding:2rem;border-radius:16px;box-shadow:0 4px 8px rgba(0,0,0,.06);text-align:center;text-decoration:none;color:inherit}
-    .feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(99,102,241,.15)}
-    .feature-icon{font-size:3rem;margin-bottom:.5rem}
-    .feature-card h3{color:#6366f1;margin:.25rem 0 .5rem}
+    .features{padding:5rem 2rem;background:#f9fafb}
+    .features h2{text-align:center;font-size:2.4rem;margin-bottom:2.5rem;color:#6366f1}
+    .grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:2rem;text-align:center;transition:.25s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(99,102,241,.15)}
+    .card h3{color:#6366f1;margin:.5rem 0}
+    .card p{color:#6b7280}
 
     /* CTA */
     .cta{background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);color:#fff;text-align:center;padding:4rem 2rem}
-    .cta h2{font-size:2rem;margin-bottom:.5rem}
+    .cta .btn{background:#fff;color:#6366f1}
 
     /* Footer */
     footer{background:#1f2937;color:#fff;text-align:center;padding:2rem}
+    footer a{color:#fff;text-decoration:underline;opacity:.9}
 
-    @media(max-width:768px){
+    @media (max-width:768px){
       .hero h1{font-size:2rem}
       .hero p{font-size:1rem}
       .logo-text{font-size:1.25rem}
-      .nav-links{gap:1rem}
     }
   </style>
 </head>
 <body>
   <header>
     <nav>
-      <a class="logo" href="front.html">
+      <a href="front.html" class="logo">
         <span class="logo-icon">🌍</span>
         <span class="logo-text">LinkTradeNetwork</span>
       </a>
       <ul class="nav-links">
         <li><a href="front.html">Home</a></li>
-        <li><a href="#features">Features</a></li>
         <li><a href="build-profile.html">Build Profile</a></li>
+        <li><a href="my-profile.html">My Profile</a></li>
       </ul>
     </nav>
   </header>
 
   <section class="hero">
     <div class="hero-content">
-      <div style="font-size:3rem;margin-bottom:.75rem">🌍</div>
       <h1>The Professional Network for Skilled Trades</h1>
       <p>Connect trade workers with businesses. Find jobs. Hire talent. Build your career in the trades.</p>
-      <a class="btn-primary" href="build-profile.html">Build Your Profile</a>
+      <a class="btn" href="build-profile.html">Build Your Profile</a>
     </div>
   </section>
 
   <section class="features" id="features">
     <h2>Platform Features</h2>
-    <div class="feature-grid">
-      <a href="build-profile.html" class="feature-card">
-        <div class="feature-icon">🌍</div>
+    <div class="grid">
+      <a class="card" href="build-profile.html">
+        <div style="font-size:2rem">🌍</div>
         <h3>Build Your Profile</h3>
         <p>Create your professional portfolio and get discovered.</p>
       </a>
-      <div class="feature-card">
-        <div class="feature-icon">💼</div>
-        <h3>Job Postings</h3>
-        <p>Browse opportunities across specialized trades.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🏢</div>
+      <div class="card">
+        <div style="font-size:2rem">🏢</div>
         <h3>Hire Talent</h3>
-        <p>Find qualified, verified trade professionals quickly.</p>
+        <p>Businesses can find qualified, verified trade professionals quickly.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">✅</div>
+      <div class="card">
+        <div style="font-size:2rem">✅</div>
         <h3>Verified Credentials</h3>
-        <p>Show licenses, certifications, and work history.</p>
+        <p>Verify licenses, certifications, and work history.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:2rem">🔔</div>
+        <h3>Smart Notifications</h3>
+        <p>Stay on top of new leads and opportunities.</p>
       </div>
     </div>
   </section>
 
   <section class="cta" id="contact">
-    <h2>Ready to get started?</h2>
-    <p>Join pros and businesses building their future in the trades.</p>
-    <div style="margin-top:1rem">
-      <a class="btn-primary" href="build-profile.html">Create Your Profile</a>
-    </div>
+    <h2 style="font-size:2rem;margin-bottom:.5rem">Ready to get started?</h2>
+    <p style="margin-bottom:1.25rem">Join professionals and businesses building careers and teams.</p>
+    <a class="btn" href="build-profile.html">Create Your Profile</a>
   </section>
 
   <footer>
-    <p>&copy; 2025 LinkTradeNetwork. Connecting skilled trades with opportunity.</p>
+    <p>&copy; 2025 LinkTradeNetwork. Connecting skilled trades with opportunity. — <a href="terms.html">Terms</a></p>
   </footer>
 </body>
 </html>
