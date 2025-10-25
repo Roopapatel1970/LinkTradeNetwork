@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Build Your Profile - LinkTradeNetwork</title>
 <style>
-  :root{
-    --bg:#f3f4f6; --card:#fff; --ink:#111827; --muted:#6b7280; --line:#e5e7eb;
-    --brand:#3b82f6; --brand2:#2563eb;
-  }
+  :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#3b82f6;--brand2:#2563eb}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink)}
   header{background:#64748b;color:#fff;padding:1rem 1.25rem}
@@ -18,16 +15,13 @@
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .full{grid-column:1 / -1}
   label{display:block;font-weight:600;margin:.25rem 0 .35rem}
-  input, select, textarea{
-    width:100%;padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:1rem
-  }
+  input,select,textarea{width:100%;padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:1rem}
   textarea{min-height:110px;resize:vertical}
   small{color:var(--muted)}
   .row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
   .btn{background:var(--brand);color:#fff;border:none;padding:.7rem 1rem;border-radius:8px;font-weight:700;cursor:pointer}
   .btn:hover{background:var(--brand2)}
-  .btn-gray{background:#6b7280}
-  .btn-gray:hover{background:#4b5563}
+  .btn-gray{background:#6b7280}.btn-gray:hover{background:#4b5563}
   .hint{background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:.75rem 1rem;margin:0 0 1rem}
   .photo{display:flex;align-items:center;gap:12px}
   .photo-preview{width:64px;height:64px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 2px #dbeafe}
@@ -35,7 +29,7 @@
   #message{margin:.75rem 0;padding:.6rem .8rem;border-radius:8px;display:none}
   #message.ok{display:block;background:#d1fae5;border:1px solid #10b981;color:#065f46}
   #message.err{display:block;background:#fee2e2;border:1px solid #ef4444;color:#991b1b}
-  @media (max-width:720px){ .grid{grid-template-columns:1fr} }
+  @media (max-width:720px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -51,100 +45,92 @@
 
     <div id="message"></div>
 
-    <div class="card">
-      <h1>Build Your Profile</h1>
-      <div class="grid">
-        <div>
-          <label for="firstName">First Name *</label>
-          <input id="firstName" placeholder="Jane" />
-        </div>
-        <div>
-          <label for="lastName">Last Name *</label>
-          <input id="lastName" placeholder="Doe" />
-        </div>
-
-        <div class="full">
-          <label for="headline">Headline</label>
-          <input id="headline" placeholder="Low-voltage installer • IP cameras • Fiber" />
-        </div>
-
-        <div>
-          <label for="trade">Trade / Role *</label>
-          <input id="trade" placeholder="Low Voltage Technician" />
-        </div>
-        <div>
-          <label for="availability">Availability</label>
-          <select id="availability">
-            <option>Employed</option>
-            <option>Actively Looking</option>
-            <option>Open to Offers</option>
-            <option>Not Available</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="location">Location</label>
-          <input id="location" placeholder="Madison, WI" />
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input id="email" placeholder="you@domain.com" />
-        </div>
-
-        <div>
-          <label for="phone">Phone</label>
-          <input id="phone" placeholder="(555) 123-4567" />
-        </div>
-        <div class="photo">
+    <!-- We wrap fields in a form just for accessibility, but we block the default submit -->
+    <form id="profileForm" onsubmit="return false;">
+      <div class="card">
+        <h1>Build Your Profile</h1>
+        <div class="grid">
           <div>
-            <label for="photo">Photo (optional)</label>
-            <input id="photo" type="file" accept="image/*" />
-            <small>Square works best</small>
+            <label for="firstName">First Name *</label>
+            <input id="firstName" placeholder="Jane" />
           </div>
-          <div class="photo-preview" id="preview">👤</div>
+          <div>
+            <label for="lastName">Last Name *</label>
+            <input id="lastName" placeholder="Doe" />
+          </div>
+
+          <div class="full">
+            <label for="headline">Headline</label>
+            <input id="headline" placeholder="Low-voltage installer • IP cameras • Fiber" />
+          </div>
+
+          <div>
+            <label for="trade">Trade / Role *</label>
+            <input id="trade" placeholder="Low Voltage Technician" />
+          </div>
+          <div>
+            <label for="availability">Availability</label>
+            <select id="availability">
+              <option>Employed</option>
+              <option>Actively Looking</option>
+              <option>Open to Offers</option>
+              <option>Not Available</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="location">Location</label>
+            <input id="location" placeholder="Madison, WI" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" placeholder="you@domain.com" />
+          </div>
+
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" placeholder="(555) 123-4567" />
+          </div>
+          <div class="photo">
+            <div>
+              <label for="photo">Photo (optional)</label>
+              <input id="photo" type="file" accept="image/*" />
+              <small>Square works best</small>
+            </div>
+            <div class="photo-preview" id="preview">👤</div>
+          </div>
+
+          <div class="full">
+            <label for="summary">About</label>
+            <textarea id="summary" placeholder="Short summary of your experience, strengths, and goals."></textarea>
+          </div>
+
+          <div class="full">
+            <label for="skills">Skills (comma-separated)</label>
+            <input id="skills" placeholder="Fiber splicing, Cat6A termination, Pelco cameras, PoE switches"/>
+          </div>
+
+          <div class="full">
+            <label for="certs">Certifications & Licenses</label>
+            <textarea id="certs" placeholder="OSHA-10, BICSI Installer 1, Lift Certified"></textarea>
+          </div>
+
+          <!-- Experience -->
+          <div class="full"><label>Experience (one recent role)</label></div>
+          <div><input id="jobTitle" placeholder="Job Title e.g., Lead Technician"/></div>
+          <div><input id="company" placeholder="Company e.g., Starboard Industries"/></div>
+          <div><input id="startDate" placeholder="Start e.g., 2023-01"/></div>
+          <div><input id="endDate" placeholder="End e.g., Present"/></div>
+          <div class="full"><textarea id="jobDesc" placeholder="What you did in this role..."></textarea></div>
         </div>
 
-        <div class="full">
-          <label for="summary">About</label>
-          <textarea id="summary" placeholder="Short summary of your experience, strengths, and goals."></textarea>
-        </div>
-
-        <div class="full">
-          <label for="skills">Skills (comma-separated)</label>
-          <input id="skills" placeholder="Fiber splicing, Cat6A termination, Pelco cameras, PoE switches"/>
-        </div>
-
-        <div class="full">
-          <label for="certs">Certifications & Licenses</label>
-          <textarea id="certs" placeholder="OSHA-10, BICSI Installer 1, Lift Certified"></textarea>
-        </div>
-
-        <div class="full">
-          <label>Experience (one recent role)</label>
-        </div>
-        <div>
-          <input id="jobTitle" placeholder="Job Title e.g., Lead Technician"/>
-        </div>
-        <div>
-          <input id="company" placeholder="Company e.g., Starboard Industries"/>
-        </div>
-        <div>
-          <input id="startDate" placeholder="Start e.g., 2023-01"/>
-        </div>
-        <div>
-          <input id="endDate" placeholder="End e.g., Present"/>
-        </div>
-        <div class="full">
-          <textarea id="jobDesc" placeholder="What you did in this role..."></textarea>
+        <div class="row">
+          <button class="btn" id="saveBtn" type="button">Save</button>
+          <a class="btn btn-gray" href="profile.html" id="viewBtn">View My Profile</a>
+          <button class="btn btn-gray" id="demoBtn" type="button">Use Demo Data</button>
         </div>
       </div>
-
-      <div class="row">
-        <button class="btn" id="saveBtn" type="button">Save</button>
-        <a class="btn btn-gray" href="profile.html" id="viewBtn">View My Profile</a>
-        <button class="btn btn-gray" id="demoBtn" type="button">Use Demo Data</button>
-      </div>
-    </div>
+    </form>
   </div>
 
 <script>
@@ -152,9 +138,13 @@
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
-  const REDIRECT_TO = 'profile.html';
 
+  // Try these pages in order after save
+  const REDIRECT_CANDIDATES = ['profile.html','my-profile.html','front.html'];
+
+  // === ELEMENTS ===
   const els = {
+    form:       document.getElementById('profileForm'),
     firstName:  document.getElementById('firstName'),
     lastName:   document.getElementById('lastName'),
     headline:   document.getElementById('headline'),
@@ -178,6 +168,9 @@
     demoBtn:    document.getElementById('demoBtn'),
   };
 
+  // Block any accidental form submit (Enter key, etc.)
+  els.form.addEventListener('submit', (e)=>{ e.preventDefault(); return false; });
+
   function setVal(el, v){ if(v!==undefined && v!==null) el.value = v; }
   function showMsg(text, ok=true){
     els.msg.className = ok ? 'ok' : 'err';
@@ -185,6 +178,7 @@
     els.msg.style.display = 'block';
   }
 
+  // Photo handling
   let currentPhotoDataUrl = '';
   els.photo.addEventListener('change', async (e)=>{
     const f = e.target.files?.[0];
@@ -193,7 +187,6 @@
     currentPhotoDataUrl = dataUrl;
     els.preview.innerHTML = `<img src="${dataUrl}" alt="Preview">`;
   });
-
   function fileToDataURL(file){
     return new Promise((res, rej)=>{
       const r = new FileReader();
@@ -203,6 +196,7 @@
     });
   }
 
+  // Load existing (if any)
   (function loadExisting(){
     const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
     if(!raw) return;
@@ -233,19 +227,33 @@
     }catch(e){ /* ignore */ }
   })();
 
+  // Smart redirect: try profile.html, then my-profile.html, then front.html
+  async function smartRedirect(){
+    for(const file of REDIRECT_CANDIDATES){
+      try{
+        const res = await fetch(file, {method:'HEAD'});
+        if(res.ok){ window.location.href = file; return; }
+      }catch(_){}
+    }
+    // If HEAD blocked, just go to the first candidate
+    window.location.href = REDIRECT_CANDIDATES[0];
+  }
+
+  // Save handler
   els.saveBtn.addEventListener('click', async ()=>{
+    // Prevent any accidental form navigation
+    event?.preventDefault?.();
+
     const firstName = els.firstName.value.trim();
     const lastName  = els.lastName.value.trim();
     const trade     = els.trade.value.trim();
-
     if(!firstName || !lastName || !trade){
       showMsg('Please fill First Name, Last Name, and Trade (required).', false);
       return;
     }
 
     const profile = {
-      firstName,
-      lastName,
+      firstName, lastName,
       headline: els.headline.value.trim(),
       trade,
       availability: els.availability.value,
@@ -270,19 +278,20 @@
     els.saveBtn.textContent = 'Saving…';
 
     try{
+      // 1) Send to Google Sheets (Apps Script Web App)
       await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
         body: JSON.stringify(profile)
       });
 
+      // 2) Save locally (both keys for compatibility)
       const raw = JSON.stringify(profile);
       localStorage.setItem(STORAGE_KEY, raw);
       localStorage.setItem(LEGACY_KEY, raw);
 
-      showMsg('✅ Profile saved! Redirecting…', true);
-      setTimeout(()=>{ window.location.href = REDIRECT_TO; }, 900);
+      showMsg('✅ Profile saved! Opening your profile…', true);
+      setTimeout(()=>{ smartRedirect(); }, 600);
     }catch(err){
       console.error(err);
       showMsg('❌ Save failed. Check your internet or Google Script URL.', false);
@@ -291,6 +300,7 @@
     }
   });
 
+  // Demo data
   els.demoBtn.addEventListener('click', ()=>{
     setVal(els.firstName, 'Alex');
     setVal(els.lastName, 'Rivera');
@@ -310,8 +320,16 @@
     setVal(els.jobDesc, 'Led install across 12 TRs, terminated 300+ Cat6A drops, tested and documented fiber A/B paths.');
     showMsg('Demo filled. You can Save now or tweak first.', true);
   });
+
+  // Bonus: block Backspace from navigating away if not focused in a field (some hosts do this)
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
+      e.preventDefault();
+    }
+  });
 </script>
 </body>
 </html>
+
 
 
