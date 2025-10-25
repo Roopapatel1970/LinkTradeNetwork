@@ -1,224 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Home – LinkTradeNetwork</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>LinkTradeNetwork — Home</title>
 <style>
-  :root{
-    --bg:#f3f4f6; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --card:#ffffff;
-    --brand:#0a66c2; --brand2:#004182; --hover:#f8fafc;
-  }
+  :root{--bg:#f3f4f6;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--brand:#0a66c2}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
 
-  /* Header */
-  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
-  .bar{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;gap:10px;align-items:center}
-  .brand b{font-size:18px}
-  .nav a{color:#fff;opacity:.95;margin-left:12px;text-decoration:none}
-  .nav a:hover{opacity:.85}
+  /* Top nav like LinkedIn */
+  .nav{position:sticky;top:0;z-index:10;background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+  .nav-inner{max-width:1150px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 16px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800}
+  .logo .emoji{font-size:22px}
+  .search{flex:1}
+  .search input{width:100%;border:none;border-radius:8px;padding:.6rem .8rem}
+  .tabs{display:flex;gap:14px}
+  .tab{padding:.45rem .7rem;border-radius:8px;color:#fff;opacity:.95}
+  .tab:hover{background:#556277}
+  .btn{background:#0a66c2;color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
+  .btn.gray{background:#6b7280}
 
-  /* Layout */
-  .wrap{max-width:1100px;margin:18px auto;padding:0 14px;display:grid;grid-template-columns:1fr 320px;gap:18px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-  .pad{padding:14px}
+  /* 3-column layout */
+  .wrap{max-width:1150px;margin:1rem auto;padding:0 16px;display:grid;grid-template-columns:260px minmax(0,1fr) 320px;gap:16px}
+  .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .pad{padding:12px}
 
-  /* Composer */
-  .composer{display:flex;align-items:center;gap:12px;padding:14px}
-  .avatar{width:48px;height:48px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+  /* left mini profile */
+  .mini{display:flex;align-items:center;gap:10px}
+  .avatar{width:48px;height:48px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .avatar img{width:100%;height:100%;object-fit:cover}
-  .composer input{flex:1;border:1px solid #d1d5db;border-radius:999px;padding:.9rem 1.1rem;font-size:15px;background:#fff}
-  .composer input:hover{background:#f9fafb}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.7rem 1.1rem;font-weight:800;cursor:pointer}
-  .btn:hover{background:var(--brand2)}
+  .name{font-weight:800}
+  .muted{color:#6b7280;font-size:13px}
 
-  /* Feed */
-  .feed{display:grid;gap:12px;padding:0 14px 14px}
-  .post{border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px;background:#fff}
-  .post .head{display:flex;gap:10px;align-items:center;margin-bottom:4px}
-  .post .pava{width:40px;height:40px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .post .pava img{width:100%;height:100%;object-fit:cover}
-  .post .name{font-weight:800}
-  .post .time{color:#94a3b8;font-size:12px}
-  .post .body{margin-top:6px;line-height:1.55;color:#1f2937}
+  /* composer & feed */
+  .composer{display:flex;gap:10px}
+  .composer input{flex:1;border:1px solid #e5e7eb;border-radius:999px;padding:.6rem .9rem}
+  .post{padding:12px;border-top:1px solid #f1f5f9}
+  .post .header{display:flex;gap:10px;align-items:center}
+  .post .title{font-weight:800}
+  .post .body{margin-top:6px;line-height:1.6}
 
-  /* Sidebar */
-  .side .section{border:1px solid #e5e7eb;border-radius:12px;background:#fff;margin-bottom:14px;overflow:hidden}
-  .side h3{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #eef2f7}
-  .links{padding:10px 14px}
-  .links a{display:block;margin:8px 0;color:#2563eb;text-decoration:none;font-weight:600}
-  .links a:hover{text-decoration:underline}
+  /* right news */
+  .news h3{margin:0 0 8px}
+  .news li{margin:8px 0;line-height:1.4}
 
-  /* Sponsor */
-  .sponsor{display:grid;grid-template-columns:84px 1fr;gap:12px;padding:12px 14px;align-items:center}
-  .sponsor-logo{width:84px;height:84px;border-radius:10px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #e5e7eb}
-  .sponsor-logo img{width:100%;height:100%;object-fit:cover}
-  .sponsor-title{font-weight:800}
-  .sponsor-tag{color:var(--muted);font-size:13px;margin:4px 0 8px}
-  .sponsor .cta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .btn.ghost{background:#fff;color:#0f172a;border:1px solid #e5e7eb}
-  .btn.ghost:hover{background:#f8fafc}
-
-  .muted{color:#64748b}
-  @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+  @media (max-width:980px){ .wrap{grid-template-columns:1fr} .tabs{display:none} .search{display:none} }
 </style>
 </head>
 <body>
-<header>
-  <div class="bar">
-    <a class="brand" href="front.html"><span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b></a>
-    <div class="nav">
-      <a href="front.html">Home</a>
-      <a href="network.html">Network</a>
-      <a href="messaging.html">Messaging</a>
-      <a href="my-profile.html">My Profile</a>
+  <!-- Top bar -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="front.html" aria-label="Home">
+        <span class="emoji">🌍</span><span>LinkTradeNetwork</span>
+      </a>
+      <div class="search"><input placeholder="Search" aria-label="Search"></div>
+      <div class="tabs">
+        <a class="tab" href="front.html">Home</a>
+        <a class="tab" href="my-profile.html">Me</a>
+        <a class="tab" href="network.html">Jobs</a>
+        <a class="tab" href="messages.html">Messaging</a>
+        <a class="tab" href="#">Notifications</a>
+      </div>
+      <a class="btn gray" href="build-profile.html">Build Profile</a>
     </div>
   </div>
-</header>
 
-<main class="wrap">
-  <!-- LEFT: Composer + Feed -->
-  <section class="card">
-    <div class="composer">
-      <div class="avatar" id="meAvatar">👤</div>
-      <input id="composerInput" placeholder="Start a post" />
-      <button class="btn" onclick="window.location.href='my-profile.html'">View Profile</button>
-    </div>
-    <div class="feed" id="feed"></div>
-  </section>
+  <!-- Content -->
+  <main class="wrap">
+    <!-- Left column -->
+    <aside class="card pad" id="miniProfile"></aside>
 
-  <!-- RIGHT: Quick links & Sponsor -->
-  <aside class="side">
-    <div class="section">
-      <h3>Quick Links</h3>
-      <div class="links">
-        <a href="build-profile.html">Build your profile</a>
-        <a href="network.html">View your network</a>
-        <a href="messaging.html">Open messages</a>
+    <!-- Center column -->
+    <section class="card pad">
+      <div class="composer">
+        <div class="avatar" id="composerAvatar">👤</div>
+        <input id="composerInput" placeholder="Start a post" />
+        <a class="btn" href="my-profile.html">View Profile</a>
       </div>
-    </div>
 
-    <div class="section" id="sponsorCard">
-      <h3>Sponsored</h3>
-      <div class="sponsor">
-        <div class="sponsor-logo" id="spLogo">LTN</div>
-        <div>
-          <div class="sponsor-title" id="spTitle">Your brand here</div>
-          <div class="sponsor-tag" id="spTag">Add a sponsor message or promotion.</div>
-          <div class="cta">
-            <a class="btn" id="spBtn" href="#" target="_blank" rel="noopener">Learn more</a>
-            <button class="btn ghost" id="editSponsor" type="button" title="Only saves in your browser">✎ Edit</button>
+      <div id="feed">
+        <div class="post">
+          <div class="header">
+            <div class="avatar">🏗️</div>
+            <div>
+              <div class="title">Trade tips daily</div>
+              <div class="muted">5d • Best practices</div>
+            </div>
           </div>
+          <div class="body">Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.</div>
+        </div>
+        <div class="post">
+          <div class="header">
+            <div class="avatar">🔧</div>
+            <div>
+              <div class="title">Low Voltage Network</div>
+              <div class="muted">2d • Discussion</div>
+            </div>
+          </div>
+          <div class="body">What labelers and test sets are you using for fiber jobs this month?</div>
         </div>
       </div>
-      <div class="muted" style="padding:0 14px 12px">Tip: Click ✎ to customize the sponsor. It saves to your browser (local only).</div>
-    </div>
-  </aside>
-</main>
+    </section>
+
+    <!-- Right column -->
+    <aside class="card pad news">
+      <h3>LinkTN News</h3>
+      <ul style="padding-left:16px">
+        <li><strong>Watch History</strong> launches for videos.</li>
+        <li>High material costs easing in several regions.</li>
+        <li>New city projects posted in municipal boards.</li>
+      </ul>
+      <hr style="border:none;border-top:1px solid #f1f5f9;margin:12px 0">
+      <a class="btn gray" href="build-profile.html">Finish your profile</a>
+    </aside>
+  </main>
 
 <script>
-/* ===== keys ===== */
-const PROFILE_KEY='userProfile:v1';
-const FEED_KEY='ltnFeed';
-const SP_KEY='ltnSponsor';
-
-/* ===== tiny helpers ===== */
-function load(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d } }
-function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
-
-/* ===== profile photo in composer ===== */
-(function setAvatar(){
-  const me = load(PROFILE_KEY, null);
-  const slot = document.getElementById('meAvatar');
-  if(me && me.photo){
-    slot.innerHTML = `<img src="${me.photo}" alt="me">`;
-  }else{
-    slot.textContent = '👤';
+  // Mini profile + avatar from localStorage
+  const STORAGE_KEY='userProfile:v1', LEGACY_KEY='userProfile';
+  function readProfile(){
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+    try{ return raw?JSON.parse(raw):null }catch{ return null }
   }
-})();
+  const p = readProfile();
+  const mini = document.getElementById('miniProfile');
+  const compAv = document.getElementById('composerAvatar');
+  const ci = document.getElementById('composerInput');
 
-/* ===== Start a post -> open Messaging new ===== */
-const ci=document.getElementById('composerInput');
-if(ci){
-  ['focus','click'].forEach(ev=>{
-    ci.addEventListener(ev,()=>{window.location.href='messaging.html?new=1';});
-  });
-}
-
-/* ===== Demo feed (local) ===== */
-const defaultFeed = [
-  {name:'Rosa Vega',  text:'Finished a full tower rewire today! ⚡ Great teamwork.', ts:'2025-10-25T08:00:00Z', photo:''},
-  {name:'Tim McCarron', text:'Running new Cat6A at Madison site. Anyone free for a pull tomorrow?', ts:'2025-10-24T15:00:00Z', photo:''}
-];
-const posts = load(FEED_KEY, defaultFeed);
-const feed = document.getElementById('feed');
-feed.innerHTML = posts.map(p=>`
-  <div class="post">
-    <div class="head">
-      <div class="pava">${p.photo?`<img src="${p.photo}" alt="">`:'👷'}</div>
-      <div>
-        <div class="name">${p.name}</div>
-        <div class="time">${new Date(p.ts).toLocaleString()}</div>
+  if(p){
+    mini.innerHTML = `
+      <div class="mini">
+        <div class="avatar">${p.photo ? `<img src="${p.photo}" alt="avatar">` : '👤'}</div>
+        <div>
+          <div class="name">${(p.firstName||'') + ' ' + (p.lastName||'')}</div>
+          <div class="muted">${p.headline || p.trade || ''}</div>
+        </div>
       </div>
-    </div>
-    <div class="body">${p.text}</div>
-  </div>
-`).join('');
-
-/* ===== Sponsor card (editable, saved locally) ===== */
-function renderSponsor(){
-  const sp = load(SP_KEY, {
-    title:'Your brand here',
-    tag:'Add a sponsor message or promotion.',
-    url:'#',
-    logo:'', // data URL or https image
-    btn:'Learn more'
-  });
-  document.getElementById('spTitle').textContent = sp.title || 'Sponsored';
-  document.getElementById('spTag').textContent = sp.tag || '';
-  const logo = document.getElementById('spLogo');
-  logo.innerHTML = sp.logo ? `<img src="${sp.logo}" alt="sponsor">` : 'LTN';
-  const btn = document.getElementById('spBtn');
-  btn.textContent = sp.btn || 'Learn more';
-  btn.href = sp.url || '#';
-}
-renderSponsor();
-
-document.getElementById('editSponsor').onclick = async ()=>{
-  const cur = load(SP_KEY, {});
-  const title = prompt('Sponsor title:', cur.title ?? 'Your brand here');
-  if(title===null) return;
-  const tag = prompt('Sponsor tagline/line:', cur.tag ?? 'Add a sponsor message or promotion.');
-  if(tag===null) return;
-  const url = prompt('Button URL (include https://):', cur.url ?? 'https://');
-  if(url===null) return;
-
-  // Optional logo upload
-  if(confirm('Update sponsor logo image?')){
-    const input = document.createElement('input');
-    input.type='file'; input.accept='image/*';
-    input.onchange = ()=> {
-      const f = input.files?.[0];
-      if(!f){ save(SP_KEY, {...cur,title,tag,url}); renderSponsor(); return; }
-      const r = new FileReader();
-      r.onload = ()=>{
-        save(SP_KEY, {title,tag,url,logo:r.result,btn:(cur.btn||'Learn more')});
-        renderSponsor();
-      };
-      r.readAsDataURL(f);
-    };
-    input.click();
+      <hr style="border:none;border-top:1px solid #f1f5f9;margin:12px 0">
+      <a class="btn" href="my-profile.html">Open Profile</a>
+    `;
+    if(p.photo){ compAv.innerHTML = `<img src="${p.photo}" alt="avatar">`; }
   }else{
-    save(SP_KEY, {...cur,title,tag,url});
-    renderSponsor();
+    mini.innerHTML = `
+      <div class="mini">
+        <div class="avatar">👤</div>
+        <div>
+          <div class="name">Welcome</div>
+          <div class="muted">Create your profile to get started</div>
+        </div>
+      </div>
+      <hr style="border:none;border-top:1px solid #f1f5f9;margin:12px 0">
+      <a class="btn" href="build-profile.html">Build Profile</a>
+    `;
   }
-};
+
+  // Make "Start a post" open the Messages page in "new" mode
+  if (ci) {
+    ['focus','click'].forEach(ev =>
+      ci.addEventListener(ev, () => { window.location.href = 'messages.html?new=1'; })
+    );
+  }
 </script>
 </body>
 </html>
+
 
 
 
