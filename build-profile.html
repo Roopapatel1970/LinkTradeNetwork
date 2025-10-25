@@ -5,52 +5,53 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Build Profile – LinkTradeNetwork</title>
 <style>
-  :root{--bg:#f3f4f6;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--brand:#0a66c2;--brand2:#004182}
+  :root{--bg:#f3f4f6;--ink:#0f172a;--muted:#64748b;--line:#e5e7eb;--card:#fff;--brand:#0a66c2;--brand2:#004182}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
   a{color:inherit;text-decoration:none}
 
-  /* Header */
   header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
   .bar{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:10px}
+  .brand{display:flex;gap:10px;align-items:center}
   .brand b{font-size:18px}
   .nav a{color:#fff;opacity:.95;margin-left:12px}
   .nav a:hover{opacity:.85}
 
-  /* Layout */
   .wrap{max-width:1100px;margin:18px auto;padding:0 14px;display:grid;grid-template-columns:1fr 360px;gap:18px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
   .pad{padding:14px}
 
-  h2{margin:0 0 10px;font-size:18px}
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .row{display:grid;gap:6px;margin-bottom:12px}
-  label{font-weight:700;font-size:13px;color:#374151}
-  input, select, textarea{border:1px solid #d1d5db;border-radius:10px;padding:.6rem .75rem;font-size:15px}
-  textarea{min-height:110px;resize:vertical}
-  .muted{color:var(--muted);font-size:13px}
-
-  .avatar{display:flex;gap:12px;align-items:center}
-  .ph{width:90px;height:90px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .ph img{width:100%;height:100%;object-fit:cover}
+  h1{margin:0 0 8px;font-size:22px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.6rem 1rem;font-weight:800;cursor:pointer}
   .btn:hover{background:var(--brand2)}
   .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
-  .btn.ghost{background:#fff;border:1px solid #d1d5db;color:#111827}
+  .btn.ghost{background:#fff;border:1px solid #d1d5db;color:#0f172a}
+  .muted{color:var(--muted);font-size:13px}
 
-  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .right .box{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:10px}
-  .success{display:none;color:#065f46;background:#d1fae5;border:1px solid #10b981;border-radius:10px;padding:.6rem .8rem;font-weight:700}
-  .success.show{display:block}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row{display:grid;gap:6px;margin-bottom:12px}
+  label{font-weight:700;font-size:13px;color:#334155}
+  input,select,textarea{border:1px solid #d1d5db;border-radius:10px;padding:.6rem .75rem;font-size:15px}
+  textarea{min-height:110px;resize:vertical}
 
-  /* Experience list */
-  .exp-item{border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin-bottom:10px}
-  .exp-actions{display:flex;gap:8px;margin-top:8px}
-  .chip{display:inline-block;background:#eef2ff;border:1px solid #dbe3ff;color:#27316f;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;margin:4px 6px 0 0}
+  .avatar{display:flex;align-items:center;gap:12px}
+  .ph{width:96px;height:96px;border-radius:50%;background:#eef2ff;border:1px solid #dbeafe;
+      display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:32px}
+  .ph img{width:100%;height:100%;object-fit:cover}
+
+  .chip{display:inline-block;background:#e0e7ff;border:1px solid #c7d2fe;color:#1e3a8a;
+        border-radius:999px;padding:6px 10px;font-weight:700;font-size:12px;margin:4px 6px 0 0}
   .chip .x{margin-left:6px;cursor:pointer}
 
-  @media(max-width:980px){ .wrap{grid-template-columns:1fr} }
+  .exp{border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin-bottom:10px}
+  .exp .actions{display:flex;gap:8px;margin-top:8px}
+
+  .ok{display:none;margin-bottom:10px;background:#d1fae5;color:#065f46;border:1px solid #10b981;
+      border-radius:10px;padding:.55rem .8rem;font-weight:800}
+  .ok.show{display:block}
+
+  @media(max-width:980px){.wrap{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -60,24 +61,27 @@
     <div class="nav">
       <a href="front.html">Home</a>
       <a href="network.html">Network</a>
-      <a href="messages.html">Messaging</a>
+      <a href="messaging.html">Messaging</a>
       <a href="my-profile.html">My Profile</a>
     </div>
   </div>
 </header>
 
 <main class="wrap">
-  <!-- LEFT: Form -->
+  <!-- LEFT: form -->
   <section class="card pad">
-    <div class="toolbar" style="justify-content:space-between;margin-bottom:8px">
-      <h2>Build Your Profile</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <h1>Build Your Profile</h1>
       <div class="toolbar">
-        <button class="btn gray" id="loadBtn" type="button" title="Load from your last save">Load Existing</button>
-        <button class="btn ghost" id="clearBtn" type="button" title="Clear this form">Clear</button>
-        <button class="btn" id="saveBtn" type="button">Save</button>
+        <button class="btn gray" id="loadLocal" type="button" title="Load last saved locally">Load</button>
+        <button class="btn ghost" id="clear" type="button">Clear</button>
+        <button class="btn" id="save" type="button">Save</button>
+        <button class="btn" id="saveView" type="button" title="Save then view">Save & View</button>
+        <!-- NEW: Load from Google Sheet (read-only) -->
+        <button class="btn ghost" id="loadSheet" type="button" title="Import profile from Google Sheet">Load from Google Sheet</button>
       </div>
     </div>
-    <div id="saveOK" class="success">Saved locally ✓</div>
+    <div id="ok" class="ok">Saved locally ✓</div>
 
     <!-- Photo -->
     <div class="row">
@@ -86,31 +90,19 @@
         <div class="ph" id="ph">👤</div>
         <input type="file" id="photo" accept="image/*" />
       </div>
-      <div class="muted">Your photo is stored only in your browser (localStorage).</div>
+      <div class="muted">Your photo and profile save in your browser only.</div>
     </div>
 
     <!-- Name / Headline -->
-    <div class="grid-2">
-      <div class="row">
-        <label>First name</label>
-        <input id="firstName" placeholder="e.g., Jordan" />
-      </div>
-      <div class="row">
-        <label>Last name</label>
-        <input id="lastName" placeholder="e.g., Rivera" />
-      </div>
+    <div class="grid2">
+      <div class="row"><label>First name</label><input id="firstName" placeholder="e.g., Jordan" /></div>
+      <div class="row"><label>Last name</label><input id="lastName" placeholder="e.g., Rivera" /></div>
     </div>
-    <div class="row">
-      <label>Headline</label>
-      <input id="headline" placeholder="e.g., Fiber Tech • Low Voltage • Access Control" />
-    </div>
+    <div class="row"><label>Headline</label><input id="headline" placeholder="e.g., Fiber Tech • Low Voltage • Access Control" /></div>
 
     <!-- Trade / Availability -->
-    <div class="grid-2">
-      <div class="row">
-        <label>Trade</label>
-        <input id="trade" placeholder="e.g., Fiber Optic Technician" />
-      </div>
+    <div class="grid2">
+      <div class="row"><label>Trade</label><input id="trade" placeholder="e.g., Fiber Optic Technician" /></div>
       <div class="row">
         <label>Availability</label>
         <select id="availability">
@@ -123,26 +115,14 @@
     </div>
 
     <!-- Location / Contact -->
-    <div class="grid-2">
-      <div class="row">
-        <label>Location</label>
-        <input id="location" placeholder="City, State" />
-      </div>
-      <div class="row">
-        <label>Email</label>
-        <input id="email" type="email" placeholder="you@example.com" />
-      </div>
+    <div class="grid2">
+      <div class="row"><label>Location</label><input id="location" placeholder="City, State" /></div>
+      <div class="row"><label>Email</label><input id="email" type="email" placeholder="you@example.com" /></div>
     </div>
-    <div class="row">
-      <label>Phone</label>
-      <input id="phone" placeholder="(555) 555-5555" />
-    </div>
+    <div class="row"><label>Phone</label><input id="phone" placeholder="(555) 555-5555" /></div>
 
     <!-- Summary -->
-    <div class="row">
-      <label>About / Summary</label>
-      <textarea id="summary" placeholder="Tell people about your experience, specialties, and goals."></textarea>
-    </div>
+    <div class="row"><label>About / Summary</label><textarea id="summary" placeholder="Tell people about your experience, specialties, and goals."></textarea></div>
 
     <!-- Experience -->
     <div class="row">
@@ -155,66 +135,65 @@
     <div class="row">
       <label>Skills (press Enter to add)</label>
       <input id="skillInput" placeholder="e.g., Fiber splicing" />
-      <div id="skills" style="margin-top:6px"></div>
+      <div id="skills"></div>
     </div>
 
     <!-- Certifications -->
-    <div class="row">
-      <label>Certifications & Licenses</label>
-      <textarea id="certs" placeholder="List certs and license numbers (if you want)"></textarea>
-    </div>
+    <div class="row"><label>Certifications & Licenses</label><textarea id="certs" placeholder="List certs, license numbers (optional)"></textarea></div>
   </section>
 
-  <!-- RIGHT: Tips -->
-  <aside class="card pad right">
-    <h2>Tips</h2>
-    <div class="box">
-      <div class="muted">Click <b>Save</b> to store everything in your browser. Nothing goes to a server.</div>
-    </div>
-    <div class="box" style="margin-top:10px">
-      <div class="muted">Use <b>Load Existing</b> if you want to pull your last saved profile back into the form.</div>
-    </div>
-    <div class="box" style="margin-top:10px">
-      <div class="muted">After saving, view your public-style profile on <a href="my-profile.html">My Profile</a>.</div>
-    </div>
+  <!-- RIGHT: tips -->
+  <aside class="card pad">
+    <h2 style="margin:0 0 10px;font-size:18px">Tips</h2>
+    <div class="muted">Use <b>Save</b> to keep changes in your browser. Use <b>Save & View</b> to jump to your profile page.</div>
+    <div class="muted" style="margin-top:8px">Photo preview appears instantly. You can change it anytime and save again.</div>
+    <div class="muted" style="margin-top:8px">Skills become chips with Enter. Click the × on a chip to remove it.</div>
+    <div class="muted" style="margin-top:8px"><b>Load from Google Sheet</b> is read-only and will not overwrite your cloud sheet. It just imports here.</div>
   </aside>
 </main>
 
 <script>
-/* ===== storage ===== */
+/* ====== CONFIG: your Apps Script endpoint (read-only import) ====== */
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec";
+/* If your script needs a query param, e.g.
+   const SHEET_URL = "https://.../exec?action=getProfile";
+*/
+
+/* ===== storage keys ===== */
 const KEY='userProfile:v1';
-const LEGACY='userProfile'; // keep compatibility with older pages
+const LEGACY='userProfile'; // backward-compat
 const $=id=>document.getElementById(id);
 
-/* ===== elements ===== */
-const el = {
-  ph: $('ph'), photo: $('photo'),
-  firstName: $('firstName'), lastName: $('lastName'), headline: $('headline'),
-  trade: $('trade'), availability: $('availability'),
-  location: $('location'), email: $('email'), phone: $('phone'),
-  summary: $('summary'), certs: $('certs'),
-  expList: $('expList'), addExp: $('addExp'),
-  skillInput: $('skillInput'), skills: $('skills'),
-  saveBtn: $('saveBtn'), clearBtn: $('clearBtn'), loadBtn: $('loadBtn'),
-  saveOK: $('saveOK')
+/* elements */
+const el={
+  ok:$('ok'),
+  ph:$('ph'), photo:$('photo'),
+  firstName:$('firstName'), lastName:$('lastName'), headline:$('headline'),
+  trade:$('trade'), availability:$('availability'),
+  location:$('location'), email:$('email'), phone:$('phone'),
+  summary:$('summary'), certs:$('certs'),
+  expList:$('expList'), addExp:$('addExp'),
+  skillInput:$('skillInput'), skills:$('skills'),
+  save:$('save'), saveView:$('saveView'), clear:$('clear'),
+  loadLocal:$('loadLocal'), loadSheet:$('loadSheet')
 };
 
-let photoData = '';      // data URL
-let skillSet = [];       // array of strings
-let experiences = [];    // array of exp objects
+let photoData='', skillSet=[], experiences=[];
 
-/* ===== helpers ===== */
+/* storage helpers */
 function saveLocal(obj){
-  const json = JSON.stringify(obj);
-  localStorage.setItem(KEY, json);
-  localStorage.setItem(LEGACY, json);
-  el.saveOK.classList.add('show');
-  setTimeout(()=>el.saveOK.classList.remove('show'), 1200);
+  const json=JSON.stringify(obj);
+  localStorage.setItem(KEY,json);
+  localStorage.setItem(LEGACY,json);
+  el.ok.textContent='Saved locally ✓';
+  el.ok.classList.add('show'); setTimeout(()=>el.ok.classList.remove('show'),1200);
 }
 function loadLocal(){
-  const raw = localStorage.getItem(KEY) || localStorage.getItem(LEGACY);
+  const raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY);
   try{ return raw?JSON.parse(raw):null }catch{ return null }
 }
+
+/* always blank to start */
 function clearForm(){
   photoData=''; el.ph.innerHTML='👤';
   ['firstName','lastName','headline','trade','location','email','phone','summary','certs'].forEach(k=>el[k].value='');
@@ -222,28 +201,28 @@ function clearForm(){
   skillSet=[]; renderSkills();
   experiences=[]; renderExperiences();
 }
-function chip(text, i){
-  return `<span class="chip">${text}<span class="x" data-skill="${i}" title="Remove">×</span></span>`;
-}
+
+/* skills */
+function chip(text,i){ return `<span class="chip">${text}<span class="x" data-i="${i}" title="Remove">×</span></span>`; }
 function renderSkills(){
   el.skills.innerHTML = skillSet.map((s,i)=>chip(s,i)).join('');
-  [...el.skills.querySelectorAll('[data-skill]')].forEach(x=>{
-    x.onclick = ()=>{ const idx=+x.dataset.skill; skillSet.splice(idx,1); renderSkills(); };
-  });
+  el.skills.querySelectorAll('[data-i]').forEach(x=> x.onclick = ()=>{ const ii=+x.dataset.i; skillSet.splice(ii,1); renderSkills(); });
 }
-function expItem(exp, i){
+
+/* experience */
+function expCard(exp,i){
   return `
-    <div class="exp-item" data-i="${i}">
-      <div class="grid-2">
-        <div class="row"><label>Job Title</label><input value="${exp.jobTitle||''}" data-f="jobTitle" placeholder="e.g., Fiber Technician"></div>
-        <div class="row"><label>Company</label><input value="${exp.company||''}" data-f="company" placeholder="e.g., LinkTN Installations"></div>
+    <div class="exp" data-i="${i}">
+      <div class="grid2">
+        <div class="row"><label>Job Title</label><input data-f="jobTitle" value="${exp.jobTitle||''}" placeholder="Fiber Technician"></div>
+        <div class="row"><label>Company</label><input data-f="company" value="${exp.company||''}" placeholder="LinkTN Installations"></div>
       </div>
-      <div class="grid-2">
-        <div class="row"><label>Start</label><input value="${exp.startDate||''}" data-f="startDate" placeholder="Jan 2023"></div>
-        <div class="row"><label>End</label><input value="${exp.endDate||''}" data-f="endDate" placeholder="Present"></div>
+      <div class="grid2">
+        <div class="row"><label>Start</label><input data-f="startDate" value="${exp.startDate||''}" placeholder="Jan 2023"></div>
+        <div class="row"><label>End</label><input data-f="endDate" value="${exp.endDate||''}" placeholder="Present"></div>
       </div>
-      <div class="row"><label>Description</label><textarea data-f="description" placeholder="What did you do? tools, outcomes, metrics">${exp.description||''}</textarea></div>
-      <div class="exp-actions">
+      <div class="row"><label>Description</label><textarea data-f="description" placeholder="Key work, tools, outcomes">${exp.description||''}</textarea></div>
+      <div class="actions">
         <button class="btn gray" data-up="${i}" type="button">↑</button>
         <button class="btn gray" data-down="${i}" type="button">↓</button>
         <button class="btn" data-del="${i}" type="button">Delete</button>
@@ -252,94 +231,123 @@ function expItem(exp, i){
   `;
 }
 function renderExperiences(){
-  el.expList.innerHTML = experiences.map(expItem).join('');
-  // wire inputs
-  el.expList.querySelectorAll('.exp-item').forEach(card=>{
-    const i = +card.dataset.i;
+  el.expList.innerHTML = experiences.map(expCard).join('');
+  el.expList.querySelectorAll('.exp').forEach(card=>{
+    const i=+card.dataset.i;
     card.querySelectorAll('[data-f]').forEach(inp=>{
-      inp.addEventListener('input', ()=>{
-        const f = inp.dataset.f;
-        experiences[i][f] = inp.value;
-      });
+      inp.addEventListener('input',()=>{ experiences[i][inp.dataset.f]=inp.value; });
     });
   });
-  // wire actions
-  el.expList.querySelectorAll('[data-del]').forEach(b=>{
-    b.onclick = ()=>{ const i = +b.dataset.del; experiences.splice(i,1); renderExperiences(); };
-  });
-  el.expList.querySelectorAll('[data-up]').forEach(b=>{
-    b.onclick = ()=>{ const i = +b.dataset.up; if(i>0){ [experiences[i-1], experiences[i]] = [experiences[i], experiences[i-1]]; renderExperiences(); } };
-  });
-  el.expList.querySelectorAll('[data-down]').forEach(b=>{
-    b.onclick = ()=>{ const i = +b.dataset.down; if(i<experiences.length-1){ [experiences[i+1], experiences[i]] = [experiences[i], experiences[i+1]]; renderExperiences(); } };
-  });
+  el.expList.querySelectorAll('[data-del]').forEach(b=> b.onclick=()=>{ const i=+b.dataset.del; experiences.splice(i,1); renderExperiences(); });
+  el.expList.querySelectorAll('[data-up]').forEach(b=> b.onclick=()=>{ const i=+b.dataset.up; if(i>0){ [experiences[i-1],experiences[i]]=[experiences[i],experiences[i-1]]; renderExperiences(); } });
+  el.expList.querySelectorAll('[data-down]').forEach(b=> b.onclick=()=>{ const i=+b.dataset.down; if(i<experiences.length-1){ [experiences[i+1],experiences[i]]=[experiences[i],experiences[i+1]]; renderExperiences(); } });
 }
 
-/* ===== events ===== */
+/* events */
 el.photo.onchange = e=>{
-  const f = e.target.files?.[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = ()=>{ photoData = r.result; el.ph.innerHTML = `<img src="${photoData}" alt="photo">`; };
+  const f=e.target.files?.[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload = ()=>{ photoData=r.result; el.ph.innerHTML=`<img src="${photoData}" alt="photo">`; };
   r.readAsDataURL(f);
 };
-
 el.skillInput.addEventListener('keydown', e=>{
   if(e.key==='Enter'){
     e.preventDefault();
-    const v = el.skillInput.value.trim();
+    const v=el.skillInput.value.trim();
     if(v){ skillSet.push(v); el.skillInput.value=''; renderSkills(); }
   }
 });
+el.addExp.onclick = ()=>{ experiences.push({jobTitle:'',company:'',startDate:'',endDate:'',description:''}); renderExperiences(); };
 
-el.addExp.onclick = ()=>{
-  experiences.push({jobTitle:'', company:'', startDate:'', endDate:'', description:''});
-  renderExperiences();
+el.clear.onclick = ()=>{ if(confirm('Clear all fields?')) clearForm(); };
+
+el.loadLocal.onclick = ()=>{
+  const p = loadLocal();
+  if(!p){ alert('No saved profile found locally.'); return; }
+  applyProfile(p, {showToast:true, toast:'Loaded ✓'});
 };
 
-el.clearBtn.onclick = ()=>{ if(confirm('Clear all fields?')) clearForm(); };
+/* build object from form */
+function buildProfile(){
+  return {
+    firstName:el.firstName.value.trim(),
+    lastName:el.lastName.value.trim(),
+    headline:el.headline.value.trim(),
+    trade:el.trade.value.trim(),
+    availability:el.availability.value,
+    location:el.location.value.trim(),
+    email:el.email.value.trim(),
+    phone:el.phone.value.trim(),
+    photo:photoData||'',
+    summary:el.summary.value.trim(),
+    skills:skillSet.join(', '),
+    certifications:el.certs.value.trim(),
+    experiences:experiences
+  };
+}
 
-el.loadBtn.onclick = ()=>{
-  const p = loadLocal();
-  if(!p){ alert('No saved profile found.'); return; }
-  // populate
-  photoData = p.photo || ''; el.ph.innerHTML = photoData ? `<img src="${photoData}" alt="photo">` : '👤';
-  el.firstName.value = p.firstName || ''; el.lastName.value = p.lastName || '';
-  el.headline.value = p.headline || ''; el.trade.value = p.trade || '';
+el.save.onclick = ()=>{ saveLocal(buildProfile()); };
+el.saveView.onclick = ()=>{ saveLocal(buildProfile()); location.href='my-profile.html'; };
+
+/* ===== NEW: Load from Google Sheet (read-only) ===== */
+async function loadFromSheet(){
+  try{
+    // GET JSON from Apps Script; adjust if you use query params (see SHEET_URL above)
+    const res = await fetch(SHEET_URL, { method:'GET' });
+    if(!res.ok) throw new Error('Sheet server returned '+res.status);
+    const p = await res.json();
+
+    // Normalize: allow either array of experiences or CSV skills
+    if (typeof p.skills === 'string') {
+      // keep CSV; we split later in applyProfile
+    }
+    if (!Array.isArray(p.experiences)) {
+      p.experiences = [];
+    }
+
+    applyProfile(p, {showToast:true, toast:'Imported from Google Sheet ✓'});
+  }catch(err){
+    console.error(err);
+    alert('Could not load from Google Sheet. Make sure your Apps Script returns JSON and allows CORS.\n\n' + err.message);
+  }
+}
+
+function applyProfile(p, opts={}){
+  photoData = p.photo || '';
+  el.ph.innerHTML = photoData ? `<img src="${photoData}" alt="photo">` : '👤';
+
+  el.firstName.value = p.firstName || '';
+  el.lastName.value  = p.lastName  || '';
+  el.headline.value  = p.headline  || '';
+  el.trade.value     = p.trade     || '';
   el.availability.value = p.availability || 'Employed';
-  el.location.value = p.location || ''; el.email.value = p.email || ''; el.phone.value = p.phone || '';
-  el.summary.value = p.summary || ''; el.certs.value = p.certifications || '';
-  skillSet = (p.skills||'').split(',').map(s=>s.trim()).filter(Boolean);
+  el.location.value  = p.location  || '';
+  el.email.value     = p.email     || '';
+  el.phone.value     = p.phone     || '';
+  el.summary.value   = p.summary   || '';
+  el.certs.value     = p.certifications || '';
+
+  skillSet = Array.isArray(p.skills) ? p.skills : String(p.skills||'').split(',').map(s=>s.trim()).filter(Boolean);
   renderSkills();
+
   experiences = Array.isArray(p.experiences) ? p.experiences : [];
   renderExperiences();
-  el.saveOK.textContent = 'Loaded ✓';
-  el.saveOK.classList.add('show'); setTimeout(()=>{ el.saveOK.textContent='Saved locally ✓'; el.saveOK.classList.remove('show'); }, 1000);
-};
 
-el.saveBtn.onclick = ()=>{
-  const profile = {
-    firstName: el.firstName.value.trim(),
-    lastName: el.lastName.value.trim(),
-    headline: el.headline.value.trim(),
-    trade: el.trade.value.trim(),
-    availability: el.availability.value,
-    location: el.location.value.trim(),
-    email: el.email.value.trim(),
-    phone: el.phone.value.trim(),
-    photo: photoData || '',
-    summary: el.summary.value.trim(),
-    skills: skillSet.join(', '),
-    certifications: el.certs.value.trim(),
-    experiences: experiences
-  };
-  saveLocal(profile);
-};
+  if(opts.showToast){
+    el.ok.textContent = opts.toast || 'Loaded ✓';
+    el.ok.classList.add('show');
+    setTimeout(()=>{ el.ok.classList.remove('show'); el.ok.textContent='Saved locally ✓'; }, 1200);
+  }
+}
 
-/* ===== init: ALWAYS BLANK ===== */
-clearForm(); // start with empty form every time
+el.loadSheet.onclick = loadFromSheet;
+
+/* init: always blank */
+clearForm();
 </script>
 </body>
 </html>
+
 
 
          
