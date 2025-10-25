@@ -1,170 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>LinkTradeNetwork — Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LinkTradeNetwork – Home</title>
 <style>
-  :root{--bg:#f3f4f6;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--brand:#0a66c2}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-  a{color:inherit;text-decoration:none}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Inter,Segoe UI,Roboto,Arial;background:#f3f4f6;color:#111}
+  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+  nav{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
+  .brand b{font-size:18px}
+  .navlinks{display:flex;gap:14px;margin-left:auto}
+  .navlinks a{color:#fff;text-decoration:none;opacity:.95}
+  .navlinks a:hover{opacity:.8}
 
-  /* Top nav like LinkedIn */
-  .nav{position:sticky;top:0;z-index:10;background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-  .nav-inner{max-width:1150px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 16px}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:800}
-  .logo .emoji{font-size:22px}
-  .search{flex:1}
-  .search input{width:100%;border:none;border-radius:8px;padding:.6rem .8rem}
-  .tabs{display:flex;gap:14px}
-  .tab{padding:.45rem .7rem;border-radius:8px;color:#fff;opacity:.95}
-  .tab:hover{background:#556277}
-  .btn{background:#0a66c2;color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
-  .btn.gray{background:#6b7280}
+  /* search bar */
+  .searchbar{flex:1;display:flex;gap:8px;align-items:center;max-width:520px;margin-left:auto}
+  #topSearch{flex:1;border:1px solid #d1d5db;border-radius:999px;padding:.55rem .9rem;color:#111}
+  #topSearchBtn{background:#fff;color:#111;border:1px solid #d1d5db;border-radius:999px;padding:.55rem .9rem;cursor:pointer}
+  #topSearchBtn:hover{background:#f1f5f9}
 
-  /* 3-column layout */
-  .wrap{max-width:1150px;margin:1rem auto;padding:0 16px;display:grid;grid-template-columns:260px minmax(0,1fr) 320px;gap:16px}
-  .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-  .pad{padding:12px}
-
-  /* left mini profile */
-  .mini{display:flex;align-items:center;gap:10px}
-  .avatar{width:48px;height:48px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .avatar img{width:100%;height:100%;object-fit:cover}
-  .name{font-weight:800}
-  .muted{color:#6b7280;font-size:13px}
-
-  /* composer & feed */
-  .composer{display:flex;gap:10px}
-  .composer input{flex:1;border:1px solid #e5e7eb;border-radius:999px;padding:.6rem .9rem}
-  .post{padding:12px;border-top:1px solid #f1f5f9}
-  .post .header{display:flex;gap:10px;align-items:center}
-  .post .title{font-weight:800}
-  .post .body{margin-top:6px;line-height:1.6}
-
-  /* right news */
-  .news h3{margin:0 0 8px}
-  .news li{margin:8px 0;line-height:1.4}
-
-  @media (max-width:980px){ .wrap{grid-template-columns:1fr} .tabs{display:none} .search{display:none} }
+  main{max-width:1100px;margin:24px auto;padding:0 16px}
+  h1{font-size:24px;margin-bottom:8px}
+  .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:20px}
 </style>
 </head>
 <body>
-  <!-- Top bar -->
-  <div class="nav">
-    <div class="nav-inner">
-      <a class="logo" href="front.html" aria-label="Home">
-        <span class="emoji">🌍</span><span>LinkTradeNetwork</span>
-      </a>
-      <div class="search"><input placeholder="Search" aria-label="Search"></div>
-      <div class="tabs">
-        <a class="tab" href="front.html">Home</a>
-        <a class="tab" href="my-profile.html">Me</a>
-        <a class="tab" href="network.html">Jobs</a>
-        <a class="tab" href="messages.html">Messaging</a>
-        <a class="tab" href="#">Notifications</a>
-      </div>
-      <a class="btn gray" href="build-profile.html">Build Profile</a>
+
+<header>
+  <nav>
+    <a href="front.html" class="brand">
+      <span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b>
+    </a>
+
+    <div class="searchbar">
+      <input id="topSearch" placeholder="Search or add by name or email…" />
+      <button id="topSearchBtn">Search</button>
     </div>
+
+    <div class="navlinks">
+      <a href="front.html">Home</a>
+      <a href="network.html">Network</a>
+      <a href="messaging.html">Messaging</a>
+      <a href="my-profile.html">My Profile</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <h1>Welcome to LinkTradeNetwork</h1>
+  <div class="card">
+    <p>Connect with other tradesmen, post updates, and grow your network.</p>
+    <p>Use the search bar above to find or invite others to your network.</p>
   </div>
-
-  <!-- Content -->
-  <main class="wrap">
-    <!-- Left column -->
-    <aside class="card pad" id="miniProfile"></aside>
-
-    <!-- Center column -->
-    <section class="card pad">
-      <div class="composer">
-        <div class="avatar" id="composerAvatar">👤</div>
-        <input id="composerInput" placeholder="Start a post" />
-        <a class="btn" href="my-profile.html">View Profile</a>
-      </div>
-
-      <div id="feed">
-        <div class="post">
-          <div class="header">
-            <div class="avatar">🏗️</div>
-            <div>
-              <div class="title">Trade tips daily</div>
-              <div class="muted">5d • Best practices</div>
-            </div>
-          </div>
-          <div class="body">Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.</div>
-        </div>
-        <div class="post">
-          <div class="header">
-            <div class="avatar">🔧</div>
-            <div>
-              <div class="title">Low Voltage Network</div>
-              <div class="muted">2d • Discussion</div>
-            </div>
-          </div>
-          <div class="body">What labelers and test sets are you using for fiber jobs this month?</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right column -->
-    <aside class="card pad news">
-      <h3>LinkTN News</h3>
-      <ul style="padding-left:16px">
-        <li><strong>Watch History</strong> launches for videos.</li>
-        <li>High material costs easing in several regions.</li>
-        <li>New city projects posted in municipal boards.</li>
-      </ul>
-      <hr style="border:none;border-top:1px solid #f1f5f9;margin:12px 0">
-      <a class="btn gray" href="build-profile.html">Finish your profile</a>
-    </aside>
-  </main>
+</main>
 
 <script>
-  // Mini profile + avatar from localStorage
-  const STORAGE_KEY='userProfile:v1', LEGACY_KEY='userProfile';
-  function readProfile(){
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-    try{ return raw?JSON.parse(raw):null }catch{ return null }
-  }
-  const p = readProfile();
-  const mini = document.getElementById('miniProfile');
-  const compAv = document.getElementById('composerAvatar');
-  const ci = document.getElementById('composerInput');
+(function wireFrontSearch(){
+  const box=document.getElementById('topSearch');
+  const btn=document.getElementById('topSearchBtn');
+  if(!box||!btn) return;
 
-  if(p){
-    mini.innerHTML = `
-      <div class="mini">
-        <div class="avatar">${p.photo ? `<img src="${p.photo}" alt="avatar">` : '👤'}</div>
-        <div>
-          <div class="name">${(p.firstName||'') + ' ' + (p.lastName||'')}</div>
-          <div class="muted">${p.headline || p.trade || ''}</div>
-        </div>
-      </div>
-      <hr style="border:none;border-top:1px solid #f1f5f9;margin:12px 0">
-      <a class="btn" href="my-profile.html">Open Profile</a>
-    `;
-    if(p.photo){ compAv.innerHTML = `<img src="${p.photo}" alt="avatar">`; }
-  }else{
-    mini.innerHTML = `
-      <div class="mini">
-        <div class="avatar">👤</div>
-        <div>
-          <div class="name">Welcome</div>
-          <div class="muted">Create your profile to get started</div>
-        </div>
-      </div>
-      <hr style="border:none;border-top:1px solid #f1f5f9;margin:12px 0">
-      <a class="btn" href="build-profile.html">Build Profile</a>
-    `;
+  function go(){
+    const q=(box.value||'').trim();
+    if(!q) return;
+
+    // Always route to network.html (same folder)
+    const url=new URL(window.location.href);
+    const parts=url.pathname.split('/');
+    parts[parts.length-1]='network.html';
+    url.pathname=parts.join('/');
+    url.search='?query='+encodeURIComponent(q);
+    url.hash='';
+    window.location.href=url.toString();
   }
 
-  // Make "Start a post" open the Messages page in "new" mode
-  if (ci) {
-    ['focus','click'].forEach(ev =>
-      ci.addEventListener(ev, () => { window.location.href = 'messages.html?new=1'; })
-    );
-  }
+  box.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault();go();}
+  });
+  btn.addEventListener('click',go);
+})();
 </script>
+
 </body>
 </html>
 
