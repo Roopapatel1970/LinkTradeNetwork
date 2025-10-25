@@ -1,448 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Build Your Profile - LinkTradeNetwork</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>My Profile – LinkTradeNetwork</title>
 <style>
-  :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#0a66c2;--brand2:#004182}
+  :root{--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--bg:#f3f4f6;--card:#fff;--brand:#0a66c2;--brand2:#004182;--chip:#eef2ff}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;color:var(--ink)}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
   a{color:inherit;text-decoration:none}
 
-  /* Header */
   header{background:#64748b;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-  .topbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
+  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px;color:#fff}
   .brand .logo-icon{font-size:2rem}
   .brand .brand-text{font-weight:800}
-  .links{display:flex;gap:12px;align-items:center}
-  .links a{color:#fff;opacity:.95;text-decoration:none}
-  .links a:hover{opacity:.85}
-
-  /* Layout */
-  .wrap{max-width:1200px;margin:16px auto;padding:0 16px}
-  .editor{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:16px}
-  .card{background:var(--card);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid var(--line)}
-  .pane{padding:16px}
-
-  /* Form */
-  h1{font-size:1.6rem;margin:.25rem 0 .75rem}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .full{grid-column:1 / -1}
-  label{display:block;font-weight:600;margin:.25rem 0 .35rem}
-  input,select,textarea{width:100%;padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:1rem}
-  textarea{min-height:110px;resize:vertical}
-  small{color:var(--muted)}
-  .row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
-  .btn{background:var(--brand);color:#fff;border:none;padding:.7rem 1rem;border-radius:8px;font-weight:800;cursor:pointer}
+  .actions{display:flex;gap:8px;align-items:center}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
   .btn:hover{background:var(--brand2)}
   .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
-  .status{font-size:.95rem;color:#047857;background:#d1fae5;border:1px solid #10b981;padding:.4rem .6rem;border-radius:8px;display:none}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.7);color:#fff}
+  .status{font-size:.95rem;color:#047857;background:#d1fae5;border:1px solid #10b981;padding:.35rem .6rem;border-radius:8px;display:none}
   .status.show{display:inline-block}
 
-  /* Photo */
-  .photo{display:flex;align-items:center;gap:12px}
-  .photo-preview{width:64px;height:64px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 2px #dbeafe}
-  .photo-preview img{width:100%;height:100%;object-fit:cover}
-
-  /* Live preview (right) */
-  .profile-card .profile-row{display:flex;gap:16px}
-  .avatar{width:96px;height:96px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:44px;color:#9aa2b1;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px var(--line)}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .profile-card{padding:16px}
+  .profile-row{display:flex;gap:16px;align-items:flex-start}
+  .avatar{position:relative;width:128px;height:128px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:56px;color:#9aa2b1;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px var(--line)}
   .avatar img{width:100%;height:100%;object-fit:cover}
-  .headline{font-size:22px;font-weight:800;margin:4px 0 2px}
-  .muted{color:#6b7280}
+  .avatar .edit-badge{display:none;position:absolute;bottom:8px;right:8px;background:#000a;color:#fff;padding:.25rem .45rem;border-radius:8px;font-size:12px}
+  .edit-mode .avatar .edit-badge{display:block;cursor:pointer}
+
+  .flex-1{flex:1;min-width:0}
+  .headline{font-size:26px;font-weight:800;margin:2px 0}
+  .sub{color:var(--muted)}
+  .meta{display:flex;gap:14px;flex-wrap:wrap;color:#4b5563;margin-top:8px}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:4px 8px;border-radius:999px;font-weight:700;font-size:12px}
-  .sec{padding-top:8px;border-top:1px solid var(--line);margin-top:12px}
-  .skill{background:#eef2ff;border:1px solid #dfe3f6;padding:4px 10px;border-radius:999px;font-weight:700;color:#27316f;margin:4px 6px 0 0;display:inline-block}
-  @media (max-width:960px){ .editor{grid-template-columns:1fr} }
+  .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
+  .chip.select{padding:0}
+  .chip select{appearance:none;background:transparent;border:none;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px;outline:none;color:#92400e}
+
+  .toolbar{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;margin-top:16px}
+  .section{padding:16px}
+  .section h2{font-size:18px;margin:0 0 8px}
+  .about[contenteditable="true"], .editable[contenteditable="true"]{outline:2px solid #e0ecff;border-radius:8px;padding:6px}
+  .about{white-space:pre-wrap;line-height:1.7;color:#374151;min-height:1.5em}
+
+  .exp-item{padding:12px 0;border-bottom:1px solid var(--line)}
+  .exp-item:last-child{border-bottom:none}
+  .exp-title{font-weight:800}
+  .exp-meta{color:#6b7280;font-size:14px;margin:4px 0}
+  .exp-desc{white-space:pre-wrap;color:#374151;margin-top:6px}
+  .exp-tools{display:none;gap:6px;margin-top:6px}
+  .edit-mode .exp-tools{display:flex}
+  .icon-btn{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px}
+  .icon-btn.danger{background:#fff5f5;border-color:#fecaca;color:#b91c1c}
+
+  .skills{display:flex;flex-wrap:wrap;gap:8px}
+  .skill{background:var(--chip);border:1px solid #dfe3f6;padding:6px 12px;border-radius:999px;font-weight:700;color:#27316f}
+  .skill.edit{cursor:pointer}
+  .add-skill{display:none;margin-top:10px;gap:6px}
+  .add-skill input{flex:1;border:1px solid #d1d5db;border-radius:8px;padding:.5rem .6rem}
+  .edit-mode .add-skill{display:flex}
+
+  .side .row{display:flex;align-items:center;gap:8px;margin:8px 0;color:#374151}
+  .side .pill{display:inline-block;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;color:#374151}
+
+  footer{color:#64748b;font-size:13px;text-align:center;padding:24px}
+  @media (max-width:900px){ .grid{grid-template-columns:1fr} .profile-row{flex-direction:column;align-items:start} }
+  @media print{ header,.toolbar,.actions{display:none!important} body{background:#fff} .about[contenteditable], .editable[contenteditable]{outline:none} }
 </style>
 </head>
 <body>
-  <header>
-    <div class="topbar">
-      <a class="brand" href="front.html" title="Home">
-        <span class="logo-icon">🌍</span>
-        <span class="brand-text">LinkTradeNetwork</span>
-      </a>
-      <div class="links">
-        <span id="saveStatus" class="status">Saved ✓</span>
-        <a href="my-profile.html" target="_blank" rel="noopener">Open My Profile</a>
+<header>
+  <div class="topbar">
+    <a class="brand" href="front.html" title="Home">
+      <span class="logo-icon">🌍</span>
+      <span class="brand-text">LinkTradeNetwork</span>
+    </a>
+    <div class="actions">
+      <a class="btn ghost" href="front.html">Home</a>
+      <span id="saveStatus" class="status">Saved ✓</span>
+      <button class="btn gray" id="exportBtn" type="button">Export PDF</button>
+      <button class="btn" id="saveBtn" type="button" title="Save locally">Save</button>
+      <button class="btn edit-toggle" id="editToggle" type="button">Edit</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="mainWrap">
+  <!-- profile header -->
+  <section class="card profile-card">
+    <div class="profile-row">
+      <div class="avatar" id="avatar">
+        <span>👤</span>
+        <span class="edit-badge" id="avatarEdit">Edit photo</span>
+        <input id="photoInput" type="file" accept="image/*" style="display:none">
+      </div>
+      <div class="flex-1">
+        <div class="headline">
+          <span id="name" class="editable" data-field="name" contenteditable="false">Your Name</span>
+        </div>
+        <div class="sub">
+          <span id="headline" class="editable" data-field="headline" contenteditable="false">Headline</span>
+        </div>
+        <div class="meta">
+          <div><strong>🔧</strong> <span id="trade" class="editable" data-field="trade" contenteditable="false">—</span></div>
+          <div><strong>📍</strong> <span id="location" class="editable" data-field="location" contenteditable="false">—</span></div>
+          <div><strong>📧</strong> <span id="email" class="editable" data-field="email" contenteditable="false">—</span></div>
+          <div><strong>📞</strong> <span id="phone" class="editable" data-field="phone" contenteditable="false">—</span></div>
+        </div>
+        <div class="chips" id="availWrap">
+          <span class="chip" id="availabilityChip">Employed</span>
+          <span class="chip select" id="availabilitySelectWrap" style="display:none">
+            <select id="availabilitySelect">
+              <option>Employed</option>
+              <option>Actively Looking</option>
+              <option>Open to Offers</option>
+              <option>Not Available</option>
+            </select>
+          </span>
+        </div>
+
+        <div class="toolbar">
+          <a class="btn gray" href="build-profile.html" target="_blank" rel="noopener">Open Builder</a>
+        </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
-    <div class="editor">
-      <!-- Left: Editor -->
-      <section class="card pane">
-        <h1>Edit Profile</h1>
-        <form id="profileForm" onsubmit="return false;">
-          <div class="grid">
-            <div>
-              <label for="firstName">First Name *</label>
-              <input id="firstName" autocomplete="off" />
-            </div>
-            <div>
-              <label for="lastName">Last Name *</label>
-              <input id="lastName" autocomplete="off" />
-            </div>
+  <!-- content -->
+  <section class="grid">
+    <div>
+      <div class="card section" id="aboutSec">
+        <h2>About</h2>
+        <div class="about editable" id="about" data-field="summary" contenteditable="false">No summary yet.</div>
+      </div>
 
-            <div class="full">
-              <label for="headline">Headline</label>
-              <input id="headline" autocomplete="off" placeholder="e.g., Low-voltage installer • IP cameras • Fiber" />
-            </div>
-
-            <div>
-              <label for="trade">Trade / Role *</label>
-              <input id="trade" autocomplete="off" placeholder="e.g., Low Voltage Technician" />
-            </div>
-            <div>
-              <label for="availability">Availability</label>
-              <select id="availability">
-                <option>Employed</option>
-                <option>Actively Looking</option>
-                <option>Open to Offers</option>
-                <option>Not Available</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="location">Location</label>
-              <input id="location" autocomplete="off" />
-            </div>
-            <div>
-              <label for="email">Email</label>
-              <input id="email" autocomplete="off" />
-            </div>
-
-            <div>
-              <label for="phone">Phone</label>
-              <input id="phone" autocomplete="off" />
-            </div>
-            <div class="photo">
-              <div>
-                <label for="photo">Photo (optional)</label>
-                <input id="photo" type="file" accept="image/*" />
-                <small>Square works best</small>
-              </div>
-              <div class="photo-preview" id="preview">👤</div>
-            </div>
-
-            <div class="full">
-              <label for="summary">About</label>
-              <textarea id="summary" placeholder="Short summary…"></textarea>
-            </div>
-
-            <div class="full">
-              <label for="skills">Skills (comma-separated)</label>
-              <input id="skills" autocomplete="off" placeholder="Fiber pull, Termination, IP CCTV, Access control"/>
-            </div>
-
-            <div class="full">
-              <label for="certs">Certifications & Licenses</label>
-              <textarea id="certs" placeholder="List your certs…"></textarea>
-            </div>
-
-            <!-- Experience -->
-            <div class="full"><label>Experience (one recent role)</label></div>
-            <div><input id="jobTitle" placeholder="Job Title"/></div>
-            <div><input id="company"  placeholder="Company"/></div>
-            <div><input id="startDate" placeholder="Start e.g., 2023-01"/></div>
-            <div><input id="endDate"   placeholder="End e.g., Present"/></div>
-            <div class="full"><textarea id="jobDesc" placeholder="What you did in this role..."></textarea></div>
-          </div>
-
-          <div class="row">
-            <button class="btn" id="saveToSheetBtn" type="button" title="Push to your Google Sheet">Save to Google Sheet</button>
-            <button class="btn gray" id="clearBtn" type="button" title="Clear everything">Clear</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Right: Live Preview -->
-      <aside class="card pane profile-card">
-        <div class="profile-row">
-          <div class="avatar" id="pv_avatar">👤</div>
-          <div class="flex-1">
-            <div class="headline" id="pv_name">Your Name</div>
-            <div class="muted" id="pv_headline">Headline</div>
-            <div class="muted" style="margin-top:4px">
-              <span id="pv_trade">—</span> · <span id="pv_location">—</span>
-            </div>
-            <div class="chips">
-              <span class="chip" id="pv_availability">Employed</span>
-            </div>
-          </div>
+      <div class="card section" id="expSec" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Experience</h2>
+          <button class="btn gray" id="addExpBtn" type="button" style="display:none">Add Experience</button>
         </div>
+        <div id="expList"></div>
+      </div>
 
-        <div class="sec" id="pv_about_sec" style="display:none">
-          <h3>About</h3>
-          <div id="pv_about" class="muted" style="white-space:pre-wrap"></div>
+      <div class="card section" id="skillsSec" style="display:none">
+        <h2>Skills</h2>
+        <div class="skills" id="skillsList"></div>
+        <div class="add-skill">
+          <input id="skillInput" placeholder="Add a skill and press Enter or +"/>
+          <button class="btn" id="addSkillBtn" type="button">+</button>
         </div>
+      </div>
 
-        <div class="sec" id="pv_exp_sec" style="display:none">
-          <h3>Experience</h3>
-          <div id="pv_exp"></div>
-        </div>
-
-        <div class="sec" id="pv_skills_sec" style="display:none">
-          <h3>Skills</h3>
-          <div id="pv_skills"></div>
-        </div>
-
-        <div class="sec" id="pv_certs_sec" style="display:none">
-          <h3>Certifications</h3>
-          <div id="pv_certs" class="muted" style="white-space:pre-wrap"></div>
-        </div>
-      </aside>
+      <div class="card section" id="certsSec" style="display:none">
+        <h2>Certifications & Licenses</h2>
+        <div class="about editable" id="certs" data-field="certifications" contenteditable="false">—</div>
+      </div>
     </div>
-  </main>
+
+    <aside class="card section side">
+      <h2>Contact & Status</h2>
+      <div class="row"><strong>📧</strong><a id="emailLink" href="#">—</a></div>
+      <div class="row"><strong>📞</strong><a id="phoneLink" href="#">—</a></div>
+      <div class="row"><strong>📍</strong><span id="locSide">—</span></div>
+      <div class="row"><strong>🔧</strong><span id="tradeSide">—</span></div>
+      <div class="row"><span class="pill" id="availSide">Employed</span></div>
+    </aside>
+  </section>
+</main>
+
+<footer>© LinkTradeNetwork — Profile</footer>
 
 <script>
-  // ===== CONFIG =====
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
-  const STORAGE_KEY = 'userProfile:v1';
-  const LEGACY_KEY  = 'userProfile';
+/* ===== Config & keys ===== */
+const STORAGE_KEY = 'userProfile:v1';
+const LEGACY_KEY  = 'userProfile';
 
-  // ===== ELEMENTS =====
-  const els = {
-    form:       document.getElementById('profileForm'),
-    saveToSheetBtn: document.getElementById('saveToSheetBtn'),
-    clearBtn:   document.getElementById('clearBtn'),
-    saveStatus: document.getElementById('saveStatus'),
-    photo:      document.getElementById('photo'),
-    preview:    document.getElementById('preview'),
+/* ===== State ===== */
+let profile = null;
+let editMode = false;
+let currentPhotoDataUrl = '';
 
-    firstName:  document.getElementById('firstName'),
-    lastName:   document.getElementById('lastName'),
-    headline:   document.getElementById('headline'),
-    trade:      document.getElementById('trade'),
-    availability: document.getElementById('availability'),
-    location:   document.getElementById('location'),
-    email:      document.getElementById('email'),
-    phone:      document.getElementById('phone'),
-    summary:    document.getElementById('summary'),
-    skills:     document.getElementById('skills'),
-    certs:      document.getElementById('certs'),
-    jobTitle:   document.getElementById('jobTitle'),
-    company:    document.getElementById('company'),
-    startDate:  document.getElementById('startDate'),
-    endDate:    document.getElementById('endDate'),
-    jobDesc:    document.getElementById('jobDesc'),
+/* ===== Elements ===== */
+const $ = id => document.getElementById(id);
+const els = {
+  saveBtn: $('saveBtn'), exportBtn: $('exportBtn'), editToggle: $('editToggle'), saveStatus: $('saveStatus'),
+  avatar: $('avatar'), avatarEdit: $('avatarEdit'), photoInput: $('photoInput'),
+  name: $('name'), headline: $('headline'), trade: $('trade'), location: $('location'), email: $('email'), phone: $('phone'),
+  availabilityChip: $('availabilityChip'), availabilitySelectWrap: $('availabilitySelectWrap'), availabilitySelect: $('availabilitySelect'),
+  about: $('about'), certs: $('certs'),
+  expSec: $('expSec'), expList: $('expList'), addExpBtn: $('addExpBtn'),
+  skillsSec: $('skillsSec'), skillsList: $('skillsList'), addSkillBtn: $('addSkillBtn'), skillInput: $('skillInput'),
+  emailLink: $('emailLink'), phoneLink: $('phoneLink'), locSide: $('locSide'), tradeSide: $('tradeSide'), availSide: $('availSide'),
+  aboutSec: $('aboutSec'), certsSec: $('certsSec')
+};
 
-    pv_avatar:  document.getElementById('pv_avatar'),
-    pv_name:    document.getElementById('pv_name'),
-    pv_headline:document.getElementById('pv_headline'),
-    pv_trade:   document.getElementById('pv_trade'),
-    pv_location:document.getElementById('pv_location'),
-    pv_availability:document.getElementById('pv_availability'),
-    pv_about_sec: document.getElementById('pv_about_sec'),
-    pv_about:   document.getElementById('pv_about'),
-    pv_exp_sec: document.getElementById('pv_exp_sec'),
-    pv_exp:     document.getElementById('pv_exp'),
-    pv_skills_sec: document.getElementById('pv_skills_sec'),
-    pv_skills:  document.getElementById('pv_skills'),
-    pv_certs_sec: document.getElementById('pv_certs_sec'),
-    pv_certs:   document.getElementById('pv_certs'),
-  };
+/* ===== Utils ===== */
+const debounce = (fn, ms=500)=>{ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; };
+const escapeHTML = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const telHref = raw => { const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; };
+const mailHref = e => e?`mailto:${e}`:'#';
+function fmtPhone(raw){ const d=(raw||'').replace(/\D/g,'').slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||''); }
+function availChip(a){ if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
+  if(a==='Open to Offers') return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
+  if(a==='Not Available')  return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
+  return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'}; }
 
-  // ===== Helpers =====
-  const escapeHTML = s => String(s ?? '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  const debounce = (fn, ms=500)=>{ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); }; };
-  function availChip(a){
-    if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
-    if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
-    if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
-    return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'};
-  }
+/* ===== Storage ===== */
+function loadProfile(){ const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY); try{return raw?JSON.parse(raw):null}catch{return null}}
+function saveProfile(){ const json = JSON.stringify(profile); localStorage.setItem(STORAGE_KEY,json); localStorage.setItem(LEGACY_KEY,json); tickSaved(); }
+const tickSaved = debounce(()=>{ els.saveStatus.textContent='Saved ✓'; els.saveStatus.classList.add('show'); setTimeout(()=>els.saveStatus.classList.remove('show'),1200); },50);
 
-  function getProfileFromForm(){
-    return {
-      firstName: els.firstName.value.trim(),
-      lastName:  els.lastName.value.trim(),
-      headline:  els.headline.value.trim(),
-      trade:     els.trade.value.trim(),
-      availability: els.availability.value,
-      location:  els.location.value.trim(),
-      email:     els.email.value.trim(),
-      phone:     els.phone.value.trim(),
-      photo:     currentPhotoDataUrl || '',
-      summary:   els.summary.value.trim(),
-      skills:    els.skills.value.trim(),
-      certifications: els.certs.value.trim(),
-      experiences: [{
-        jobTitle:   els.jobTitle.value.trim(),
-        company:    els.company.value.trim(),
-        startDate:  els.startDate.value.trim(),
-        endDate:    els.endDate.value.trim(),
-        description:els.jobDesc.value.trim()
-      }],
-      updatedAt: new Date().toISOString()
-    };
-  }
-
-  function setSavedTick(){
-    els.saveStatus.textContent = 'Saved ✓';
-    els.saveStatus.classList.add('show');
-    setTimeout(()=>els.saveStatus.classList.remove('show'), 1500);
-  }
-
-  function renderPreview(p){
-    // avatar
-    if(p.photo) els.pv_avatar.innerHTML = `<img src="${escapeHTML(p.photo)}" alt="Photo">`;
-    else els.pv_avatar.textContent = '👤';
-    // name
-    const name = `${p.firstName||''} ${p.lastName||''}`.trim();
-    els.pv_name.textContent = name || 'Your Name';
-    els.pv_headline.textContent = p.headline || 'Headline';
-    els.pv_trade.textContent = p.trade || '—';
-    els.pv_location.textContent = p.location || '—';
-    const ac = availChip(p.availability);
-    Object.assign(els.pv_availability.style,{
-      background:ac.bg,color:ac.color,border:`1px solid ${ac.border}`,borderRadius:'999px'
-    });
-    els.pv_availability.textContent = ac.txt;
-
-    // about
-    const hasAbout = !!(p.summary && p.summary.trim());
-    els.pv_about_sec.style.display = hasAbout ? 'block':'none';
-    els.pv_about.textContent = hasAbout ? p.summary : '';
-
-    // experience
-    els.pv_exp.innerHTML = '';
-    const exps = Array.isArray(p.experiences)? p.experiences.filter(e=>e && (e.jobTitle||e.company)):[];
-    if(exps.length){
-      els.pv_exp_sec.style.display = 'block';
-      exps.forEach(e=>{
-        const dates = [e.startDate||'', e.endDate||''].filter(Boolean).join(' – ');
-        const div = document.createElement('div');
-        div.style.margin='8px 0';
-        div.innerHTML = `<strong>${escapeHTML(e.jobTitle||'Position')}</strong> · ${escapeHTML(e.company||'Company')} ${dates?`<span class="muted">· ${escapeHTML(dates)}</span>`:''}
-                         ${e.description?`<div class="muted" style="white-space:pre-wrap">${escapeHTML(e.description)}</div>`:''}`;
-        els.pv_exp.appendChild(div);
-      });
-    }else{
-      els.pv_exp_sec.style.display = 'none';
-    }
-
-    // skills
-    els.pv_skills.innerHTML = '';
-    const skills = typeof p.skills==='string' ? p.skills.split(',').map(s=>s.trim()).filter(Boolean):[];
-    if(skills.length){
-      els.pv_skills_sec.style.display='block';
-      skills.forEach(s=>{
-        const span = document.createElement('span');
-        span.className='skill';
-        span.textContent = s;
-        els.pv_skills.appendChild(span);
-      });
-    }else{
-      els.pv_skills_sec.style.display='none';
-    }
-
-    // certs
-    const hasCerts = !!(p.certifications && p.certifications.trim());
-    els.pv_certs_sec.style.display = hasCerts ? 'block':'none';
-    els.pv_certs.textContent = hasCerts ? p.certifications : '';
-  }
-
-  // ===== Load from storage (if any), but fields start blank like LinkedIn until you type =====
-  let currentPhotoDataUrl = '';
-  (function initFromStorage(){
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-    if(!raw) return;
-    try{
-      const p = JSON.parse(raw);
-      // prefill fields (you can comment these to start truly empty)
-      els.firstName.value = p.firstName || '';
-      els.lastName.value  = p.lastName  || '';
-      els.headline.value  = p.headline  || '';
-      els.trade.value     = p.trade     || '';
-      els.availability.value = p.availability || 'Employed';
-      els.location.value  = p.location  || '';
-      els.email.value     = p.email     || '';
-      els.phone.value     = p.phone     || '';
-      els.summary.value   = p.summary   || '';
-      els.skills.value    = p.skills    || '';
-      els.certs.value     = p.certifications || '';
-      const exp = (p.experiences && p.experiences[0]) || {};
-      els.jobTitle.value  = exp.jobTitle || '';
-      els.company.value   = exp.company  || '';
-      els.startDate.value = exp.startDate|| '';
-      els.endDate.value   = exp.endDate  || '';
-      els.jobDesc.value   = exp.description || '';
-      currentPhotoDataUrl = p.photo || '';
-      if(currentPhotoDataUrl) els.preview.innerHTML = `<img src="${currentPhotoDataUrl}" alt="Preview">`;
-      renderPreview(getProfileFromForm());
-    }catch{}
-  })();
-
-  // ===== Autosave (LinkedIn style) =====
-  const onAnyChange = debounce(()=>{
-    const p = getProfileFromForm();
-    const json = JSON.stringify(p);
-    localStorage.setItem(STORAGE_KEY, json);
-    localStorage.setItem(LEGACY_KEY, json);
-    renderPreview(p);
-    setSavedTick();
-  }, 600);
-
-  // Wire up all inputs for autosave
-  Array.from(document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea')).forEach(el=>{
-    el.addEventListener('input', onAnyChange);
-    el.addEventListener('change', onAnyChange);
+/* ===== Render ===== */
+function updateAvailabilityUI(value){
+  const ac = availChip(value);
+  els.availabilityChip.textContent = ac.txt;
+  Object.assign(els.availabilityChip.style,{background:ac.bg,color:ac.color,border:`1px solid ${ac.border}`,borderRadius:'999px'});
+  els.availabilitySelect.value = value || 'Employed';
+  els.availSide.textContent = ac.txt;
+}
+function renderExperiences(){
+  els.expList.innerHTML = '';
+  const exps = Array.isArray(profile.experiences) ? profile.experiences : [];
+  if(!exps.length && !editMode){ els.expSec.style.display='none'; return; }
+  els.expSec.style.display='block';
+  exps.forEach((exp, idx)=>{
+    const title = escapeHTML(exp.jobTitle||'Position');
+    const company = escapeHTML(exp.company||'Company');
+    const dates = [exp.startDate||'', exp.endDate||''].filter(Boolean).join(' – ');
+    const desc = escapeHTML(exp.description||'');
+    const div = document.createElement('div');
+    div.className='exp-item';
+    div.innerHTML = `
+      <div class="exp-title">${title}</div>
+      <div class="exp-meta">${company}${dates ? ' · ' + escapeHTML(dates) : ''}</div>
+      ${desc ? `<div class="exp-desc">${desc}</div>`:''}
+    `;
+    els.expList.appendChild(div);
   });
+}
+function renderSkills(){
+  els.skillsList.innerHTML = '';
+  const skills = (profile.skills||'').split(',').map(s=>s.trim()).filter(Boolean);
+  if(!skills.length && !editMode){ els.skillsSec.style.display='none'; return; }
+  els.skillsSec.style.display='block';
+  skills.forEach(s=>{ const span=document.createElement('span'); span.className='skill'; span.textContent=s; els.skillsList.appendChild(span); });
+}
 
-  // Photo preview (kept outside debounce so user sees it instantly)
-  els.photo.addEventListener('change', async (e)=>{
-    const f = e.target.files?.[0];
-    if(!f) return;
+function renderAll(){
+  if(!profile){
+    document.getElementById('mainWrap').innerHTML =
+      `<section class="card section" style="margin-top:16px;text-align:center">
+         <h2>No Profile Found</h2>
+         <p class="sub" style="margin:.5rem 0 1rem">Create your profile to see it here.</p>
+         <a class="btn gray" href="build-profile.html">Build Profile</a>
+       </section>`;
+    return;
+  }
+  // photo
+  currentPhotoDataUrl = profile.photo || '';
+  els.avatar.innerHTML = currentPhotoDataUrl
+    ? `<img src="${escapeHTML(currentPhotoDataUrl)}" alt="Profile photo"><span class="edit-badge" id="avatarEdit">Edit photo</span><input id="photoInput" type="file" accept="image/*" style="display:none">`
+    : `<span>👤</span><span class="edit-badge" id="avatarEdit">Edit photo</span><input id="photoInput" type="file" accept="image/*" style="display:none">`;
+  els.avatarEdit = document.getElementById('avatarEdit');
+  els.photoInput = document.getElementById('photoInput');
+  bindPhotoControls();
+
+  const fullName = `${profile.firstName||''} ${profile.lastName||''}`.trim();
+  els.name.textContent = fullName || 'Your Name';
+  els.headline.textContent = profile.headline || 'Headline';
+  els.trade.textContent = profile.trade || '—';
+  els.location.textContent = profile.location || '—';
+  els.email.textContent = profile.email || '—';
+  els.phone.textContent = profile.phone || '—';
+
+  // availability + sidebar
+  updateAvailabilityUI(profile.availability||'Employed');
+  els.emailLink.href = profile.email ? mailHref(profile.email) : '#'; els.emailLink.textContent = profile.email || '—';
+  els.phoneLink.href = profile.phone ? telHref(profile.phone) : '#'; els.phoneLink.textContent = profile.phone ? fmtPhone(profile.phone) : '—';
+  els.locSide.textContent = profile.location || '—'; els.tradeSide.textContent = profile.trade || '—';
+
+  // about/skills/experience/certs
+  const hasAbout = !!(profile.summary && profile.summary.trim());
+  els.about.textContent = hasAbout ? profile.summary : 'No summary yet.'; els.aboutSec.style.display='block';
+  const hasCerts = !!(profile.certifications && profile.certifications.trim());
+  els.certs.textContent = hasCerts ? profile.certifications : '—'; els.certsSec.style.display = hasCerts ? 'block' : 'none';
+
+  renderExperiences(); renderSkills();
+}
+
+/* ===== Inline editing ===== */
+function setEditable(on){
+  ['name','headline','trade','location','email','phone','about','certs'].forEach(id=>{ const n=$(id); n.contentEditable = on?'true':'false'; });
+  document.body.classList.toggle('edit-mode', on);
+  els.availabilitySelectWrap.style.display = on ? 'inline-block' : 'none';
+}
+function splitName(full){
+  const t = full.trim().replace(/\s+/g,' ');
+  if(!t) return {firstName:'',lastName:''};
+  const parts = t.split(' '); const firstName = parts.shift()||''; const lastName = parts.join(' ');
+  return {firstName,lastName};
+}
+function onInlineChange(){
+  profile.firstName = splitName(els.name.innerText).firstName;
+  profile.lastName  = splitName(els.name.innerText).lastName;
+  profile.headline  = els.headline.innerText.trim();
+  profile.trade     = els.trade.innerText.trim();
+  profile.location  = els.location.innerText.trim();
+  profile.email     = els.email.innerText.trim();
+  profile.phone     = els.phone.innerText.trim();
+  profile.summary   = els.about.innerText.trim();
+  profile.certifications = els.certs.innerText.trim();
+  saveProfile(); renderAll();
+}
+['name','headline','trade','location','email','phone','about','certs'].forEach(id=>{
+  $(id).addEventListener('input', debounce(onInlineChange, 300));
+});
+els.availabilitySelect.addEventListener('change', ()=>{
+  profile.availability = els.availabilitySelect.value; saveProfile(); renderAll();
+});
+
+/* ===== Photo ===== */
+function bindPhotoControls(){
+  if(!els.avatarEdit || !els.photoInput) return;
+  els.avatarEdit.onclick = ()=>els.photoInput.click();
+  els.photoInput.onchange = e=>{
+    const f = e.target.files?.[0]; if(!f) return;
     const r = new FileReader();
-    r.onload = () => {
-      currentPhotoDataUrl = r.result;
-      els.preview.innerHTML = `<img src="${currentPhotoDataUrl}" alt="Preview">`;
-      onAnyChange();
-    };
+    r.onload = ()=>{ profile.photo = r.result; saveProfile(); renderAll(); };
     r.readAsDataURL(f);
-  });
+  };
+}
 
-  // Clear everything
-  els.clearBtn.addEventListener('click', ()=>{
-    ['firstName','lastName','headline','trade','location','email','phone','summary','skills','certs','jobTitle','company','startDate','endDate','jobDesc'].forEach(id=>els[id].value='');
-    els.availability.value='Employed';
-    currentPhotoDataUrl=''; els.preview.textContent='👤';
-    onAnyChange();
-  });
+/* ===== Buttons ===== */
+els.editToggle.onclick = ()=>{
+  editMode = !editMode;
+  els.editToggle.textContent = editMode ? 'Done' : 'Edit';
+  setEditable(editMode);
+};
+els.exportBtn.onclick = ()=>window.print();
+els.saveBtn.onclick = ()=>{ saveProfile(); }; // explicit save (local only)
 
-  // Push to Google Sheet (manual action)
-  els.saveToSheetBtn.addEventListener('click', async ()=>{
-    const p = getProfileFromForm();
-    // basic required like LinkedIn (won’t let you publish with missing core fields)
-    if(!p.firstName || !p.lastName || !p.trade){
-      alert('Please fill First Name, Last Name, and Trade before saving to Google Sheet.');
-      return;
-    }
-    els.saveToSheetBtn.disabled = true;
-    els.saveToSheetBtn.textContent = 'Saving…';
-    try{
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method:'POST', mode:'no-cors',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({...p, createdAt: new Date().toISOString()})
-      });
-      setSavedTick();
-    }catch(e){
-      console.error(e);
-      alert('Save to Google Sheet failed. Check the script URL / network.');
-    }finally{
-      els.saveToSheetBtn.disabled = false;
-      els.saveToSheetBtn.textContent = 'Save to Google Sheet';
-    }
-  });
+/* ===== Init ===== */
+(function init(){
+  profile = loadProfile() || {
+    firstName:'', lastName:'', headline:'', trade:'', availability:'Employed',
+    location:'', email:'', phone:'', photo:'', summary:'', skills:'', certifications:'', experiences:[]
+  };
+  renderAll();
+})();
 </script>
 </body>
 </html>
