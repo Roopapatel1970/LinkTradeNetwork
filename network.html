@@ -6,20 +6,22 @@
 <title>Network – LinkTradeNetwork</title>
 <style>
   :root{--bg:#f3f4f6;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--brand:#0a66c2;--brand2:#004182}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
   a{color:inherit;text-decoration:none}
+
   header{background:#64748b;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.12)}
-  .bar{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#fff}
-  .brand{display:flex;align-items:center;gap:10px} .brand .logo{font-size:1.6rem;font-weight:800}
-  .links a{color:#fff;opacity:.95;margin-left:12px} .links a:hover{opacity:.85}
-  .wrap{max-width:1100px;margin:16px auto;padding:0 16px;display:grid;grid-template-columns:280px 1fr;gap:16px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .bar{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;color:#fff}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand .logo{font-size:1.6rem;font-weight:800}
+  .links a{color:#fff;opacity:.95;margin-left:12px}
+  .links a:hover{opacity:.85}
+
+  .wrap{max-width:1100px;margin:16px auto;padding:0 16px;display:grid;grid-template-columns:300px 1fr;gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
   .pad{padding:14px}
   .section h2{margin:0 0 10px;font-size:18px}
-  .search{display:flex;gap:8px;margin-bottom:12px}
-  .search input{flex:1;border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
-  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}.btn:hover{background:var(--brand2)}
+
   .list{display:grid;gap:10px}
   .person{display:flex;gap:12px;align-items:center;border:1px solid #eef2f7;border-radius:10px;padding:10px}
   .avatar{width:44px;height:44px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -27,6 +29,11 @@
   .muted{color:var(--muted);font-size:13px}
   .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .pill{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;color:#374151}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
+  .btn:hover{background:var(--brand2)}
+  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
+  .search{display:flex;gap:8px;margin-bottom:12px}
+  .search input{flex:1;border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem}
   .empty{color:#6b7280;text-align:center;padding:16px}
   @media (max-width:900px){.wrap{grid-template-columns:1fr}}
 </style>
@@ -44,7 +51,7 @@
 </header>
 
 <main class="wrap">
-  <!-- Left: connection requests + your connections -->
+  <!-- LEFT: Requests + Your Connections -->
   <aside class="card pad section">
     <h2>Requests</h2>
     <div id="requests" class="list"></div>
@@ -53,12 +60,12 @@
     <div id="connections" class="list"></div>
   </aside>
 
-  <!-- Right: people directory -->
+  <!-- RIGHT: Directory -->
   <section class="card pad section">
     <h2>Find People</h2>
     <div class="search">
       <input id="q" placeholder="Search by name, trade, location, email">
-      <button class="btn" id="addBtn">Add by email</button>
+      <button class="btn" id="addBtn" type="button">Add by email</button>
     </div>
     <div id="people" class="list"></div>
     <div id="peopleEmpty" class="empty" style="display:none">No people found.</div>
@@ -66,41 +73,24 @@
 </main>
 
 <script>
-/* storage keys */
+/* ===== keys ===== */
 const PKEY='ltnPeople';       // directory
 const CKEY='ltnConnections';  // accepted connections (ids)
-const RKEY='ltnRequests';     // incoming requests (ids)
-const MEKEY='userProfile:v1'; // current user profile
+const RKEY='ltnRequests';     // pending requests (ids you sent)
+const MEKEY='userProfile:v1'; // your profile
 
-/* helpers */
+/* ===== helpers ===== */
 const $=id=>document.getElementById(id);
 function uid(){ return 'u_'+Math.random().toString(36).slice(2,10); }
 function load(k,def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def } }
 function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
-function meName(p){ return `${p.firstName||''} ${p.lastName||''}`.trim() || 'Anon'; }
-
-/* seed demo people if none */
-(function seed(){
-  if(!localStorage.getItem(PKEY)){
-    const me = load(MEKEY, null);
-    const demo = [
-      {id:uid(), firstName:'Rosa', lastName:'Vega', trade:'Fiber Tech',  location:'Detroit', email:'rosa@example.com', photo:''},
-      {id:uid(), firstName:'Tim',  lastName:'McCarron', trade:'Cabling', location:'Madison', email:'tim@example.com', photo:''},
-      {id:uid(), firstName:'Leila',lastName:'Salvador', trade:'Access Control', location:'Chicago', email:'leila@example.com', photo:''}
-    ];
-    if(me){ demo.unshift({id: 'me', ...me}); } // include self (won’t show in directory)
-    save(PKEY, demo);
-    save(CKEY, []); save(RKEY, []);
-  }
-})();
-
-/* renderers */
+function fullName(p){ return `${p.firstName||''} ${p.lastName||''}`.trim() || 'Anonymous'; }
 function personCard(p, actionsHtml){
   return `
     <div class="person">
       <div class="avatar">${p.photo?`<img src="${p.photo}" alt="">`:'👤'}</div>
-      <div style="flex:1">
-        <div style="font-weight:800">${meName(p)}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:800">${fullName(p)}</div>
         <div class="muted">${[p.trade||'', p.location||''].filter(Boolean).join(' • ')}</div>
         <div class="muted" style="margin-top:2px">${p.email||''}</div>
       </div>
@@ -109,16 +99,31 @@ function personCard(p, actionsHtml){
   `;
 }
 
+/* ===== seed demo if empty ===== */
+(function seed(){
+  if(!localStorage.getItem(PKEY)){
+    const me = load(MEKEY, null);
+    const demo = [
+      {id:uid(), firstName:'Rosa', lastName:'Vega', trade:'Fiber Tech',  location:'Detroit', email:'rosa@example.com', photo:''},
+      {id:uid(), firstName:'Tim',  lastName:'McCarron', trade:'Cabling', location:'Madison', email:'tim@example.com', photo:''},
+      {id:uid(), firstName:'Leila',lastName:'Salvador', trade:'Access Control', location:'Chicago', email:'leila@example.com', photo:''}
+    ];
+    if(me){ demo.unshift({id:'me', ...me}); }
+    save(PKEY, demo);
+    save(CKEY, []); save(RKEY, []);
+  }
+})();
+
+/* ===== renderers ===== */
 function renderDirectory(){
   const q = $('q').value.toLowerCase().trim();
   const people = load(PKEY, []);
-  const me = people.find(x=>x.id==='me');
   const cons = new Set(load(CKEY, []));
   const reqs = new Set(load(RKEY, []));
-  const list = people.filter(p=>{
+  const rows = people.filter(p=>{
     if(p.id==='me') return false;
     if(!q) return true;
-    const t = (meName(p)+' '+(p.trade||'')+' '+(p.location||'')+' '+(p.email||'')).toLowerCase();
+    const t = (fullName(p)+' '+(p.trade||'')+' '+(p.location||'')+' '+(p.email||'')).toLowerCase();
     return t.includes(q);
   }).map(p=>{
     let actions='';
@@ -127,37 +132,34 @@ function renderDirectory(){
     }else if(reqs.has(p.id)){
       actions = `<span class="pill">Request sent</span>`;
     }else{
-      actions = `<button class="btn" data-action="connect" data-id="${p.id}">Connect</button>`;
+      actions = `<button class="btn" data-connect="${p.id}">Connect</button>`;
     }
     return personCard(p, actions);
   }).join('');
+  $('people').innerHTML = rows;
+  $('peopleEmpty').style.display = rows ? 'none' : 'block';
 
-  $('people').innerHTML = list;
-  $('peopleEmpty').style.display = list ? 'none' : 'block';
-
-  // wire connect buttons
-  document.querySelectorAll('[data-action="connect"]').forEach(btn=>{
-    btn.onclick = ()=>{
-      const reqs = new Set(load(RKEY, []));
-      reqs.add(btn.dataset.id); save(RKEY, Array.from(reqs));
+  document.querySelectorAll('[data-connect]').forEach(b=>{
+    b.onclick = ()=>{
+      const r = new Set(load(RKEY, [])); r.add(b.getAttribute('data-connect')); save(RKEY,[...r]);
       renderDirectory(); renderRequests();
     };
   });
 }
 
 function renderConnections(){
-  const cons = new Set(load(CKEY, []));
+  const ids = new Set(load(CKEY, []));
   const people = load(PKEY, []);
-  const conList = people.filter(p=>cons.has(p.id))
+  const html = people.filter(p=>ids.has(p.id))
     .map(p=> personCard(p, `<a class="btn gray" href="messages.html?to=${encodeURIComponent(p.id)}">Message</a>`))
     .join('');
-  $('connections').innerHTML = conList || `<div class="empty">No connections yet.</div>`;
+  $('connections').innerHTML = html || `<div class="empty">No connections yet.</div>`;
 }
 
 function renderRequests(){
-  const reqs = new Set(load(RKEY, []));
+  const ids = new Set(load(RKEY, []));
   const people = load(PKEY, []);
-  const html = people.filter(p=>reqs.has(p.id)).map(p=>{
+  const html = people.filter(p=>ids.has(p.id)).map(p=>{
     return personCard(p, `
       <button class="btn" data-accept="${p.id}">Accept</button>
       <button class="btn gray" data-decline="${p.id}">Decline</button>
@@ -168,40 +170,39 @@ function renderRequests(){
   document.querySelectorAll('[data-accept]').forEach(b=>{
     b.onclick=()=>{
       const id=b.getAttribute('data-accept');
-      const reqs=new Set(load(RKEY,[])); reqs.delete(id); save(RKEY, Array.from(reqs));
-      const cons=new Set(load(CKEY,[])); cons.add(id); save(CKEY, Array.from(cons));
-      renderConnections(); renderRequests(); renderDirectory();
+      const r=new Set(load(RKEY,[])); r.delete(id); save(RKEY,[...r]);
+      const c=new Set(load(CKEY,[])); c.add(id); save(CKEY,[...c]);
+      renderRequests(); renderConnections(); renderDirectory();
     };
   });
   document.querySelectorAll('[data-decline]').forEach(b=>{
     b.onclick=()=>{
       const id=b.getAttribute('data-decline');
-      const reqs=new Set(load(RKEY,[])); reqs.delete(id); save(RKEY, Array.from(reqs));
+      const r=new Set(load(RKEY,[])); r.delete(id); save(RKEY,[...r]);
       renderRequests(); renderDirectory();
     };
   });
 }
 
-/* add by email (quick create) */
+/* ===== add-by-email quick create ===== */
 $('addBtn').onclick = ()=>{
-  const email = prompt('Enter the person’s email:');
-  if(!email) return;
+  const email = prompt('Enter the person’s email:'); if(!email) return;
   const firstName = prompt('First name (optional):') || '';
   const lastName  = prompt('Last name (optional):') || '';
   const trade     = prompt('Trade/Role (optional):') || '';
   const location  = prompt('Location (optional):') || '';
-  const people = load(PKEY, []);
-  if(people.some(p=>p.email && p.email.toLowerCase()===email.toLowerCase())){
+  const ppl = load(PKEY, []);
+  if(ppl.some(p=> (p.email||'').toLowerCase() === email.toLowerCase())){
     alert('That email is already in the directory.'); return;
   }
-  people.push({id:uid(), firstName,lastName,trade,location,email,photo:''});
-  save(PKEY, people);
+  ppl.push({id:uid(), firstName,lastName,trade,location,email,photo:''});
+  save(PKEY, ppl);
   renderDirectory();
 };
 
 $('q').addEventListener('input', renderDirectory);
 
-/* init */
+/* ===== init ===== */
 renderDirectory(); renderConnections(); renderRequests();
 </script>
 </body>
