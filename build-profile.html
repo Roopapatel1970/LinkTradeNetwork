@@ -1,450 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - LinkTradeNetwork</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f3f4f6;
-            min-height: 100vh;
-        }
-
-        header {
-            background: #64748b;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .logo-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #000000;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            font-size: 2rem;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-edit, .btn-back {
-            background: #3b82f6;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-back {
-            background: #6b7280;
-        }
-
-        .btn-edit:hover {
-            background: #2563eb;
-        }
-
-        .btn-back:hover {
-            background: #4b5563;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .profile-header {
-            background: white;
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        .profile-photo-large {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            color: #9ca3af;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .profile-photo-large img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-header-info {
-            flex: 1;
-        }
-
-        .profile-name {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-headline {
-            font-size: 1.25rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-        }
-
-        .profile-meta {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            color: #6b7280;
-            font-size: 0.95rem;
-        }
-
-        .profile-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .profile-section {
-            background: white;
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        .about-text {
-            color: #4b5563;
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-
-        .experience-item {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .experience-item:last-child {
-            border-bottom: none;
-        }
-
-        .experience-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 0.25rem;
-        }
-
-        .experience-company {
-            font-size: 1rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-dates {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            margin-bottom: 0.75rem;
-        }
-
-        .experience-description {
-            color: #4b5563;
-            line-height: 1.6;
-        }
-
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-badge {
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 0.5rem 1.25rem;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .availability-badge {
-            display: inline-block;
-            padding: 0.5rem 1.25rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .availability-badge.active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .availability-badge.open {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .availability-badge.employed {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .availability-badge.unavailable {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .certifications-text {
-            color: #4b5563;
-            line-height: 1.8;
-            white-space: pre-wrap;
-        }
-
-        .no-profile {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .no-profile h2 {
-            font-size: 2rem;
-            color: #1f2937;
-            margin-bottom: 1rem;
-        }
-
-        .no-profile p {
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-
-        .warning-banner {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            color: #92400e;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        @media (max-width: 768px) {
-            .profile-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .profile-name {
-                font-size: 2rem;
-            }
-
-            .profile-meta {
-                justify-content: center;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn-edit, .btn-back {
-                width: 100%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile - LinkTradeNetwork</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#f3f4f6;--card:#fff;--ink:#1f2937;--muted:#4b5563;--line:#e5e7eb;
+      --brand:#3b82f6;--brand-2:#2563eb;--hdr:#64748b;--btn-dark:#6b7280;--btn-dark-2:#4b5563
+    }
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:var(--bg);min-height:100vh;color:var(--ink)}
+    header{background:var(--hdr);padding:1.5rem 2rem;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+    .logo-header{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto}
+    .logo-link{display:flex;align-items:center;gap:12px;color:#000;text-decoration:none}
+    .logo-icon{font-size:2rem}
+    .logo-text{font-size:1.5rem;font-weight:700}
+    .header-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+    .btn{background:var(--brand);color:#fff;padding:.65rem 1rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:.2s}
+    .btn:hover{background:var(--brand-2)}
+    .btn-secondary{background:var(--btn-dark)}
+    .btn-secondary:hover{background:var(--btn-dark-2)}
+    .container{max-width:1000px;margin:2rem auto;padding:0 2rem}
+    .profile-header,.profile-section{background:var(--card);border-radius:12px;padding:2rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+    .profile-header{margin-bottom:1.25rem;display:flex;gap:2rem;align-items:start}
+    .profile-photo-large{width:200px;height:200px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:5rem;color:#9ca3af;overflow:hidden;flex-shrink:0;border:6px solid #fff;box-shadow:0 0 0 2px #dbeafe}
+    .profile-photo-large img{width:100%;height:100%;object-fit:cover}
+    .profile-header-info{flex:1}
+    .profile-name{font-size:2.25rem;font-weight:800;color:var(--ink);margin-bottom:.35rem}
+    .profile-headline{font-size:1.1rem;color:var(--muted);margin-bottom:.75rem}
+    .profile-meta{display:flex;gap:1.25rem;row-gap:.6rem;flex-wrap:wrap;color:#6b7280;font-size:.95rem}
+    .profile-meta-item{display:flex;align-items:center;gap:.5rem}
+    .section-title{font-size:1.5rem;font-weight:800;color:var(--ink);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--line)}
+    .about-text,.certifications-text{color:var(--muted);line-height:1.8;font-size:1rem;white-space:pre-wrap}
+    .experience-item{padding:1rem 0;border-bottom:1px solid var(--line)}
+    .experience-item:last-child{border-bottom:none}
+    .experience-title{font-size:1.1rem;font-weight:700;color:var(--ink)}
+    .experience-company{font-size:.98rem;color:#6b7280;margin:.15rem 0}
+    .experience-dates{font-size:.9rem;color:#9ca3af;margin-bottom:.4rem}
+    .experience-description{color:var(--muted);line-height:1.6}
+    .skills-container{display:flex;flex-wrap:wrap;gap:.5rem}
+    .skill-badge{background:#dbeafe;color:#1e40af;padding:.4rem 1rem;border-radius:999px;font-size:.93rem;font-weight:600}
+    .availability-badge{display:inline-block;padding:.45rem 1rem;border-radius:999px;font-weight:800;font-size:.9rem}
+    .availability-badge.active{background:#d1fae5;color:#065f46}
+    .availability-badge.open{background:#dbeafe;color:#1e40af}
+    .availability-badge.employed{background:#fef3c7;color:#92400e}
+    .availability-badge.unavailable{background:#fee2e2;color:#991b1b}
+    .no-profile{text-align:center;padding:4rem 2rem}
+    .no-profile h2{font-size:2rem;color:var(--ink);margin-bottom:1rem}
+    .no-profile p{color:#6b7280;margin-bottom:1.25rem}
+    .warning-banner{background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:1rem 1.25rem;border-radius:8px;margin-bottom:1rem;font-size:.92rem;display:flex;align-items:center;gap:.6rem}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1rem 0}
+    @media (max-width:768px){
+      .profile-header{flex-direction:column;align-items:center;text-align:center}
+      .profile-name{font-size:1.75rem}
+      .profile-meta{justify-content:center}
+      .header-actions{flex-direction:column;width:100%}
+      .btn,.btn-secondary{width:100%}
+    }
+    /* Print (Export PDF) */
+    @media print{
+      header,.toolbar,.warning-banner{display:none!important}
+      body{background:#fff}
+      .container{margin:0;padding:0}
+      .profile-header,.profile-section{box-shadow:none;border:1px solid #ddd;border-radius:0}
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo-header">
-            <a href="front.html" class="logo-link">
-                <span class="logo-icon">🌍</span>
-                <span class="logo-text">LinkTradeNetwork</span>
-            </a>
-            <div class="header-actions">
-                <a href="build-profile.html" class="btn-edit">Edit Profile</a>
-                <a href="front.html" class="btn-back">Home</a>
-            </div>
-        </div>
-    </header>
+  <header>
+    <div class="logo-header">
+      <a href="front.html" class="logo-link" aria-label="Go to LinkTradeNetwork home">
+        <span class="logo-icon" aria-hidden="true">🌍</span>
+        <span class="logo-text">LinkTradeNetwork</span>
+      </a>
+      <div class="header-actions">
+        <a href="build-profile.html" class="btn" id="editBtn">Edit Profile</a>
+        <a href="front.html" class="btn btn-secondary">Home</a>
+      </div>
+    </div>
+  </header>
 
-    <div class="container" id="profileContainer">
-        <!-- Profile will be loaded here by JavaScript -->
+  <div class="container">
+    <div class="toolbar" id="tools" hidden>
+      <button class="btn" id="exportPdfBtn" type="button">Export PDF</button>
+      <button class="btn btn-secondary" id="downloadJsonBtn" type="button">Download JSON</button>
+      <label class="btn btn-secondary" for="importJsonInput" style="cursor:pointer">Import JSON</label>
+      <input id="importJsonInput" type="file" accept="application/json" hidden />
+      <button class="btn btn-secondary" id="clearProfileBtn" type="button" title="Remove saved profile from this browser only">Clear Profile</button>
     </div>
 
-    <script>
-        // Load profile from localStorage
-        const profileData = localStorage.getItem('userProfile');
+    <div id="profileContainer"><!-- Profile renders here --></div>
+  </div>
 
-        if (!profileData) {
-            // No profile found
-            document.getElementById('profileContainer').innerHTML = `
-                <div class="no-profile">
-                    <h2>No Profile Found</h2>
-                    <p>You haven't created your profile yet.</p>
-                    <a href="build-profile.html" class="btn-edit">Build Your Profile</a>
-                </div>
-            `;
-        } else {
-            // Parse and display profile
-            const profile = JSON.parse(profileData);
-            
-            // Get availability badge class
-            let availabilityClass = 'employed';
-            if (profile.availability === 'Actively Looking') availabilityClass = 'active';
-            else if (profile.availability === 'Open to Offers') availabilityClass = 'open';
-            else if (profile.availability === 'Not Available') availabilityClass = 'unavailable';
+  <script>
+    // --- Utilities ---
+    const key = 'userProfile:v1';
 
-            // Build profile HTML
-            let profileHTML = `
-                <!-- Warning Banner -->
-                <div class="warning-banner">
-                    ⚠️ <strong>Note:</strong> Your profile is saved in browser storage. It will be lost if you clear browser cache or use a different device.
-                </div>
-                
-                <!-- Profile Header -->
-                <div class="profile-header">
-                    <div class="profile-photo-large">
-                        ${profile.photo ? `<img src="${profile.photo}" alt="${profile.firstName}">` : '👤'}
-                    </div>
-                    <div class="profile-header-info">
-                        <h1 class="profile-name">${profile.firstName} ${profile.lastName}</h1>
-                        <p class="profile-headline">${profile.headline}</p>
-                        <div class="profile-meta">
-                            <div class="profile-meta-item">
-                                <strong>🔧</strong> ${profile.trade}
-                            </div>
-                            <div class="profile-meta-item">
-                                <strong>📍</strong> ${profile.location}
-                            </div>
-                            <div class="profile-meta-item">
-                                <strong>📧</strong> ${profile.email}
-                            </div>
-                            <div class="profile-meta-item">
-                                <strong>📞</strong> ${profile.phone}
-                            </div>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <span class="availability-badge ${availabilityClass}">${profile.availability}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+    function escapeHTML(str){
+      return String(str ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+    }
 
-            // About section
-            if (profile.summary) {
-                profileHTML += `
-                    <div class="profile-section">
-                        <h2 class="section-title">About</h2>
-                        <p class="about-text">${profile.summary}</p>
-                    </div>
-                `;
-            }
+    function safe(obj, field){
+      return escapeHTML(obj?.[field] ?? '');
+    }
 
-            // Experience section
-            if (profile.experiences && profile.experiences.length > 0) {
-                const hasExperience = profile.experiences.some(exp => exp.jobTitle || exp.company);
-                if (hasExperience) {
-                    profileHTML += `
-                        <div class="profile-section">
-                            <h2 class="section-title">Experience</h2>
-                    `;
-                    profile.experiences.forEach(exp => {
-                        if (exp.jobTitle || exp.company) {
-                            profileHTML += `
-                                <div class="experience-item">
-                                    <div class="experience-title">${exp.jobTitle || 'Position'}</div>
-                                    <div class="experience-company">${exp.company || 'Company'}</div>
-                                    <div class="experience-dates">${exp.startDate || ''} ${exp.startDate && exp.endDate ? '- ' : ''}${exp.endDate || ''}</div>
-                                    ${exp.description ? `<p class="experience-description">${exp.description}</p>` : ''}
-                                </div>
-                            `;
-                        }
-                    });
-                    profileHTML += `</div>`;
-                }
-            }
+    function formatPhone(raw){
+      const digits = (raw||'').replace(/\D/g,'').slice(-10);
+      if(digits.length===10){
+        return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+      }
+      return escapeHTML(raw||'');
+    }
 
-            // Skills section
-            if (profile.skills) {
-                const skillsArray = profile.skills.split(',').map(s => s.trim()).filter(s => s);
-                if (skillsArray.length > 0) {
-                    profileHTML += `
-                        <div class="profile-section">
-                            <h2 class="section-title">Skills</h2>
-                            <div class="skills-container">
-                                ${skillsArray.map(skill => `<span class="skill-badge">${skill}</span>`).join('')}
-                            </div>
-                        </div>
-                    `;
-                }
-            }
+    function telHref(raw){
+      const digits = (raw||'').replace(/\D/g,'');
+      return digits ? `tel:${digits}` : '#';
+    }
 
-            // Certifications section
-            if (profile.certifications) {
-                profileHTML += `
-                    <div class="profile-section">
-                        <h2 class="section-title">Certifications & Licenses</h2>
-                        <p class="certifications-text">${profile.certifications}</p>
-                    </div>
-                `;
-            }
+    function isDataUrl(url){
+      return /^data:image\/(png|jpg|jpeg|webp|gif);base64,/.test(url||'');
+    }
 
-            document.getElementById('profileContainer').innerHTML = profileHTML;
+    // Parse profile JSON safely
+    function readProfile(){
+      const raw = localStorage.getItem(key) || localStorage.getItem('userProfile'); // migrate old key
+      if(!raw) return null;
+      try{
+        const parsed = JSON.parse(raw);
+        // migrate to new key if needed
+        if(!localStorage.getItem(key)) localStorage.setItem(key, raw);
+        return parsed && typeof parsed === 'object' ? parsed : null;
+      }catch(e){
+        console.warn('Invalid profile JSON in storage:', e);
+        return null;
+      }
+    }
+
+    function availabilityClass(av){
+      switch(av){
+        case 'Actively Looking': return 'active';
+        case 'Open to Offers':   return 'open';
+        case 'Not Available':    return 'unavailable';
+        default:                 return 'employed';
+      }
+    }
+
+    // --- Rendering ---
+    function render(){
+      const container = document.getElementById('profileContainer');
+      const tools = document.getElementById('tools');
+      const profile = readProfile();
+
+      if(!profile){
+        tools.hidden = true;
+        container.innerHTML = `
+          <div class="no-profile">
+            <h2>No Profile Found</h2>
+            <p>You haven't created your profile yet.</p>
+            <a href="build-profile.html" class="btn">Build Your Profile</a>
+          </div>
+        `;
+        return;
+      }
+
+      tools.hidden = false;
+
+      const photoHTML = profile.photo
+        ? (isDataUrl(profile.photo)
+            ? `<img src="${profile.photo}" alt="${escapeHTML(profile.firstName||'Profile')}" loading="lazy">`
+            : `<img src="${escapeHTML(profile.photo)}" alt="${escapeHTML(profile.firstName||'Profile')}" referrerpolicy="no-referrer" loading="lazy">`)
+        : '👤';
+
+      const name = `${safe(profile,'firstName')} ${safe(profile,'lastName')}`.trim() || 'Unnamed';
+      const headline = safe(profile,'headline');
+      const trade = safe(profile,'trade');
+      const location = safe(profile,'location');
+      const email = safe(profile,'email');
+      const phoneRaw = profile?.phone ?? '';
+      const phoneNice = formatPhone(phoneRaw);
+
+      let html = `
+        <div class="warning-banner">
+          ⚠️ <strong>Note:</strong> Your profile is saved in this browser only. Use <em>Download JSON</em> to back it up or move it to another device.
+        </div>
+
+        <div class="profile-header" aria-labelledby="name">
+          <div class="profile-photo-large" aria-hidden="${photoHTML==='👤'}">
+            ${photoHTML}
+          </div>
+          <div class="profile-header-info">
+            <h1 class="profile-name" id="name">${name}</h1>
+            ${headline ? `<p class="profile-headline">${headline}</p>` : ''}
+            <div class="profile-meta" role="list">
+              ${trade ? `<div class="profile-meta-item" role="listitem"><strong aria-hidden="true">🔧</strong><span>${trade}</span></div>`:''}
+              ${location ? `<div class="profile-meta-item" role="listitem"><strong aria-hidden="true">📍</strong><span>${location}</span></div>`:''}
+              ${email ? `<div class="profile-meta-item" role="listitem"><strong aria-hidden="true">📧</strong><a href="mailto:${email}">${email}</a></div>`:''}
+              ${phoneRaw ? `<div class="profile-meta-item" role="listitem"><strong aria-hidden="true">📞</strong><a href="${telHref(phoneRaw)}">${phoneNice}</a></div>`:''}
+            </div>
+            <div style="margin-top:1rem">
+              <span class="availability-badge ${availabilityClass(profile.availability)}">${escapeHTML(profile.availability||'Employed')}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // About
+      if(profile.summary){
+        html += `
+          <div class="profile-section">
+            <h2 class="section-title">About</h2>
+            <p class="about-text">${escapeHTML(profile.summary)}</p>
+          </div>
+        `;
+      }
+
+      // Experience
+      if(Array.isArray(profile.experiences) && profile.experiences.some(e=>e?.jobTitle || e?.company)){
+        html += `<div class="profile-section"><h2 class="section-title">Experience</h2>`;
+        profile.experiences.forEach(exp=>{
+          if(!(exp?.jobTitle || exp?.company)) return;
+          const title = escapeHTML(exp.jobTitle || 'Position');
+          const company = escapeHTML(exp.company || 'Company');
+          const start = escapeHTML(exp.startDate || '');
+          const end = escapeHTML(exp.endDate || '');
+          const dates = start || end ? `<div class="experience-dates">${start}${start && end ? ' - ' : ''}${end}</div>` : '';
+          const desc = exp.description ? `<p class="experience-description">${escapeHTML(exp.description)}</p>` : '';
+          html += `
+            <div class="experience-item">
+              <div class="experience-title">${title}</div>
+              <div class="experience-company">${company}</div>
+              ${dates}
+              ${desc}
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      // Skills
+      if(typeof profile.skills === 'string'){
+        const skills = profile.skills.split(',').map(s=>s.trim()).filter(Boolean);
+        if(skills.length){
+          html += `
+            <div class="profile-section">
+              <h2 class="section-title">Skills</h2>
+              <div class="skills-container">
+                ${skills.map(s=>`<span class="skill-badge">${escapeHTML(s)}</span>`).join('')}
+              </div>
+            </div>
+          `;
         }
-    </script>
+      }
+
+      // Certifications
+      if(profile.certifications){
+        html += `
+          <div class="profile-section">
+            <h2 class="section-title">Certifications & Licenses</h2>
+            <p class="certifications-text">${escapeHTML(profile.certifications)}</p>
+          </div>
+        `;
+      }
+
+      document.getElementById('profileContainer').innerHTML = html;
+    }
+
+    // --- Actions ---
+    function exportPDF(){ window.print(); }
+
+    function downloadJSON(){
+      const raw = localStorage.getItem(key) || localStorage.getItem('userProfile');
+      if(!raw){ alert('No profile found to download.'); return; }
+      const blob = new Blob([raw], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'LinkTradeNetwork_Profile.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function importJSON(file){
+      try{
+        const text = await file.text();
+        const obj = JSON.parse(text);
+        if(!obj || typeof obj!=='object'){ throw new Error('Invalid JSON format'); }
+        localStorage.setItem(key, JSON.stringify(obj));
+        render();
+        alert('Profile imported successfully.');
+      }catch(err){
+        console.error(err);
+        alert('Import failed: ' + err.message);
+      }
+    }
+
+    function clearProfile(){
+      if(confirm('This will remove the saved profile from this browser. Continue?')){
+        localStorage.removeItem(key);
+        localStorage.removeItem('userProfile'); // legacy
+        render();
+      }
+    }
+
+    // --- Wire up ---
+    document.getElementById('exportPdfBtn').addEventListener('click', exportPDF);
+    document.getElementById('downloadJsonBtn').addEventListener('click', downloadJSON);
+    document.getElementById('importJsonInput').addEventListener('change', (e)=>{
+      const f = e.target.files?.[0];
+      if(f) importJSON(f);
+      e.target.value = '';
+    });
+    document.getElementById('clearProfileBtn').addEventListener('click', clearProfile);
+
+    // Initial render
+    render();
+  </script>
 </body>
 </html>
