@@ -41,32 +41,32 @@
   </header>
 
   <div class="wrap">
-    <div class="hint">Tip: only First Name, Last Name, and Trade are required. You can edit later.</div>
+    <div class="hint">Start fresh: fields are blank on purpose. Only First Name, Last Name, and Trade are required.</div>
 
     <div id="message"></div>
 
-    <!-- We wrap fields in a form just for accessibility, but we block the default submit -->
+    <!-- Form is blocked from default submit to avoid unwanted navigation -->
     <form id="profileForm" onsubmit="return false;">
       <div class="card">
         <h1>Build Your Profile</h1>
         <div class="grid">
           <div>
             <label for="firstName">First Name *</label>
-            <input id="firstName" placeholder="Jane" />
+            <input id="firstName" autocomplete="off" />
           </div>
           <div>
             <label for="lastName">Last Name *</label>
-            <input id="lastName" placeholder="Doe" />
+            <input id="lastName" autocomplete="off" />
           </div>
 
           <div class="full">
             <label for="headline">Headline</label>
-            <input id="headline" placeholder="Low-voltage installer • IP cameras • Fiber" />
+            <input id="headline" autocomplete="off" />
           </div>
 
           <div>
             <label for="trade">Trade / Role *</label>
-            <input id="trade" placeholder="Low Voltage Technician" />
+            <input id="trade" autocomplete="off" />
           </div>
           <div>
             <label for="availability">Availability</label>
@@ -80,16 +80,16 @@
 
           <div>
             <label for="location">Location</label>
-            <input id="location" placeholder="Madison, WI" />
+            <input id="location" autocomplete="off" />
           </div>
           <div>
             <label for="email">Email</label>
-            <input id="email" placeholder="you@domain.com" />
+            <input id="email" autocomplete="off" />
           </div>
 
           <div>
             <label for="phone">Phone</label>
-            <input id="phone" placeholder="(555) 123-4567" />
+            <input id="phone" autocomplete="off" />
           </div>
           <div class="photo">
             <div>
@@ -102,32 +102,32 @@
 
           <div class="full">
             <label for="summary">About</label>
-            <textarea id="summary" placeholder="Short summary of your experience, strengths, and goals."></textarea>
+            <textarea id="summary"></textarea>
           </div>
 
           <div class="full">
             <label for="skills">Skills (comma-separated)</label>
-            <input id="skills" placeholder="Fiber splicing, Cat6A termination, Pelco cameras, PoE switches"/>
+            <input id="skills" autocomplete="off" />
           </div>
 
           <div class="full">
             <label for="certs">Certifications & Licenses</label>
-            <textarea id="certs" placeholder="OSHA-10, BICSI Installer 1, Lift Certified"></textarea>
+            <textarea id="certs"></textarea>
           </div>
 
           <!-- Experience -->
           <div class="full"><label>Experience (one recent role)</label></div>
-          <div><input id="jobTitle" placeholder="Job Title e.g., Lead Technician"/></div>
-          <div><input id="company" placeholder="Company e.g., Starboard Industries"/></div>
+          <div><input id="jobTitle" placeholder="Job Title"/></div>
+          <div><input id="company"  placeholder="Company"/></div>
           <div><input id="startDate" placeholder="Start e.g., 2023-01"/></div>
-          <div><input id="endDate" placeholder="End e.g., Present"/></div>
+          <div><input id="endDate"   placeholder="End e.g., Present"/></div>
           <div class="full"><textarea id="jobDesc" placeholder="What you did in this role..."></textarea></div>
         </div>
 
         <div class="row">
           <button class="btn" id="saveBtn" type="button">Save</button>
+          <button class="btn btn-gray" id="clearBtn" type="button" title="Clear everything">Clear</button>
           <a class="btn btn-gray" href="profile.html" id="viewBtn">View My Profile</a>
-          <button class="btn btn-gray" id="demoBtn" type="button">Use Demo Data</button>
         </div>
       </div>
     </form>
@@ -138,8 +138,6 @@
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
-
-  // Try these pages in order after save
   const REDIRECT_CANDIDATES = ['profile.html','my-profile.html','front.html'];
 
   // === ELEMENTS ===
@@ -165,20 +163,24 @@
     jobDesc:    document.getElementById('jobDesc'),
     msg:        document.getElementById('message'),
     saveBtn:    document.getElementById('saveBtn'),
-    demoBtn:    document.getElementById('demoBtn'),
+    clearBtn:   document.getElementById('clearBtn'),
   };
 
-  // Block any accidental form submit (Enter key, etc.)
+  // Keep form from submitting (and navigating)
   els.form.addEventListener('submit', (e)=>{ e.preventDefault(); return false; });
 
-  function setVal(el, v){ if(v!==undefined && v!==null) el.value = v; }
+  // ===== Helpers =====
   function showMsg(text, ok=true){
     els.msg.className = ok ? 'ok' : 'err';
     els.msg.textContent = text;
     els.msg.style.display = 'block';
   }
+  function setVal(el, v=''){ el.value = v; }
+  function escapeHTML(s){ return String(s ?? '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-  // Photo handling
+  // Photo handling (still blank by default)
   let currentPhotoDataUrl = '';
   els.photo.addEventListener('change', async (e)=>{
     const f = e.target.files?.[0];
@@ -196,38 +198,22 @@
     });
   }
 
-  // Load existing (if any)
-  (function loadExisting(){
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-    if(!raw) return;
-    try{
-      const p = JSON.parse(raw);
-      setVal(els.firstName, p.firstName);
-      setVal(els.lastName, p.lastName);
-      setVal(els.headline, p.headline);
-      setVal(els.trade, p.trade);
-      setVal(els.availability, p.availability || 'Employed');
-      setVal(els.location, p.location);
-      setVal(els.email, p.email);
-      setVal(els.phone, p.phone);
-      setVal(els.summary, p.summary);
-      setVal(els.skills, p.skills);
-      setVal(els.certs, p.certifications);
-      if(p.experiences && p.experiences[0]){
-        setVal(els.jobTitle, p.experiences[0].jobTitle);
-        setVal(els.company, p.experiences[0].company);
-        setVal(els.startDate, p.experiences[0].startDate);
-        setVal(els.endDate, p.experiences[0].endDate);
-        setVal(els.jobDesc, p.experiences[0].description);
-      }
-      if(p.photo){
-        currentPhotoDataUrl = p.photo;
-        els.preview.innerHTML = `<img src="${p.photo}" alt="Preview">`;
-      }
-    }catch(e){ /* ignore */ }
-  })();
+  // IMPORTANT: Do NOT preload from localStorage — always blank.
+  // (If you ever need to opt-in prefill later, we can add a button for that.)
 
-  // Smart redirect: try profile.html, then my-profile.html, then front.html
+  // Clear all fields quickly
+  function clearAll(){
+    setVal(els.firstName); setVal(els.lastName); setVal(els.headline);
+    setVal(els.trade); els.availability.value = 'Employed';
+    setVal(els.location); setVal(els.email); setVal(els.phone);
+    currentPhotoDataUrl=''; els.preview.textContent='👤'; els.photo.value='';
+    setVal(els.summary); setVal(els.skills); setVal(els.certs);
+    setVal(els.jobTitle); setVal(els.company); setVal(els.startDate); setVal(els.endDate); setVal(els.jobDesc);
+    showMsg('Fields cleared.', true);
+  }
+  els.clearBtn.addEventListener('click', clearAll);
+
+  // Smart redirect after save
   async function smartRedirect(){
     for(const file of REDIRECT_CANDIDATES){
       try{
@@ -235,15 +221,11 @@
         if(res.ok){ window.location.href = file; return; }
       }catch(_){}
     }
-    // If HEAD blocked, just go to the first candidate
     window.location.href = REDIRECT_CANDIDATES[0];
   }
 
-  // Save handler
+  // Save handler (blank start, but will store what you enter)
   els.saveBtn.addEventListener('click', async ()=>{
-    // Prevent any accidental form navigation
-    event?.preventDefault?.();
-
     const firstName = els.firstName.value.trim();
     const lastName  = els.lastName.value.trim();
     const trade     = els.trade.value.trim();
@@ -278,14 +260,14 @@
     els.saveBtn.textContent = 'Saving…';
 
     try{
-      // 1) Send to Google Sheets (Apps Script Web App)
+      // Send to Google Sheets
       await fetch(GOOGLE_SCRIPT_URL, {
         method:'POST', mode:'no-cors',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(profile)
       });
 
-      // 2) Save locally (both keys for compatibility)
+      // Save locally for the viewer page
       const raw = JSON.stringify(profile);
       localStorage.setItem(STORAGE_KEY, raw);
       localStorage.setItem(LEGACY_KEY, raw);
@@ -300,28 +282,7 @@
     }
   });
 
-  // Demo data
-  els.demoBtn.addEventListener('click', ()=>{
-    setVal(els.firstName, 'Alex');
-    setVal(els.lastName, 'Rivera');
-    setVal(els.headline, 'Low-Voltage Tech • IP Cameras • Fiber');
-    setVal(els.trade, 'Low Voltage Technician');
-    setVal(els.availability, 'Open to Offers');
-    setVal(els.location, 'Milwaukee, WI');
-    setVal(els.email, 'alex.rivera@example.com');
-    setVal(els.phone, '(555) 555-0199');
-    setVal(els.summary, '5+ years installing and troubleshooting IP cameras, fiber backbones, and Cat6A. Comfortable in hospital/clinical environments and tight timelines.');
-    setVal(els.skills, 'Pelco cameras, Cat6A termination, Fiber splicing, PoE switches, VLANs');
-    setVal(els.certs, 'OSHA-10\nLift Certified');
-    setVal(els.jobTitle, 'Lead Technician');
-    setVal(els.company, 'Starboard Industries');
-    setVal(els.startDate, '2023-01');
-    setVal(els.endDate, 'Present');
-    setVal(els.jobDesc, 'Led install across 12 TRs, terminated 300+ Cat6A drops, tested and documented fiber A/B paths.');
-    showMsg('Demo filled. You can Save now or tweak first.', true);
-  });
-
-  // Bonus: block Backspace from navigating away if not focused in a field (some hosts do this)
+  // Safety: prevent Backspace from navigating away when not in a field
   window.addEventListener('keydown', (e)=>{
     if(e.key==='Backspace' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
       e.preventDefault();
@@ -330,6 +291,7 @@
 </script>
 </body>
 </html>
+
 
 
 
