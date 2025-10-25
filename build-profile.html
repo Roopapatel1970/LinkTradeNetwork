@@ -41,7 +41,7 @@
   <header>
     <div class="topbar">
       <a class="brand" href="front.html" title="Home">
-        <img src="bfd4d33b-2a47-4b82-aa8b-97ca15c01828.png" alt="LinkTradeNetwork Logo">
+        <img src="linktradenetwork-logo.png" alt="LinkTradeNetwork Logo">
         <div class="brand-text">LinkTradeNetwork</div>
       </a>
       <div class="topbar-actions">
@@ -56,7 +56,7 @@
       <p style="color:#475569;margin:0 0 .5rem"><strong>Start fresh.</strong> Fields are blank on purpose. Only <em>First Name</em>, <em>Last Name</em>, and <em>Trade</em> are required.</p>
     </div>
 
-    <!-- Keep inside a form for a11y, but block default submit -->
+    <!-- Form kept for a11y; default submit is blocked -->
     <form id="profileForm" onsubmit="return false;">
       <div class="card">
         <h1>Build Your Profile</h1>
@@ -207,7 +207,7 @@
     });
   }
 
-  // Clear all fields quickly (always starts blank anyway)
+  // Clear all fields quickly
   function clearAll(){
     setVal(els.firstName); setVal(els.lastName); setVal(els.headline);
     setVal(els.trade); els.availability.value = 'Employed';
