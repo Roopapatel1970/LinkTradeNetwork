@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LinkTradeNetwork — Welcome</title>
+<style>
+  :root{--bg:#f3f4f6;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--card:#fff;--brand:#0a66c2;--brand2:#004182;--accent:#fbbf24}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
+  a{color:inherit;text-decoration:none}
+
+  /* Header */
+  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+  .bar{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;gap:10px;align-items:center}
+  .brand b{font-size:18px}
+  .nav a{color:#fff;opacity:.95;margin-left:12px}
+  .nav a:hover{opacity:.85}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);color:#fff}
+  .hero-inner{max-width:1100px;margin:0 auto;padding:64px 16px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+  .title{font-size:44px;line-height:1.15;font-weight:800;margin:0 0 10px}
+  .sub{opacity:.95;font-size:18px;max-width:680px}
+  .cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+  .btn{background:#fff;color:#111827;border:none;border-radius:12px;padding:.75rem 1.2rem;font-weight:800;cursor:pointer}
+  .btn.primary{background:var(--accent);color:#1f2937;border:2px solid #f59e0b}
+  .btn.primary:hover{filter:brightness(.95)}
+  .btn.outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7)}
+  .btn.outline:hover{background:rgba(255,255,255,.1)}
+  .hero-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px);
+             border-radius:16px;padding:18px}
+
+  /* Features */
+  .features{max-width:1100px;margin:28px auto;padding:0 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05);padding:16px}
+  .icon{font-size:34px}
+  .h3{font-weight:800;margin:8px 0}
+  .muted{color:var(--muted)}
+  .link{color:#2563eb;font-weight:600}
+
+  /* Footer */
+  footer{margin-top:36px;background:#1f2937;color:#fff}
+  .foot{max-width:1100px;margin:0 auto;padding:28px 16px;text-align:center}
+  .foot a{color:#e5e7eb;text-decoration:underline}
+
+  @media (max-width:960px){
+    .hero-inner{grid-template-columns:1fr}
+    .features{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="brand" href="front.html" aria-label="Home"><span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b></a>
+    <div class="nav">
+      <a href="front.html">Home</a>
+      <a href="network.html">Network</a>
+      <a href="messages.html">Messaging</a>
+      <a href="my-profile.html">My Profile</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1 class="title">The Professional Network for Skilled Trades</h1>
+      <p class="sub">Showcase your work, connect with contractors and techs, and get hired faster. Built for fiber, low voltage, cabling, access control, and more.</p>
+      <div class="cta">
+        <a class="btn primary" href="build-profile.html">Build Your Profile</a>
+        <a class="btn" href="network.html">Find People</a>
+        <a class="btn outline" href="messages.html">Open Messages</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="font-size:28px;background:#fbbf24;border:3px solid #f59e0b;color:#111827;border-radius:12px;padding:.4rem .7rem;font-weight:900;letter-spacing:2px">LTN</div>
+        <div style="font-weight:800">Why LinkTradeNetwork?</div>
+      </div>
+      <ul style="margin:0 0 0 18px;line-height:1.7">
+        <li>LinkedIn-style profile for trades (local only — no sign-in required).</li>
+        <li>Connect requests and 1-to-1 messaging between your connections.</li>
+        <li>Simple, fast, and privacy-friendly: your data stays in your browser.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="card">
+    <div class="icon">🧰</div>
+    <div class="h3">Build a Trade Profile</div>
+    <div class="muted">Add experience, certifications, and the skills that matter for field work.</div>
+    <div style="margin-top:8px"><a class="link" href="build-profile.html">Start now →</a></div>
+  </div>
+  <div class="card">
+    <div class="icon">🔗</div>
+    <div class="h3">Grow Your Network</div>
+    <div class="muted">Send connection requests and accept them to unlock messaging.</div>
+    <div style="margin-top:8px"><a class="link" href="network.html">See people →</a></div>
+  </div>
+  <div class="card">
+    <div class="icon">💬</div>
+    <div class="h3">Message Your Connections</div>
+    <div class="muted">Fast, local-first DM inbox — looks and feels like LinkedIn messaging.</div>
+    <div style="margin-top:8px"><a class="link" href="messages.html">Open inbox →</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>© 2025 LinkTradeNetwork — Connecting skilled trades with opportunity.</div>
+    <div style="margin-top:8px">
+      <a href="terms.html">Terms</a> • <a href="front.html">Home</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
