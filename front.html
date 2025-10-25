@@ -2,84 +2,249 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LinkTradeNetwork – Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkTradeNetwork - Home</title>
 <style>
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Inter,Segoe UI,Roboto,Arial;background:#f3f4f6;color:#111}
-  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
-  nav{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px}
-  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
-  .brand b{font-size:18px}
-  .navlinks{display:flex;gap:14px;margin-left:auto}
-  .navlinks a{color:#fff;text-decoration:none;opacity:.95}
-  .navlinks a:hover{opacity:.8}
-
-  /* search bar */
-  .searchbar{flex:1;display:flex;gap:8px;align-items:center;max-width:520px;margin-left:auto}
-  #topSearch{flex:1;border:1px solid #d1d5db;border-radius:999px;padding:.55rem .9rem;color:#111}
-  #topSearchBtn{background:#fff;color:#111;border:1px solid #d1d5db;border-radius:999px;padding:.55rem .9rem;cursor:pointer}
-  #topSearchBtn:hover{background:#f1f5f9}
-
-  main{max-width:1100px;margin:24px auto;padding:0 16px}
-  h1{font-size:24px;margin-bottom:8px}
-  .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:20px}
+  :root {
+    --bg: #f3f4f6;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --card: #ffffff;
+    --brand: #0a66c2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, Arial;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: #64748b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo span {
+    font-size: 22px;
+  }
+  .logo b {
+    font-size: 20px;
+  }
+  .search {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    max-width: 600px;
+    margin: 0 40px;
+  }
+  .search input {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+  }
+  .search button {
+    background: var(--brand);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  main {
+    display: grid;
+    grid-template-columns: 270px 1fr 270px;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  .left .avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 10px;
+  }
+  .left h2 {
+    text-align: center;
+    font-size: 16px;
+  }
+  .left p {
+    text-align: center;
+    color: var(--muted);
+    margin: 4px 0 10px;
+  }
+  .left button {
+    width: 100%;
+    background: var(--brand);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .center .post {
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  .center .post .author {
+    font-weight: bold;
+  }
+  .center .new-post {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .center .new-post input {
+    flex: 1;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    padding: 8px 12px;
+  }
+  .center .new-post button {
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+  .right h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .right ul li {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .sponsor {
+    margin-top: 20px;
+    background: #eef2ff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .sponsor h4 {
+    margin: 0;
+    color: var(--brand);
+  }
 </style>
 </head>
 <body>
 
 <header>
+  <div class="logo">
+    <span>🌍</span><b>LinkTradeNetwork</b>
+  </div>
+  <div class="search">
+    <input type="text" placeholder="Search or add by name or email…" id="searchInput">
+    <button id="searchBtn">Search</button>
+  </div>
   <nav>
-    <a href="front.html" class="brand">
-      <span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b>
-    </a>
-
-    <div class="searchbar">
-      <input id="topSearch" placeholder="Search or add by name or email…" />
-      <button id="topSearchBtn">Search</button>
-    </div>
-
-    <div class="navlinks">
-      <a href="front.html">Home</a>
-      <a href="network.html">Network</a>
-      <a href="messaging.html">Messaging</a>
-      <a href="my-profile.html">My Profile</a>
-    </div>
+    <a href="front.html">Home</a>
+    <a href="network.html">Network</a>
+    <a href="messaging.html">Messaging</a>
+    <a href="my-profile.html">My Profile</a>
   </nav>
 </header>
 
 <main>
-  <h1>Welcome to LinkTradeNetwork</h1>
-  <div class="card">
-    <p>Connect with other tradesmen, post updates, and grow your network.</p>
-    <p>Use the search bar above to find or invite others to your network.</p>
-  </div>
+  <!-- Left Sidebar -->
+  <aside class="left card">
+    <div class="avatar">👤</div>
+    <h2>Franco Marano</h2>
+    <p>Low Voltage | Cable</p>
+    <button onclick="location.href='my-profile.html'">Open Profile</button>
+  </aside>
+
+  <!-- Center Feed -->
+  <section class="center">
+    <div class="card new-post">
+      <input id="postText" placeholder="Start a post...">
+      <button id="postBtn">Post</button>
+    </div>
+    <div id="feed">
+      <div class="post">
+        <div class="author">Trade Tips Daily</div>
+        <div class="time">5d ago</div>
+        <p>Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.</p>
+      </div>
+      <div class="post">
+        <div class="author">Low Voltage Network</div>
+        <div class="time">2d ago</div>
+        <p>What labelers and test sets are you using for fiber jobs this month?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Right Sidebar -->
+  <aside class="right card">
+    <h3>LinkTN News</h3>
+    <ul>
+      <li><b>Watch History</b> launches for videos.</li>
+      <li>High material costs easing in several regions.</li>
+      <li>New city projects posted in municipal boards.</li>
+    </ul>
+
+    <div class="sponsor">
+      <h4>Sponsored</h4>
+      <p>Promote your business or service here!</p>
+      <button style="background:#0a66c2;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;">Learn More</button>
+    </div>
+  </aside>
 </main>
 
 <script>
-(function wireFrontSearch(){
-  const box=document.getElementById('topSearch');
-  const btn=document.getElementById('topSearchBtn');
-  if(!box||!btn) return;
-
-  function go(){
-    const q=(box.value||'').trim();
-    if(!q) return;
-
-    // Always route to network.html (same folder)
-    const url=new URL(window.location.href);
-    const parts=url.pathname.split('/');
-    parts[parts.length-1]='network.html';
-    url.pathname=parts.join('/');
-    url.search='?query='+encodeURIComponent(q);
-    url.hash='';
-    window.location.href=url.toString();
-  }
-
-  box.addEventListener('keydown',e=>{
-    if(e.key==='Enter'){e.preventDefault();go();}
-  });
-  btn.addEventListener('click',go);
-})();
+  const feed = document.getElementById("feed");
+  const postBtn = document.getElementById("postBtn");
+  postBtn.onclick = () => {
+    const text = document.getElementById("postText").value.trim();
+    if (!text) return alert("Write something to post.");
+    const div = document.createElement("div");
+    div.className = "post";
+    div.innerHTML = `<div class="author">Franco Marano</div><p>${text}</p>`;
+    feed.prepend(div);
+    document.getElementById("postText").value = "";
+  };
 </script>
 
 </body>
