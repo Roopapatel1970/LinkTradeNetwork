@@ -2,16 +2,17 @@
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
+      "/front.html",
       "/build-profile.html",
       "/my-profile.html",
-      "/profile.html",
-      "/front.html",
       "/landingpage.html",
-      "/*.{css,js,png,jpg,gif,svg,ico}"
+      "/network.html",
+      "/messages.html",
+      "/*.{css,js,png,jpg,jpeg,gif,svg,ico,webp}"
     ]
   },
   "globalHeaders": {
-    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://script.google.com https://*.googleusercontent.com; base-uri 'self'; form-action 'self'; frame-ancestors 'self'",
+    "content-security-policy": "default-src 'self'; img-src 'self' data: https:; connect-src 'self' https://script.google.com https://*.googleusercontent.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'",
     "X-Content-Type-Options": "nosniff"
   },
   "mimeTypes": {
