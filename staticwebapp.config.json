@@ -1,12 +1,18 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/build-profile.html", "/my-profile.html", "/front.html", "/landingpage.html", "/*.{css,js,png,jpg,gif,svg,ico}"]
+    "exclude": [
+      "/build-profile.html",
+      "/my-profile.html",
+      "/profile.html",
+      "/front.html",
+      "/landingpage.html",
+      "/*.{css,js,png,jpg,gif,svg,ico}"
+    ]
   },
   "globalHeaders": {
-    "content-security-policy": "default-src 'self' 'unsafe-inline' https:",
-    "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY"
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://script.google.com https://*.googleusercontent.com; base-uri 'self'; form-action 'self'; frame-ancestors 'self'",
+    "X-Content-Type-Options": "nosniff"
   },
   "mimeTypes": {
     ".json": "application/json",
