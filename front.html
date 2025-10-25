@@ -234,21 +234,103 @@
 </main>
 
 <script>
-  const feed = document.getElementById("feed");
-  const postBtn = document.getElementById("postBtn");
-  postBtn.onclick = () => {
-    const text = document.getElementById("postText").value.trim();
-    if (!text) return alert("Write something to post.");
-    const div = document.createElement("div");
-    div.className = "post";
-    div.innerHTML = `<div class="author">Franco Marano</div><p>${text}</p>`;
-    feed.prepend(div);
-    document.getElementById("postText").value = "";
-  };
+const feed = document.getElementById("feed");
+const postBtn = document.getElementById("postBtn");
+const searchBtn = document.getElementById("searchBtn");
+const searchInput = document.getElementById("searchInput");
+
+// --- Post new content ---
+postBtn.onclick = () => {
+  const text = document.getElementById("postText").value.trim();
+  if (!text) return alert("Write something to post.");
+  const div = document.createElement("div");
+  div.className = "post";
+  div.innerHTML = `<div class="author">Franco Marano</div><p>${text}</p>`;
+  feed.prepend(div);
+  document.getElementById("postText").value = "";
+};
+
+// --- Basic localStorage setup ---
+const PKEY = "ltnPeople";
+const CKEY = "ltnConnections";
+function load(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }
+function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+
+let people = load(PKEY, []);
+let connections = new Set(load(CKEY, []));
+
+// --- Simple search ---
+searchBtn.onclick = () => searchPeople();
+searchInput.addEventListener("keydown", e => { if (e.key === "Enter") searchPeople(); });
+
+function searchPeople() {
+  const term = searchInput.value.trim().toLowerCase();
+  if (!term) return alert("Enter a name or email to search.");
+
+  const results = people.filter(p =>
+    (p.firstName && p.firstName.toLowerCase().includes(term)) ||
+    (p.lastName && p.lastName.toLowerCase().includes(term)) ||
+    (p.email && p.email.toLowerCase().includes(term))
+  );
+
+  showSearchResults(results);
+}
+
+function showSearchResults(results) {
+  const section = document.createElement("section");
+  section.className = "card";
+  section.style.marginTop = "20px";
+
+  if (!results.length) {
+    section.innerHTML = `<h3>No results found.</h3>
+      <p>You can invite someone new by email below.</p>
+      <input id="inviteEmail" placeholder="Enter email…" style="padding:8px;width:70%;border:1px solid #ccc;border-radius:6px">
+      <button id="inviteBtn" style="padding:8px 14px;background:#0a66c2;color:#fff;border:none;border-radius:6px;margin-left:6px;cursor:pointer;">Send Invite</button>`;
+    document.querySelector(".center").appendChild(section);
+    document.getElementById("inviteBtn").onclick = sendInvite;
+    return;
+  }
+
+  section.innerHTML = `<h3>Found ${results.length} result(s):</h3>` + results.map(p => `
+    <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #eee;padding:8px 0;">
+      <div>
+        <b>${p.firstName || ''} ${p.lastName || ''}</b><br>
+        <small>${p.trade || ''}</small>
+      </div>
+      <button class="connectBtn" data-id="${p.id}" style="background:#0a66c2;color:white;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;">
+        ${connections.has(p.id) ? 'Connected' : 'Connect'}
+      </button>
+    </div>
+  `).join('');
+
+  document.querySelector(".center").appendChild(section);
+
+  document.querySelectorAll(".connectBtn").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      if (connections.has(id)) {
+        alert("Already connected!");
+        return;
+      }
+      connections.add(id);
+      save(CKEY, [...connections]);
+      btn.textContent = "Invite Sent ✅";
+      btn.disabled = true;
+    };
+  });
+}
+
+// --- Send invite (demo only) ---
+function sendInvite() {
+  const email = document.getElementById("inviteEmail").value.trim();
+  if (!email) return alert("Please enter an email.");
+  alert(`Invite sent to ${email}! (Simulated)`);
+}
 </script>
 
 </body>
 </html>
+
 
 
 
