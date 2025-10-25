@@ -11,12 +11,12 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-  a{color:inherit}
+  a{color:inherit;text-decoration:none}
   /* Top bar */
   header{background:#fff;border-bottom:1px solid var(--line)}
   .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
-  .brand{display:flex;align-items:center;gap:8px;text-decoration:none}
-  .brand-badge{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;background:#e6f2fb;color:#0a66c2;font-weight:800}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{height:34px;width:auto;border-radius:6px}
   .brand-text{font-weight:800}
   .topbar-actions{margin-left:auto;display:flex;gap:8px}
   .btn{appearance:none;border:none;background:var(--brand);color:#fff;border-radius:999px;font-weight:700;padding:8px 14px;cursor:pointer}
@@ -31,12 +31,12 @@
   .profile-row{display:flex;gap:16px}
   .avatar{width:128px;height:128px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:56px;color:#9aa2b1;overflow:hidden;flex-shrink:0}
   .avatar img{width:100%;height:100%;object-fit:cover}
-  .flex-1{flex:1}
-  .headline{font-size:26px;font-weight:800;margin:8px 0 4px}
+  .flex-1{flex:1;min-width:0}
+  .headline{font-size:26px;font-weight:800;margin:8px 0 4px;word-break:break-word}
   .sub{color:var(--muted)}
   .meta{display:flex;gap:14px;flex-wrap:wrap;color:#4b5563;margin-top:6px}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  .chip{background:#edf2ff;border:1px solid #dbe4ff;color:#1e3a8a;padding:6px 10px;border-radius:999px;font-weight:600;font-size:13px}
+  .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
   .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
   .nav{margin-top:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
   .tab{padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:700;color:#334155}
@@ -72,7 +72,7 @@
 <header>
   <div class="topbar">
     <a class="brand" href="front.html" title="Home">
-      <div class="brand-badge">LT</div>
+      <img src="bfd4d33b-2a47-4b82-aa8b-97ca15c01828.png" alt="LinkTradeNetwork Logo">
       <div class="brand-text">LinkTradeNetwork</div>
     </a>
     <div class="topbar-actions">
@@ -101,7 +101,7 @@
           <span class="chip" id="availability">Employed</span>
         </div>
         <div class="actions">
-          <a class="btn" id="contactBtn" href="#" target="_blank" rel="noopener">Message</a>
+          <a class="btn" id="contactBtn" href="#" target="_blank" rel="noopener">Contact</a>
           <a class="btn secondary" href="build-profile.html">Update details</a>
         </div>
         <nav class="nav" aria-label="Sections">
@@ -145,7 +145,7 @@
       <div class="row"><strong>📞</strong><a id="phoneLink" href="#">—</a></div>
       <div class="row"><strong>📍</strong><span id="locSide">—</span></div>
       <div class="row"><strong>🔧</strong><span id="tradeSide">—</span></div>
-      <div class="row"><strong>🟢</strong><span class="pill" id="availSide">Employed</span></div>
+      <div class="row"><span class="pill" id="availSide">Employed</span></div>
     </aside>
   </section>
 </main>
@@ -153,7 +153,7 @@
 <footer>© LinkTradeNetwork — Profile</footer>
 
 <script>
-  // ===== Utilities =====
+  // ===== Storage keys =====
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
 
@@ -176,21 +176,21 @@
     tradeSide: document.getElementById('tradeSide'),
     availSide: document.getElementById('availSide'),
     printBtn: document.getElementById('printBtn'),
-    contactBtn: document.getElementById('contactBtn'),
+    contactBtn: document.getElementById('contactBtn')
   };
 
+  // ===== Utils =====
   function escapeHTML(s){ return String(s ?? '')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function telHref(raw){ const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; }
   function mailHref(e){ return e?`mailto:${e}`:'#'; }
   function fmtPhone(raw){ const d=(raw||'').replace(/\D/g,'').slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||''); }
-  function availColor(a){
-    if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132'};
-    if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2'};
-    if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b'};
-    return {txt:'Employed', bg:'#fff7e0', color:'#92400e'};
+  function availChip(a){
+    if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
+    if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
+    if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
+    return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'};
   }
 
   function readProfile(){
@@ -203,7 +203,6 @@
   function render(){
     const p = readProfile();
     if(!p){
-      // If no data, encourage building profile
       document.querySelector('main').innerHTML = `
         <section class="card section" style="margin-top:16px;text-align:center">
           <h2>No Profile Found</h2>
@@ -229,27 +228,32 @@
     els.email.innerHTML = p.email ? `<a href="${mailHref(p.email)}">${escapeHTML(p.email)}</a>` : '';
     els.phone.innerHTML = p.phone ? `<a href="${telHref(p.phone)}">${fmtPhone(p.phone)}</a>` : '';
 
-    // Contact button (email priority, else tel if available)
+    // Contact button
     els.contactBtn.href = p.email ? mailHref(p.email) : (p.phone ? telHref(p.phone) : '#');
-    els.contactBtn.textContent = p.email ? 'Message' : (p.phone ? 'Call' : 'Contact');
+    els.contactBtn.textContent = p.email ? 'Email' : (p.phone ? 'Call' : 'Contact');
 
-    // Availability chips
-    const ac = availColor(p.availability);
-    els.availability.textContent = ac.txt;
-    els.availability.style.background = ac.bg;
-    els.availability.style.color = ac.color;
-    els.availSide.textContent = ac.txt;
-    els.availSide.style.background = ac.bg;
-    els.availSide.style.color = ac.color;
+    // Availability chip
+    const ac = availChip(p.availability);
+    [els.availability, els.availSide].forEach(node=>{
+      node.textContent = ac.txt;
+      node.style.background = ac.bg;
+      node.style.color = ac.color;
+      node.style.border = `1px solid ${ac.border}`;
+      node.style.borderRadius = '999px';
+      node.style.padding = node === els.availSide ? '4px 10px' : '6px 10px';
+      node.style.fontWeight = '700';
+    });
 
     // About
-    els.aboutText.textContent = p.summary || '—';
+    const hasAbout = !!(p.summary && p.summary.trim());
+    els.aboutText.textContent = hasAbout ? p.summary : '—';
+    document.getElementById('about').style.display = 'block';
 
     // Experience
     els.expList.innerHTML = '';
-    if(Array.isArray(p.experiences) && p.experiences.some(x=>x?.jobTitle || x?.company)){
-      p.experiences.forEach(exp=>{
-        if(!(exp?.jobTitle || exp?.company)) return;
+    const exps = Array.isArray(p.experiences) ? p.experiences.filter(e=>e && (e.jobTitle || e.company)) : [];
+    if(exps.length){
+      exps.forEach(exp=>{
         const title = escapeHTML(exp.jobTitle||'Position');
         const company = escapeHTML(exp.company||'Company');
         const dates = [exp.startDate||'', exp.endDate||''].filter(Boolean).join(' – ');
@@ -263,8 +267,9 @@
         `;
         els.expList.appendChild(div);
       });
+      document.getElementById('experience').style.display = 'block';
     }else{
-      els.expList.innerHTML = `<div class="sub">No experience added yet.</div>`;
+      document.getElementById('experience').style.display = 'none';
     }
 
     // Skills
@@ -277,12 +282,15 @@
         span.textContent = s;
         els.skillsList.appendChild(span);
       });
+      document.getElementById('skills').style.display = 'block';
     }else{
-      els.skillsList.innerHTML = `<div class="sub">No skills added yet.</div>`;
+      document.getElementById('skills').style.display = 'none';
     }
 
     // Certs
-    els.certsText.textContent = p.certifications || '—';
+    const hasCerts = !!(p.certifications && p.certifications.trim());
+    els.certsText.textContent = hasCerts ? p.certifications : '—';
+    document.getElementById('certs').style.display = hasCerts ? 'block' : 'none';
 
     // Sidebar mirrors
     els.emailLink.href = p.email ? mailHref(p.email) : '#';
@@ -291,18 +299,38 @@
     els.phoneLink.textContent = p.phone ? fmtPhone(p.phone) : '—';
     els.locSide.textContent = p.location || '—';
     els.tradeSide.textContent = p.trade || '—';
+
+    // Activate the first visible tab
+    activateFirstVisibleTab();
   }
 
   // Tabs
+  function showSection(id){
+    ['about','experience','skills','certs'].forEach(secId=>{
+      const el = document.getElementById(secId);
+      if(!el) return;
+      el.style.display = (secId===id) ? 'block' : (el.style.display==='none' ? 'none' : 'none');
+    });
+  }
+  function activateFirstVisibleTab(){
+    // Choose the first section that is visible
+    const ids = ['about','experience','skills','certs'];
+    let first = 'about';
+    for(const id of ids){
+      const el = document.getElementById(id);
+      if(el && el.style.display !== 'none'){ first = id; break; }
+    }
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    const tab = Array.from(document.querySelectorAll('.tab')).find(t=>t.dataset.target === '#'+first);
+    if(tab){ tab.classList.add('active'); }
+    showSection(first);
+  }
   document.querySelectorAll('.tab').forEach(tab=>{
     tab.addEventListener('click', ()=>{
       document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
-      const target = tab.getAttribute('data-target');
-      document.querySelectorAll('.section').forEach(sec=>{
-        if(sec.id && '#'+sec.id === target){ sec.style.display='block'; }
-        else if(['about','experience','skills','certs'].includes(sec.id)){ sec.style.display='none'; }
-      });
+      const target = tab.getAttribute('data-target').slice(1);
+      showSection(target);
     });
   });
 
