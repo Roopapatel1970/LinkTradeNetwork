@@ -214,9 +214,8 @@ render();
 
 /* ===== Actions (local) ===== */
 window.connect = function(id){
-  // Same-device demo: shows an incoming request
   requests.add(id); save(RKEY,[...requests]); render();
-  alert('Request sent (demo). If you want to share to another device, use Invite Link.');
+  alert('Request sent (demo). To invite someone on another device, use Invite Link.');
 };
 window.accept = function(id){
   requests.delete(id); connections.add(id);
@@ -264,7 +263,6 @@ $('addBtn').onclick=()=>{
 function myProfile() {
   const me = load(MEKEY, null);
   const name = me ? `${me.firstName||''} ${me.lastName||''}`.trim() : '';
-  // Build a stable inviter id: prefer email; else name; else fallback
   const baseId = (me?.email || name || 'user').toLowerCase().replace(/\s+/g,'-');
   return {
     id: baseId,
@@ -317,11 +315,9 @@ window.copyInvite = function(targetId){
     const payload = JSON.parse(decodeURIComponent(escape(atob(raw))));
     if(payload?.v!==1) return;
 
-    // Load storage
     const people = load(PKEY, []);
     const reqs = new Set(load(RKEY, []));
 
-    // Ensure inviter is in recipient's directory
     if(!people.find(p=>p.id===payload.inviter.id)){
       people.unshift({
         id: payload.inviter.id,
@@ -335,16 +331,10 @@ window.copyInvite = function(targetId){
       save(PKEY, people);
     }
 
-    // Add incoming request from inviter
     reqs.add(payload.inviter.id);
     save(RKEY, [...reqs]);
 
-    // Clean the URL (optional)
-    if(history.replaceState){
-      history.replaceState({}, document.title, 'network.html');
-    }
-
-    // Re-render
+    if(history.replaceState){ history.replaceState({}, document.title, 'network.html'); }
     if(typeof render==='function') render();
 
     alert(`Connection request from ${payload.inviter.firstName||''} ${payload.inviter.lastName||''}`);
@@ -368,15 +358,12 @@ function findByName(name){
   return people.find(p => norm(`${p.firstName||''} ${p.lastName||''}`) === n) || null;
 }
 function ensurePersonByNameEmail(name, email){
-  // try by email first
   let found = email ? findByEmail(email) : null;
   if(found) return found;
 
-  // try by full name
   found = name ? findByName(name) : null;
   if(found) return found;
 
-  // create new person locally
   const id = 'p-'+Date.now();
   let firstName = '', lastName = '';
   if(name){
@@ -388,7 +375,7 @@ function ensurePersonByNameEmail(name, email){
   const arr = load(PKEY, []);
   arr.unshift(person);
   save(PKEY, arr);
-  people = arr; // update in-memory
+  people = arr;
   render();
   return person;
 }
@@ -406,7 +393,6 @@ g.addEventListener('keydown', (e)=>{
   const val = g.value.trim();
   if(!val) return;
 
-  // Email or name?
   let name = '', email = '';
   if(val.includes('@') && val.includes('.')){
     email = val;
@@ -420,18 +406,33 @@ g.addEventListener('keydown', (e)=>{
 
   const person = ensurePersonByNameEmail(name, email);
 
-  // Offer to send invite link right away
   if(confirm(`Found/added "${(person.firstName||'')+' '+(person.lastName||'')}". Copy an invite link to send them?`)){
     if(typeof copyInvite === 'function'){ copyInvite(person.id); }
     else { alert('Invite function not found.'); }
   }
-
-  // Highlight
   scrollToPerson(person.id);
   g.value = '';
 });
+
+/* =========================
+   HANDLE ?query= FROM FRONT
+   ========================= */
+(function handleInboundQuery(){
+  const sp = new URLSearchParams(location.search);
+  const q = sp.get('query');
+  if(!q) return;
+
+  const box = $('globalSearch');
+  if(box){
+    box.value = q;
+    const ev = new KeyboardEvent('keydown', { key:'Enter', bubbles:true });
+    box.dispatchEvent(ev);
+  }
+  if(history.replaceState){ history.replaceState({}, document.title, 'network.html'); }
+})();
 </script>
 </body>
 </html>
+
 
 
