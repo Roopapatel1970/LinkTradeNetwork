@@ -429,16 +429,21 @@
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
         let experienceCount = 0;
         let skills = [];
+        let profilePhotoBase64 = null;
 
         // Photo preview and storage
-        let profilePhotoBase64 = null;
         document.getElementById('photo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                console.log('File selected:', file.name);
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     profilePhotoBase64 = e.target.result;
                     document.getElementById('photoPreview').innerHTML = `<img src="${e.target.result}" alt="Profile">`;
+                    console.log('Photo loaded successfully');
+                };
+                reader.onerror = function(error) {
+                    console.error('Error reading file:', error);
                 };
                 reader.readAsDataURL(file);
             }
@@ -551,6 +556,8 @@
                 createdAt: new Date().toISOString()
             };
 
+            console.log('Saving profile with photo:', profilePhotoBase64 ? 'Yes' : 'No');
+
             // Collect experiences
             document.querySelectorAll('.experience-item').forEach((item, index) => {
                 const id = item.id.split('-')[1];
@@ -576,6 +583,7 @@
                 
                 // Also save to localStorage for quick access
                 localStorage.setItem('userProfile', JSON.stringify(profileData));
+                console.log('Profile saved to localStorage');
                 
                 messageDiv.className = 'message success';
                 messageDiv.textContent = '✅ Profile saved successfully!';
