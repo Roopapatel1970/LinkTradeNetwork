@@ -5,26 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>My Profile – LinkTradeNetwork</title>
 <style>
-  :root{
-    --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --bg:#f3f4f6; --card:#fff;
-    --brand:#0a66c2; --brand2:#004182; --chip:#eef2ff;
-  }
+  :root{--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--bg:#f3f4f6;--card:#fff;--brand:#0a66c2;--brand2:#004182;--chip:#eef2ff}
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
   a{color:inherit;text-decoration:none}
 
-  /* Header (matches builder) */
-  header{background:#fff;border-bottom:1px solid var(--line)}
-  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
-  .brand{display:flex;align-items:center;gap:10px}
-  .brand img{height:34px;width:auto;border-radius:6px}
-  .brand-text{font-weight:800}
-  .topbar-actions{margin-left:auto;display:flex;gap:8px}
-  .btn{appearance:none;border:none;background:var(--brand);color:#fff;border-radius:8px;font-weight:700;padding:.6rem .9rem;cursor:pointer}
-  .btn:hover{background:var(--brand2)}
-  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
+  /* Shared header (gray) */
+  header{background:#64748b;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px;color:#fff}
+  .brand .logo-icon{font-size:2rem}
+  .brand .brand-text{font-weight:800}
+  .topbar a.btn-link{color:#fff;opacity:.95}
+  .topbar a.btn-link:hover{opacity:.85}
 
-  /* Layout */
   .wrap{max-width:1100px;margin:0 auto;padding:16px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
   .profile-card{padding:16px}
@@ -38,11 +32,13 @@
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
   .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.6rem .9rem;font-weight:800;cursor:pointer}
+  .btn:hover{background:var(--brand2)}
+  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
   .nav{margin-top:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;padding-top:8px}
   .tab{padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:700;color:#334155}
   .tab.active{background:#e8f3ff;color:#0a66c2}
 
-  /* Sections */
   .grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;margin-top:16px}
   .section{padding:16px}
   .section h2{font-size:18px;margin:0 0 8px}
@@ -56,14 +52,10 @@
   .skill{background:var(--chip);border:1px solid #dfe3f6;padding:6px 12px;border-radius:999px;font-weight:700;color:#27316f}
   .certs{white-space:pre-wrap;color:#374151}
 
-  /* Sidebar */
   .side .row{display:flex;align-items:center;gap:8px;margin:8px 0;color:#374151}
-  .side .row strong{font-size:14px}
   .side .pill{display:inline-block;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;color:#374151}
 
-  /* Footer */
   footer{color:#64748b;font-size:13px;text-align:center;padding:24px}
-
   @media (max-width:900px){ .grid{grid-template-columns:1fr} .profile-row{flex-direction:column;align-items:start} }
   @media print{ header,.nav,.actions{display:none!important} body{background:#fff} }
 </style>
@@ -72,11 +64,11 @@
 <header>
   <div class="topbar">
     <a class="brand" href="front.html" title="Home">
-      <img src="linktradenetwork-logo.png" alt="LinkTradeNetwork Logo">
-      <div class="brand-text">LinkTradeNetwork</div>
+      <span class="logo-icon">🌍</span>
+      <span class="brand-text">LinkTradeNetwork</span>
     </a>
-    <div class="topbar-actions">
-      <a class="btn gray" href="build-profile.html">Edit Profile</a>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a class="btn-link" href="build-profile.html">Edit Profile</a>
       <button class="btn" id="printBtn" type="button">Export PDF</button>
     </div>
   </div>
@@ -113,7 +105,6 @@
   </section>
 
   <section class="grid">
-    <!-- Main column -->
     <div>
       <div class="card section" id="about">
         <h2>About</h2>
@@ -136,7 +127,6 @@
       </div>
     </div>
 
-    <!-- Sidebar -->
     <aside class="card section side">
       <h2>Contact & Status</h2>
       <div class="row"><strong>📧</strong><a id="emailLink" href="#">—</a></div>
@@ -151,7 +141,6 @@
 <footer>© LinkTradeNetwork — Profile</footer>
 
 <script>
-  // ===== Storage keys =====
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
 
@@ -177,7 +166,6 @@
     contactBtn: document.getElementById('contactBtn')
   };
 
-  // ===== Utils =====
   function escapeHTML(s){ return String(s ?? '')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
@@ -197,7 +185,6 @@
     try{ return JSON.parse(raw); }catch{ return null; }
   }
 
-  // ===== Render =====
   function render(){
     const p = readProfile();
     if(!p){
@@ -210,14 +197,12 @@
       return;
     }
 
-    // Avatar
     if(p.photo){
       els.avatar.innerHTML = `<img src="${escapeHTML(p.photo)}" alt="Profile photo" loading="lazy">`;
     }else{
       els.avatar.textContent = '👤';
     }
 
-    // Header text
     const fullName = `${p.firstName||''} ${p.lastName||''}`.trim();
     els.name.textContent = fullName || 'Your Name';
     els.headline.textContent = p.headline || '';
@@ -226,11 +211,9 @@
     els.email.innerHTML = p.email ? `<a href="${mailHref(p.email)}">${escapeHTML(p.email)}</a>` : '';
     els.phone.innerHTML = p.phone ? `<a href="${telHref(p.phone)}">${fmtPhone(p.phone)}</a>` : '';
 
-    // Contact button
     els.contactBtn.href = p.email ? mailHref(p.email) : (p.phone ? telHref(p.phone) : '#');
     els.contactBtn.textContent = p.email ? 'Email' : (p.phone ? 'Call' : 'Contact');
 
-    // Availability chip
     const ac = availChip(p.availability);
     [els.availability, els.availSide].forEach(node=>{
       node.textContent = ac.txt;
@@ -298,11 +281,9 @@
     els.locSide.textContent = p.location || '—';
     els.tradeSide.textContent = p.trade || '—';
 
-    // Activate first visible tab
     activateFirstVisibleTab();
   }
 
-  // Tabs
   function showSection(id){
     ['about','experience','skills','certs'].forEach(secId=>{
       const el = document.getElementById(secId);
@@ -331,11 +312,10 @@
     });
   });
 
-  // Export PDF
   els.printBtn.addEventListener('click', ()=>window.print());
 
-  // Init
   render();
 </script>
 </body>
 </html>
+
