@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - LinkTradeNetwork</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #64748b;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-edit, .btn-back {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-back {
+            background: #6b7280;
+        }
+
+        .btn-edit:hover {
+            background: #2563eb;
+        }
+
+        .btn-back:hover {
+            background: #4b5563;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .profile-photo-large {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: #9ca3af;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .profile-photo-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-header-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-headline {
+            font-size: 1.25rem;
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+
+        .profile-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .profile-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .about-text {
+            color: #4b5563;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .experience-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+        }
+
+        .experience-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-company {
+            font-size: 1rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-dates {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-bottom: 0.75rem;
+        }
+
+        .experience-description {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .availability-badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .availability-badge.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .availability-badge.open {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .availability-badge.employed {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .availability-badge.unavailable {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .certifications-text {
+            color: #4b5563;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .no-profile {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .no-profile h2 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .no-profile p {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-name {
+                font-size: 2rem;
+            }
+
+            .profile-meta {
+                justify-content: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-edit, .btn-back {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-header">
+            <a href="front.html" class="logo-link">
+                <span class="logo-icon">🌍</span>
+                <span class="logo-text">LinkTradeNetwork</span>
+            </a>
+            <div class="header-actions">
+                <a href="build-profile.html" class="btn-edit">Edit Profile</a>
+                <a href="front.html" class="btn-back">Home</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="profileContainer">
+        <!-- Profile will be loaded here by JavaScript -->
+    </div>
+
+    <script>
+        // Load profile from localStorage
+        const profileData = localStorage.getItem('userProfile');
+
+        if (!profileData) {
+            // No profile found
+            document.getElementById('profileContainer').innerHTML = `
+                <div class="no-profile">
+                    <h2>No Profile Found</h2>
+                    <p>You haven't created your profile yet.</p>
+                    <a href="build-profile.html" class="btn-edit">Build Your Profile</a>
+                </div>
+            `;
+        } else {
+            // Parse and display profile
+            const profile = JSON.parse(profileData);
+            
+            // Get availability badge class
+            let availabilityClass = 'employed';
+            if (profile.availability === 'Actively Looking') availabilityClass = 'active';
+            else if (profile.availability === 'Open to Offers') availabilityClass = 'open';
+            else if (profile.availability === 'Not Available') availabilityClass = 'unavailable';
+
+            // Build profile HTML
+            let profileHTML = `
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-photo-large">
+                        ${profile.photo ? `<img src="${profile.photo}" alt="${profile.firstName}">` : '👤'}
+                    </div>
+                    <div class="profile-header-info">
+                        <h1 class="profile-name">${profile.firstName} ${profile.lastName}</h1>
+                        <p class="profile-headline">${profile.headline}</p>
+                        <div class="profile-meta">
+                            <div class="profile-meta-item">
+                                <strong>🔧</strong> ${profile.trade}
+                            </div>
+                            <div class="profile-meta-item">
+                                <strong>📍</strong> ${profile.location}
+                            </div>
+                            <div class="profile-meta-item">
+                                <strong>📧</strong> ${profile.email}
+                            </div>
+                            <div class="profile-meta-item">
+                                <strong>📞</strong> ${profile.phone}
+                            </div>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <span class="availability-badge ${availabilityClass}">${profile.availability}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // About section
+            if (profile.summary) {
+                profileHTML += `
+                    <div class="profile-section">
+                        <h2 class="section-title">About</h2>
+                        <p class="about-text">${profile.summary}</p>
+                    </div>
+                `;
+            }
+
+            // Experience section
+            if (profile.experiences && profile.experiences.length > 0) {
+                const hasExperience = profile.experiences.some(exp => exp.jobTitle || exp.company);
+                if (hasExperience) {
+                    profileHTML += `
+                        <div class="profile-section">
+                            <h2 class="section-title">Experience</h2>
+                    `;
+                    profile.experiences.forEach(exp => {
+                        if (exp.jobTitle || exp.company) {
+                            profileHTML += `
+                                <div class="experience-item">
+                                    <div class="experience-title">${exp.jobTitle || 'Position'}</div>
+                                    <div class="experience-company">${exp.company || 'Company'}</div>
+                                    <div class="experience-dates">${exp.startDate || ''} ${exp.startDate && exp.endDate ? '- ' : ''}${exp.endDate || ''}</div>
+                                    ${exp.description ? `<p class="experience-description">${exp.description}</p>` : ''}
+                                </div>
+                            `;
+                        }
+                    });
+                    profileHTML += `</div>`;
+                }
+            }
+
+            // Skills section
+            if (profile.skills) {
+                const skillsArray = profile.skills.split(',').map(s => s.trim()).filter(s => s);
+                if (skillsArray.length > 0) {
+                    profileHTML += `
+                        <div class="profile-section">
+                            <h2 class="section-title">Skills</h2>
+                            <div class="skills-container">
+                                ${skillsArray.map(skill => `<span class="skill-badge">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Certifications section
+            if (profile.certifications) {
+                profileHTML += `
+                    <div class="profile-section">
+                        <h2 class="section-title">Certifications & Licenses</h2>
+                        <p class="certifications-text">${profile.certifications}</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('profileContainer').innerHTML = profileHTML;
+        }
+    </script>
+</body>
+</html>
