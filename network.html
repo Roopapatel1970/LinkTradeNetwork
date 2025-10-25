@@ -112,6 +112,9 @@
       <button class="btn ghost" id="showAll" type="button">Show all</button>
     </div>
     <div id="dir" class="grid"></div>
+    <div class="muted" style="margin-top:10px">
+      Tip: Click <b>Invite Link</b> and share that URL. When the other person opens it, they’ll see your request to connect.
+    </div>
   </section>
 </main>
 
@@ -170,7 +173,8 @@ function personCard(p){
     : isReq
       ? `<button class="btn" onclick="accept('${id}')">Accept</button>
          <button class="btn ghost" onclick="decline('${id}')">Decline</button>`
-      : `<button class="btn" onclick="connect('${id}')">Connect</button>`;
+      : `<button class="btn" onclick="connect('${id}')">Connect</button>
+         <button class="btn ghost" onclick="copyInvite('${id}')">Invite Link</button>`;
   return `
     <div class="person">
       <div class="ava">${avatarHtml(p)}</div>
@@ -205,11 +209,11 @@ function render(){
 }
 render();
 
-/* ===== Actions ===== */
+/* ===== Actions (local) ===== */
 window.connect = function(id){
-  // simulate sending a request TO YOU: it shows up as an incoming request to accept
+  // Same-device demo: shows an incoming request
   requests.add(id); save(RKEY,[...requests]); render();
-  alert('Request sent. (For demo, it appears under “Accept”.)');
+  alert('Request sent (demo). If you want to share to another device, use Invite Link.');
 };
 window.accept = function(id){
   requests.delete(id); connections.add(id);
@@ -248,6 +252,105 @@ $('addBtn').onclick=()=>{
   $('addName').value=''; $('addTrade').value=''; $('addLoc').value=''; $('addEmail').value='';
   render();
 };
+
+/* =========================
+   OPTION A: INVITE LINKS
+   ========================= */
+
+/* Minimal identity for the inviter (you) */
+function myProfile() {
+  const me = load(MEKEY, null);
+  const name = me ? `${me.firstName||''} ${me.lastName||''}`.trim() : '';
+  // Build a stable inviter id: prefer email; else name; else fallback
+  const baseId = (me?.email || name || 'user').toLowerCase().replace(/\s+/g,'-');
+  return {
+    id: baseId,
+    firstName: me?.firstName || '',
+    lastName:  me?.lastName  || '',
+    email:     me?.email     || '',
+    trade:     me?.trade     || '',
+    location:  me?.location  || '',
+    photo:     me?.photo     || ''
+  };
+}
+
+/* Build + copy the invite link to clipboard */
+window.copyInvite = function(targetId){
+  const inviter = myProfile();
+  if(!inviter.email && !inviter.firstName && !inviter.lastName){
+    alert('Add your name or email in Build Profile first.');
+    return;
+  }
+  const payload = { v:1, inviter, to: targetId, ts: Date.now() };
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  // Build URL pointing back to this page in the same folder
+  const baseHref = (()=>{
+    // Works for both http(s) and file protocol; keeps current folder
+    const url = new URL(window.location.href);
+    // Replace filename with network.html
+    const parts = url.pathname.split('/');
+    parts[parts.length-1] = 'network.html';
+    url.pathname = parts.join('/');
+    url.search = ''; url.hash = '';
+    return url.toString();
+  })();
+  const url  = `${baseHref}?invite=${encodeURIComponent(encoded)}`;
+
+  if(navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(url).then(()=>{
+      alert('Invite link copied. Send it by text/email. When they open it, they’ll see your request.');
+    }, ()=>{
+      prompt('Copy this link:', url);
+    });
+  }else{
+    prompt('Copy this link:', url);
+  }
+};
+
+/* Handle incoming invite links on load */
+(function handleIncomingInvite(){
+  const sp = new URLSearchParams(location.search);
+  const raw = sp.get('invite');
+  if(!raw) return;
+  try{
+    const payload = JSON.parse(decodeURIComponent(escape(atob(raw))));
+    if(payload?.v!==1) return;
+
+    // Load storage
+    const people = load(PKEY, []);
+    const reqs = new Set(load(RKEY, []));
+
+    // Ensure inviter is in recipient's directory
+    if(!people.find(p=>p.id===payload.inviter.id)){
+      people.unshift({
+        id: payload.inviter.id,
+        firstName: payload.inviter.firstName,
+        lastName:  payload.inviter.lastName,
+        trade:     payload.inviter.trade,
+        location:  payload.inviter.location,
+        email:     payload.inviter.email,
+        photo:     payload.inviter.photo || ''
+      });
+      save(PKEY, people);
+    }
+
+    // Add incoming request from inviter
+    reqs.add(payload.inviter.id);
+    save(RKEY, [...reqs]);
+
+    // Clean the URL (optional)
+    if(history.replaceState){
+      history.replaceState({}, document.title, 'network.html');
+    }
+
+    // Re-render
+    if(typeof render==='function') render();
+
+    alert(`Connection request from ${payload.inviter.firstName||''} ${payload.inviter.lastName||''}`);
+  }catch(e){
+    console.warn('Bad invite link:', e);
+  }
+})();
 </script>
 </body>
 </html>
