@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/build-profile.html", "/front.html", "/landingpage.html", "/*.{css,js,png,jpg,gif,svg,ico}"]
+    "exclude": ["/build-profile.html", "/my-profile.html", "/front.html", "/landingpage.html", "/*.{css,js,png,jpg,gif,svg,ico}"]
   },
   "globalHeaders": {
     "content-security-policy": "default-src 'self' 'unsafe-inline' https:",
