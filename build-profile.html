@@ -430,12 +430,14 @@
         let experienceCount = 0;
         let skills = [];
 
-        // Photo preview
+        // Photo preview and storage
+        let profilePhotoBase64 = null;
         document.getElementById('photo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
+                    profilePhotoBase64 = e.target.result;
                     document.getElementById('photoPreview').innerHTML = `<img src="${e.target.result}" alt="Profile">`;
                 };
                 reader.readAsDataURL(file);
@@ -544,6 +546,7 @@
                 skills: skills.join(', '),
                 certifications: document.getElementById('certifications').value,
                 availability: document.getElementById('availability').value,
+                photo: profilePhotoBase64,
                 experiences: [],
                 createdAt: new Date().toISOString()
             };
@@ -579,7 +582,7 @@
                 messageDiv.style.display = 'block';
                 
                 setTimeout(() => {
-                    window.location.href = 'front.html';
+                    window.location.href = 'my-profile.html';
                 }, 1500);
                 
             } catch (error) {
