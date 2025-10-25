@@ -228,7 +228,6 @@ function buildThreads(){
     return { id, name: nameOf(p), photo: p.photo||'', trade:p.trade||'', location:p.location||'', last };
   }).filter(Boolean);
 
-  // filter by search
   const q = filter.toLowerCase();
   const filtered = list.filter(t=>{
     if(!q) return true;
@@ -236,7 +235,6 @@ function buildThreads(){
     return hay.includes(q);
   });
 
-  // sort by last timestamp desc
   filtered.sort((a,b)=> new Date(b.last.ts).getTime() - new Date(a.last.ts).getTime());
 
   threadList.innerHTML = filtered.length ? filtered.map(t=>`
@@ -273,7 +271,7 @@ function openChat(id){
 
   markAllRead(id);
   renderMessages();
-  buildThreads(); // refresh unread dots/times
+  buildThreads();
 }
 function markAllRead(id){
   const key = MSG(id);
@@ -358,19 +356,23 @@ searchBox.addEventListener('input', ()=>{
   buildThreads();
 });
 
-/* ===== deep-link (?to=ID) ===== */
+/* ===== deep-links: ?to=ID or ?new=1 ===== */
 function tryDeepLink(){
   const u = new URL(location.href);
   const to = u.searchParams.get('to');
-  if(to && connections.has(to)){ openChat(to); }
+  const newFlag = u.searchParams.get('new');
+  if(to && connections.has(to)){
+    openChat(to);
+  }else if(newFlag === '1'){
+    openModal();
+  }
 }
 
 /* ===== init ===== */
 (function init(){
-  // Ensure arrays exist
   connections = new Set(load(CKEY, []));
   people = load(PKEY, []);
-  if(!people || !Array.isArray(people)){ people = []; save(PKEY, people); }
+  if(!Array.isArray(people)) { people = []; save(PKEY, people); }
   buildThreads();
   tryDeepLink();
   sendHint.textContent = 'Tip: Press Enter to send, Shift+Enter for a new line.';
