@@ -1,292 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Profile - LinkTradeNetwork</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:#f3f4f6;min-height:100vh}
-    header{background:#64748b;padding:1.5rem 2rem;box-shadow:0 2px 4px rgba(0,0,0,.1)}
-    .logo-header{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto}
-    .logo-link{display:flex;align-items:center;gap:12px;color:#000;text-decoration:none}
-    .logo-icon{font-size:2rem}
-    .logo-text{font-size:1.5rem;font-weight:700}
-    .header-actions{display:flex;gap:1rem}
-    .btn-edit,.btn-back{background:#3b82f6;color:#fff;padding:.75rem 1.5rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:.3s}
-    .btn-back{background:#6b7280}
-    .btn-edit:hover{background:#2563eb}
-    .btn-back:hover{background:#4b5563}
-    .container{max-width:1000px;margin:2rem auto;padding:0 2rem}
-    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
-    .btn{background:#3b82f6;color:#fff;border:none;padding:.55rem .9rem;border-radius:8px;font-weight:700;cursor:pointer;text-decoration:none}
-    .btn.alt{background:#6b7280}
-    .btn.warn{background:#f59e0b}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-    .profile-header{background:#fff;border-radius:12px;padding:2.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.1);display:flex;gap:2rem;align-items:start}
-    .profile-photo-large{width:200px;height:200px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:5rem;color:#9ca3af;overflow:hidden;flex-shrink:0}
-    .profile-photo-large img{width:100%;height:100%;object-fit:cover}
-    .profile-header-info{flex:1}
-    .profile-name{font-size:2.5rem;font-weight:700;color:#1f2937;margin-bottom:.5rem}
-    .profile-headline{font-size:1.25rem;color:#4b5563;margin-bottom:1rem}
-    .profile-meta{display:flex;gap:2rem;flex-wrap:wrap;color:#6b7280;font-size:.95rem}
-    .profile-meta-item{display:flex;align-items:center;gap:.5rem}
-    .profile-section{background:#fff;border-radius:12px;padding:2.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-    .section-title{font-size:1.75rem;font-weight:700;color:#1f2937;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:2px solid #e5e7eb}
-    .about-text{color:#4b5563;line-height:1.8;font-size:1rem;white-space:pre-wrap}
-    .experience-item{padding:1.5rem 0;border-bottom:1px solid #e5e7eb}
-    .experience-item:last-child{border-bottom:none}
-    .experience-title{font-size:1.25rem;font-weight:600;color:#1f2937;margin-bottom:.25rem}
-    .experience-company{font-size:1rem;color:#6b7280;margin-bottom:.5rem}
-    .experience-dates{font-size:.9rem;color:#9ca3af;margin-bottom:.75rem}
-    .experience-description{color:#4b5563;line-height:1.6;white-space:pre-wrap}
-    .skills-container{display:flex;flex-wrap:wrap;gap:.75rem}
-    .skill-badge{background:#dbeafe;color:#1e40af;padding:.5rem 1.25rem;border-radius:20px;font-size:.95rem;font-weight:500}
-    .availability-badge{display:inline-block;padding:.5rem 1.25rem;border-radius:20px;font-weight:600;font-size:.95rem}
-    .availability-badge.active{background:#d1fae5;color:#065f46}
-    .availability-badge.open{background:#dbeafe;color:#1e40af}
-    .availability-badge.employed{background:#fef3c7;color:#92400e}
-    .availability-badge.unavailable{background:#fee2e2;color:#991b1b}
-    .certifications-text{color:#4b5563;line-height:1.8;white-space:pre-wrap}
-    .no-profile{text-align:center;padding:4rem 2rem;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-    .no-profile h2{font-size:2rem;color:#1f2937;margin-bottom:1rem}
-    .no-profile p{color:#6b7280;margin-bottom:2rem}
-    .msg{margin:.5rem 0;padding:.6rem .9rem;border-radius:8px;display:none}
-    .msg.ok{display:block;background:#d1fae5;border:1px solid #10b981;color:#065f46}
-    .msg.err{display:block;background:#fee2e2;border:1px solid #ef4444;color:#991b1b}
-    @media (max-width:768px){
-      .profile-header{flex-direction:column;align-items:center;text-align:center}
-      .profile-name{font-size:2rem}
-      .profile-meta{justify-content:center}
-      .header-actions{flex-direction:column;width:100%}
-      .btn-edit,.btn-back{width:100%}
-    }
-    @media print{
-      header,.toolbar,.msg{display:none!important}
-      body{background:#fff}
-      .container{margin:0;padding:0}
-      .profile-header,.profile-section{box-shadow:none;border:1px solid #ddd;border-radius:0}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Profile – LinkTradeNetwork</title>
+<style>
+  :root{
+    --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --bg:#f3f4f6; --card:#fff;
+    --brand:#0a66c2; --brand-2:#004182; --chip:#eef2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  a{color:inherit}
+  /* Top bar */
+  header{background:#fff;border-bottom:1px solid var(--line)}
+  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
+  .brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+  .brand-badge{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;background:#e6f2fb;color:#0a66c2;font-weight:800}
+  .brand-text{font-weight:800}
+  .topbar-actions{margin-left:auto;display:flex;gap:8px}
+  .btn{appearance:none;border:none;background:var(--brand);color:#fff;border-radius:999px;font-weight:700;padding:8px 14px;cursor:pointer}
+  .btn.secondary{background:#e5e7eb;color:#111;border:1px solid #d1d5db}
+  .btn:hover{background:var(--brand-2)}
+  .btn.secondary:hover{background:#dbe1e7}
+  /* Banner + card */
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+  .banner{height:180px;border-radius:0 0 12px 12px;background:linear-gradient(135deg,#0a66c2 0%,#2563eb 45%,#60a5fa 100%);position:relative}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .profile-card{margin-top:-64px;padding:16px}
+  .profile-row{display:flex;gap:16px}
+  .avatar{width:128px;height:128px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:56px;color:#9aa2b1;overflow:hidden;flex-shrink:0}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .flex-1{flex:1}
+  .headline{font-size:26px;font-weight:800;margin:8px 0 4px}
+  .sub{color:var(--muted)}
+  .meta{display:flex;gap:14px;flex-wrap:wrap;color:#4b5563;margin-top:6px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .chip{background:#edf2ff;border:1px solid #dbe4ff;color:#1e3a8a;padding:6px 10px;border-radius:999px;font-weight:600;font-size:13px}
+  .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .nav{margin-top:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+  .tab{padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:700;color:#334155}
+  .tab.active{background:#e8f3ff;color:#0a66c2}
+  /* Sections */
+  .grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;margin-top:16px}
+  .section{padding:16px}
+  .section h2{font-size:18px;margin:0 0 8px}
+  .about{white-space:pre-wrap;line-height:1.7;color:#374151}
+  .exp-item{padding:12px 0;border-bottom:1px solid var(--line)}
+  .exp-item:last-child{border-bottom:none}
+  .exp-title{font-weight:800}
+  .exp-meta{color:#6b7280;font-size:14px;margin:4px 0}
+  .exp-desc{white-space:pre-wrap;color:#374151;margin-top:6px}
+  .skills{display:flex;flex-wrap:wrap;gap:8px}
+  .skill{background:var(--chip);border:1px solid #dfe3f6;padding:6px 12px;border-radius:999px;font-weight:700;color:#27316f}
+  .certs{white-space:pre-wrap;color:#374151}
+  /* Sidebar */
+  .side .row{display:flex;align-items:center;gap:8px;margin:8px 0;color:#374151}
+  .side .row strong{font-size:14px}
+  .side .pill{display:inline-block;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;color:#374151}
+  /* Footer */
+  footer{color:#64748b;font-size:13px;text-align:center;padding:24px}
+  @media (max-width:900px){ .grid{grid-template-columns:1fr} .profile-row{flex-direction:column;align-items:start} }
+  @media print{
+    header,.nav,.actions{display:none!important}
+    .banner{height:100px}
+    body{background:#fff}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo-header">
-      <a href="front.html" class="logo-link">
-        <span class="logo-icon">🌍</span>
-        <span class="logo-text">LinkTradeNetwork</span>
-      </a>
-      <div class="header-actions">
-        <a href="build-profile.html" class="btn-edit">Edit Profile</a>
-        <a href="front.html" class="btn-back">Home</a>
+<header>
+  <div class="topbar">
+    <a class="brand" href="front.html" title="Home">
+      <div class="brand-badge">LT</div>
+      <div class="brand-text">LinkTradeNetwork</div>
+    </a>
+    <div class="topbar-actions">
+      <a class="btn secondary" href="build-profile.html">Edit profile</a>
+      <button class="btn" id="printBtn" type="button">Export PDF</button>
+    </div>
+  </div>
+</header>
+
+<div class="banner"></div>
+
+<main class="wrap">
+  <section class="card profile-card">
+    <div class="profile-row">
+      <div class="avatar" id="avatar">👤</div>
+      <div class="flex-1">
+        <div class="headline" id="name">Your Name</div>
+        <div class="sub" id="headline">Headline</div>
+        <div class="meta">
+          <div id="trade">—</div>
+          <div id="location">—</div>
+          <div id="email">—</div>
+          <div id="phone">—</div>
+        </div>
+        <div class="chips">
+          <span class="chip" id="availability">Employed</span>
+        </div>
+        <div class="actions">
+          <a class="btn" id="contactBtn" href="#" target="_blank" rel="noopener">Message</a>
+          <a class="btn secondary" href="build-profile.html">Update details</a>
+        </div>
+        <nav class="nav" aria-label="Sections">
+          <span class="tab active" data-target="#about">About</span>
+          <span class="tab" data-target="#experience">Experience</span>
+          <span class="tab" data-target="#skills">Skills</span>
+          <span class="tab" data-target="#certs">Certifications</span>
+        </nav>
       </div>
     </div>
-  </header>
+  </section>
 
-  <div class="container">
-    <!-- Actions / Sync -->
-    <div class="toolbar" id="toolbar" hidden>
-      <button class="btn" id="exportPdfBtn" type="button">Export PDF</button>
-      <button class="btn alt" id="downloadJsonBtn" type="button">Download JSON</button>
-      <label class="btn alt" for="importJsonInput" style="cursor:pointer">Import JSON</label>
-      <input id="importJsonInput" type="file" accept="application/json" hidden />
-      <button class="btn warn" id="syncSheetsBtn" type="button" title="Send this profile to your Google Sheet">Sync to Google Sheets</button>
+  <section class="grid">
+    <!-- Main column -->
+    <div>
+      <div class="card section" id="about">
+        <h2>About</h2>
+        <div class="about" id="aboutText">No summary yet.</div>
+      </div>
+
+      <div class="card section" id="experience" style="display:none">
+        <h2>Experience</h2>
+        <div id="expList"></div>
+      </div>
+
+      <div class="card section" id="skills" style="display:none">
+        <h2>Skills</h2>
+        <div class="skills" id="skillsList"></div>
+      </div>
+
+      <div class="card section" id="certs" style="display:none">
+        <h2>Certifications & Licenses</h2>
+        <div class="certs" id="certsText">—</div>
+      </div>
     </div>
-    <div id="flash" class="msg"></div>
 
-    <div id="profileContainer"><!-- filled by JS --></div>
-  </div>
+    <!-- Sidebar -->
+    <aside class="card section side">
+      <h2>Contact & Status</h2>
+      <div class="row"><strong>📧</strong><a id="emailLink" href="#">—</a></div>
+      <div class="row"><strong>📞</strong><a id="phoneLink" href="#">—</a></div>
+      <div class="row"><strong>📍</strong><span id="locSide">—</span></div>
+      <div class="row"><strong>🔧</strong><span id="tradeSide">—</span></div>
+      <div class="row"><strong>🟢</strong><span class="pill" id="availSide">Employed</span></div>
+    </aside>
+  </section>
+</main>
 
-  <script>
-    // === CONFIG ===
-    // Replace with your own Apps Script Web App URL (must end in /exec)
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
-    const STORAGE_KEY = 'userProfile:v1';
-    const LEGACY_KEY  = 'userProfile';
+<footer>© LinkTradeNetwork — Profile</footer>
 
-    // === UTIL ===
-    function escapeHTML(str){
-      return String(str ?? '')
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;')
-        .replace(/'/g,'&#39;');
-    }
-    function telHref(raw){ const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; }
-    function fmtPhone(raw){
-      const d=(raw||'').replace(/\D/g,'').slice(-10);
-      return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||'');
-    }
-    function flash(msg, ok=true){
-      const el=document.getElementById('flash');
-      el.className = 'msg ' + (ok?'ok':'err');
-      el.textContent = msg;
-      el.style.display = 'block';
-      if(ok){ setTimeout(()=>{ el.style.display='none'; }, 1800); }
-    }
+<script>
+  // ===== Utilities =====
+  const STORAGE_KEY = 'userProfile:v1';
+  const LEGACY_KEY  = 'userProfile';
 
-    // === LOAD PROFILE ===
-    function loadProfile(){
-      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-      if(!raw) return null;
-      try{ return JSON.parse(raw); }catch{ return null; }
-    }
+  const els = {
+    avatar: document.getElementById('avatar'),
+    name: document.getElementById('name'),
+    headline: document.getElementById('headline'),
+    trade: document.getElementById('trade'),
+    location: document.getElementById('location'),
+    email: document.getElementById('email'),
+    phone: document.getElementById('phone'),
+    availability: document.getElementById('availability'),
+    aboutText: document.getElementById('aboutText'),
+    expList: document.getElementById('expList'),
+    skillsList: document.getElementById('skillsList'),
+    certsText: document.getElementById('certsText'),
+    emailLink: document.getElementById('emailLink'),
+    phoneLink: document.getElementById('phoneLink'),
+    locSide: document.getElementById('locSide'),
+    tradeSide: document.getElementById('tradeSide'),
+    availSide: document.getElementById('availSide'),
+    printBtn: document.getElementById('printBtn'),
+    contactBtn: document.getElementById('contactBtn'),
+  };
 
-    function availabilityClass(v){
-      if(v==='Actively Looking') return 'active';
-      if(v==='Open to Offers')   return 'open';
-      if(v==='Not Available')    return 'unavailable';
-      return 'employed';
-    }
+  function escapeHTML(s){ return String(s ?? '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function telHref(raw){ const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; }
+  function mailHref(e){ return e?`mailto:${e}`:'#'; }
+  function fmtPhone(raw){ const d=(raw||'').replace(/\D/g,'').slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||''); }
+  function availColor(a){
+    if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132'};
+    if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2'};
+    if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b'};
+    return {txt:'Employed', bg:'#fff7e0', color:'#92400e'};
+  }
 
-    function render(){
-      const container = document.getElementById('profileContainer');
-      const toolbar   = document.getElementById('toolbar');
-      const profile   = loadProfile();
+  function readProfile(){
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+    if(!raw) return null;
+    try{ return JSON.parse(raw); }catch{ return null; }
+  }
 
-      if(!profile){
-        toolbar.hidden = true;
-        container.innerHTML = `
-          <div class="no-profile">
-            <h2>No Profile Found</h2>
-            <p>You haven't created your profile yet.</p>
-            <a href="build-profile.html" class="btn-edit" style="display:inline-block">Build Your Profile</a>
-          </div>`;
-        return;
-      }
-      toolbar.hidden = false;
-
-      const photoHTML = profile.photo
-        ? `<img src="${escapeHTML(profile.photo)}" alt="${escapeHTML(profile.firstName||'Profile')}" loading="lazy">`
-        : '👤';
-
-      const skillsArray = typeof profile.skills==='string'
-        ? profile.skills.split(',').map(s=>s.trim()).filter(Boolean)
-        : [];
-
-      let html = `
-        <div class="profile-header">
-          <div class="profile-photo-large">${photoHTML}</div>
-          <div class="profile-header-info">
-            <h1 class="profile-name">${escapeHTML(profile.firstName||'')} ${escapeHTML(profile.lastName||'')}</h1>
-            ${profile.headline?`<p class="profile-headline">${escapeHTML(profile.headline)}</p>`:''}
-            <div class="profile-meta">
-              ${profile.trade?`<div class="profile-meta-item"><strong>🔧</strong> ${escapeHTML(profile.trade)}</div>`:''}
-              ${profile.location?`<div class="profile-meta-item"><strong>📍</strong> ${escapeHTML(profile.location)}</div>`:''}
-              ${profile.email?`<div class="profile-meta-item"><strong>📧</strong> <a href="mailto:${escapeHTML(profile.email)}">${escapeHTML(profile.email)}</a></div>`:''}
-              ${profile.phone?`<div class="profile-meta-item"><strong>📞</strong> <a href="${telHref(profile.phone)}">${fmtPhone(profile.phone)}</a></div>`:''}
-            </div>
-            <div style="margin-top:1.5rem">
-              <span class="availability-badge ${availabilityClass(profile.availability)}">${escapeHTML(profile.availability||'Employed')}</span>
-            </div>
-          </div>
-        </div>
-      `;
-
-      if(profile.summary){
-        html += `
-          <div class="profile-section">
-            <h2 class="section-title">About</h2>
-            <p class="about-text">${escapeHTML(profile.summary)}</p>
-          </div>`;
-      }
-
-      if(Array.isArray(profile.experiences) && profile.experiences.some(e=>e?.jobTitle || e?.company)){
-        html += `<div class="profile-section"><h2 class="section-title">Experience</h2>`;
-        profile.experiences.forEach(exp=>{
-          if(!(exp?.jobTitle || exp?.company)) return;
-          const title = escapeHTML(exp.jobTitle||'Position');
-          const company = escapeHTML(exp.company||'Company');
-          const start = escapeHTML(exp.startDate||'');
-          const end = escapeHTML(exp.endDate||'');
-          const dates = start || end ? `<div class="experience-dates">${start}${start&&end?' - ':''}${end}</div>`:'';
-          const desc = exp.description ? `<p class="experience-description">${escapeHTML(exp.description)}</p>`:'';
-          html += `
-            <div class="experience-item">
-              <div class="experience-title">${title}</div>
-              <div class="experience-company">${company}</div>
-              ${dates}
-              ${desc}
-            </div>`;
-        });
-        html += `</div>`;
-      }
-
-      if(skillsArray.length){
-        html += `
-          <div class="profile-section">
-            <h2 class="section-title">Skills</h2>
-            <div class="skills-container">
-              ${skillsArray.map(s=>`<span class="skill-badge">${escapeHTML(s)}</span>`).join('')}
-            </div>
-          </div>`;
-      }
-
-      if(profile.certifications){
-        html += `
-          <div class="profile-section">
-            <h2 class="section-title">Certifications & Licenses</h2>
-            <p class="certifications-text">${escapeHTML(profile.certifications)}</p>
-          </div>`;
-      }
-
-      container.innerHTML = html;
+  // ===== Render =====
+  function render(){
+    const p = readProfile();
+    if(!p){
+      // If no data, encourage building profile
+      document.querySelector('main').innerHTML = `
+        <section class="card section" style="margin-top:16px;text-align:center">
+          <h2>No Profile Found</h2>
+          <p class="sub" style="margin:.5rem 0 1rem">Create your profile to get a LinkedIn-style page.</p>
+          <a class="btn" href="build-profile.html">Build Profile</a>
+        </section>`;
+      return;
     }
 
-    // === ACTIONS ===
-    function exportPDF(){ window.print(); }
-    function downloadJSON(){
-      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-      if(!raw){ flash('No profile to download', false); return; }
-      const blob = new Blob([raw], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'LinkTradeNetwork_Profile.json';
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    }
-    async function importJSON(file){
-      try{
-        const text = await file.text();
-        const obj = JSON.parse(text);
-        if(!obj || typeof obj!=='object') throw new Error('Invalid JSON');
-        const raw = JSON.stringify(obj);
-        localStorage.setItem(STORAGE_KEY, raw);
-        localStorage.setItem(LEGACY_KEY,  raw);
-        flash('Profile imported'); render();
-      }catch(e){ flash('Import failed: '+e.message, false); }
-    }
-    async function syncToGoogleSheets(){
-      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-      if(!raw){ flash('Nothing to sync. Build your profile first.', false); return; }
-      const profile = JSON.parse(raw);
-      const btn = document.getElementById('syncSheetsBtn');
-      btn.disabled = true; btn.textContent = 'Syncing…';
-      try{
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method:'POST',
-          mode:'no-cors',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(profile)
-        });
-        flash('✅ Synced to Google Sheets');
-      }catch(e){
-        console.error(e); flash('❌ Sync failed. Check your Apps Script URL.', false);
-      }finally{
-        btn.disabled = false; btn.textContent = 'Sync to Google Sheets';
-      }
+    // Avatar
+    if(p.photo){
+      els.avatar.innerHTML = `<img src="${escapeHTML(p.photo)}" alt="Profile photo" loading="lazy">`;
+    }else{
+      els.avatar.textContent = '👤';
     }
 
-    // === WIRE UP ===
-    document.getElementById('exportPdfBtn') .addEventListener('click', exportPDF);
-    document.getElementById('downloadJsonBtn').addEventListener('click', downloadJSON);
-    document.getElementById('importJsonInput').addEventListener('change', e=>{
-      const f = e.target.files?.[0]; if(f) importJSON(f); e.target.value='';
+    // Header text
+    const fullName = `${p.firstName||''} ${p.lastName||''}`.trim();
+    els.name.textContent = fullName || 'Your Name';
+    els.headline.textContent = p.headline || '';
+    els.trade.textContent = p.trade || '';
+    els.location.textContent = p.location || '';
+    els.email.innerHTML = p.email ? `<a href="${mailHref(p.email)}">${escapeHTML(p.email)}</a>` : '';
+    els.phone.innerHTML = p.phone ? `<a href="${telHref(p.phone)}">${fmtPhone(p.phone)}</a>` : '';
+
+    // Contact button (email priority, else tel if available)
+    els.contactBtn.href = p.email ? mailHref(p.email) : (p.phone ? telHref(p.phone) : '#');
+    els.contactBtn.textContent = p.email ? 'Message' : (p.phone ? 'Call' : 'Contact');
+
+    // Availability chips
+    const ac = availColor(p.availability);
+    els.availability.textContent = ac.txt;
+    els.availability.style.background = ac.bg;
+    els.availability.style.color = ac.color;
+    els.availSide.textContent = ac.txt;
+    els.availSide.style.background = ac.bg;
+    els.availSide.style.color = ac.color;
+
+    // About
+    els.aboutText.textContent = p.summary || '—';
+
+    // Experience
+    els.expList.innerHTML = '';
+    if(Array.isArray(p.experiences) && p.experiences.some(x=>x?.jobTitle || x?.company)){
+      p.experiences.forEach(exp=>{
+        if(!(exp?.jobTitle || exp?.company)) return;
+        const title = escapeHTML(exp.jobTitle||'Position');
+        const company = escapeHTML(exp.company||'Company');
+        const dates = [exp.startDate||'', exp.endDate||''].filter(Boolean).join(' – ');
+        const desc = escapeHTML(exp.description||'');
+        const div = document.createElement('div');
+        div.className = 'exp-item';
+        div.innerHTML = `
+          <div class="exp-title">${title}</div>
+          <div class="exp-meta">${company}${dates ? ' · ' + dates : ''}</div>
+          ${desc ? `<div class="exp-desc">${desc}</div>`:''}
+        `;
+        els.expList.appendChild(div);
+      });
+    }else{
+      els.expList.innerHTML = `<div class="sub">No experience added yet.</div>`;
+    }
+
+    // Skills
+    els.skillsList.innerHTML = '';
+    const skills = typeof p.skills==='string' ? p.skills.split(',').map(s=>s.trim()).filter(Boolean) : [];
+    if(skills.length){
+      skills.forEach(s=>{
+        const span = document.createElement('span');
+        span.className='skill';
+        span.textContent = s;
+        els.skillsList.appendChild(span);
+      });
+    }else{
+      els.skillsList.innerHTML = `<div class="sub">No skills added yet.</div>`;
+    }
+
+    // Certs
+    els.certsText.textContent = p.certifications || '—';
+
+    // Sidebar mirrors
+    els.emailLink.href = p.email ? mailHref(p.email) : '#';
+    els.emailLink.textContent = p.email || '—';
+    els.phoneLink.href = p.phone ? telHref(p.phone) : '#';
+    els.phoneLink.textContent = p.phone ? fmtPhone(p.phone) : '—';
+    els.locSide.textContent = p.location || '—';
+    els.tradeSide.textContent = p.trade || '—';
+  }
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.getAttribute('data-target');
+      document.querySelectorAll('.section').forEach(sec=>{
+        if(sec.id && '#'+sec.id === target){ sec.style.display='block'; }
+        else if(['about','experience','skills','certs'].includes(sec.id)){ sec.style.display='none'; }
+      });
     });
-    document.getElementById('syncSheetsBtn').addEventListener('click', syncToGoogleSheets);
+  });
 
-    // Initial render
-    render();
-  </script>
+  // Export PDF
+  els.printBtn.addEventListener('click', ()=>window.print());
+
+  // Init
+  render();
+</script>
 </body>
 </html>
