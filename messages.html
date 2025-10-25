@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Messages – LinkTradeNetwork</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Messaging – LinkTradeNetwork</title>
 <style>
   :root{
     --bg:#f3f4f6; --ink:#111827; --muted:#6b7280; --line:#e5e7eb;
@@ -11,10 +11,11 @@
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
-       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
+       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial;line-height:1.6;
+       display:flex;flex-direction:column;height:100vh}
   a{color:inherit;text-decoration:none}
 
-  /* Top bar */
+  /* Header */
   header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
   .bar{max-width:1100px;margin:0 auto;padding:12px 16px;
        display:flex;align-items:center;justify-content:space-between}
@@ -24,15 +25,12 @@
   .nav a:hover{opacity:.85}
 
   /* Layout */
-  .wrap{max-width:1100px;margin:14px auto;padding:0 14px}
-  .shell{display:grid;grid-template-columns:320px 1fr;gap:14px;
-         height:calc(100vh - 130px)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
-        box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  main{flex:1;display:grid;grid-template-columns:320px 1fr;gap:14px;max-width:1100px;margin:14px auto;padding:0 14px;width:100%}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 
-  /* Left: thread list */
+  /* Left (threads) */
   .left{display:grid;grid-template-rows:auto 1fr}
-  .left .tools{padding:10px;border-bottom:1px solid #f1f5f9}
+  .tools{padding:10px;border-bottom:1px solid #f1f5f9}
   .search{display:flex;gap:8px}
   .search input{flex:1;border:1px solid var(--line);border-radius:999px;padding:.55rem .9rem}
   .threads{overflow:auto}
@@ -48,21 +46,18 @@
   .time{color:var(--muted);font-size:11px}
   .dot{width:8px;height:8px;background:#22c55e;border-radius:999px;display:none}
   .unread .dot{display:inline-block}
-
   .empty{color:#6b7280;text-align:center;padding:16px}
 
-  /* Right: chat */
+  /* Right (chat) */
   .chat{display:grid;grid-template-rows:auto 1fr auto;height:100%}
-  .head{display:flex;gap:10px;align-items:center;padding:10px 12px;
-        border-bottom:1px solid #f1f5f9}
+  .head{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid #f1f5f9}
   .head .avatar{width:40px;height:40px}
   .head .name{font-weight:800}
   .head .meta{font-size:12px;color:var(--muted)}
   .head .actions{margin-left:auto;display:flex;gap:8px}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;
-       padding:.45rem .75rem;font-weight:800;cursor:pointer}
-  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.45rem .75rem;font-weight:800;cursor:pointer}
   .btn:hover{background:var(--brand2)}
+  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
   .btn.ghost{background:transparent;border:1px solid #e5e7eb;color:#334155}
   .btn.ghost:hover{background:#eef2ff}
 
@@ -73,22 +68,22 @@
   .ts{font-size:11px;color:#9aa3af;margin-top:2px}
 
   .composer{display:flex;gap:8px;border-top:1px solid #f1f5f9;padding:10px}
-  .composer textarea{flex:1;border:1px solid #e5e7eb;border-radius:12px;
-                     padding:.6rem .9rem;min-height:44px;max-height:200px;resize:vertical}
-  .hint{font-size:12px;color:#9aa3af;margin-left:6px}
+  .composer textarea{flex:1;border:1px solid #e5e7eb;border-radius:12px;padding:.6rem .9rem;min-height:44px;max-height:200px;resize:vertical}
 
-  /* Modal (New message) */
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center}
+  .footnote{max-width:1100px;margin:0 auto 14px;padding:0 14px}
+  .policy{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:10px;text-align:center;padding:.6rem}
+  .policy a{color:#2563eb;text-decoration:underline;font-weight:700}
+
+  /* Modal for Messaging Rules */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:1000}
   .modal.show{display:flex}
-  .dialog{background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.25);width:min(560px,92vw);border:1px solid #e5e7eb}
-  .dialog .head{border-bottom:1px solid #f1f5f9}
-  .dialog .body{padding:12px}
-  .row{display:flex;gap:8px;align-items:center}
-  .list{max-height:340px;overflow:auto;margin-top:8px}
-  .item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;cursor:pointer}
-  .item:hover{background:#f8fafc}
+  .dialog{background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.25);width:min(920px,92vw);height:min(80vh,920px);border:1px solid #e5e7eb;display:flex;flex-direction:column}
+  .dialog .top{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #f1f5f9}
+  .dialog .top strong{font-size:16px}
+  .dialog .top .x{margin-left:auto;background:#111827;color:#fff;border:none;border-radius:8px;padding:.35rem .7rem;font-weight:800;cursor:pointer}
+  .dialog iframe{flex:1;border:0;border-radius:0 0 12px 12px}
 
-  @media (max-width:900px){ .shell{grid-template-columns:1fr} .threads{height:260px} }
+  @media (max-width:900px){ main{grid-template-columns:1fr} .threads{height:260px} }
 </style>
 </head>
 <body>
@@ -103,67 +98,64 @@
   </div>
 </header>
 
-<main class="wrap">
-  <div class="shell">
-    <!-- LEFT: thread list -->
-    <aside class="card left">
-      <div class="tools">
-        <div class="search">
-          <input id="searchBox" placeholder="Search messages" />
-          <button class="btn" id="newBtn" type="button">New</button>
-        </div>
+<main>
+  <!-- LEFT: thread list -->
+  <aside class="card left">
+    <div class="tools">
+      <div class="search">
+        <input id="searchBox" placeholder="Search messages" />
+        <button class="btn" id="newBtn" type="button">New</button>
       </div>
-      <div id="threadList" class="threads"></div>
-    </aside>
+    </div>
+    <div id="threadList" class="threads"></div>
+  </aside>
 
-    <!-- RIGHT: chat -->
-    <section class="card chat">
-      <div class="head" id="chatHead">
-        <div class="avatar" id="headAvatar">👤</div>
-        <div>
-          <div class="name" id="headName">Select a conversation</div>
-          <div class="meta" id="headMeta"></div>
-        </div>
-        <div class="actions">
-          <button class="btn ghost" id="deleteBtn" type="button" disabled>Clear</button>
-        </div>
+  <!-- RIGHT: chat -->
+  <section class="card chat">
+    <div class="head" id="chatHead">
+      <div class="avatar" id="headAvatar">👤</div>
+      <div>
+        <div class="name" id="headName">Select a conversation</div>
+        <div class="meta" id="headMeta"></div>
       </div>
+      <div class="actions">
+        <button class="btn ghost" id="rulesBtn" type="button">Messaging Rules</button>
+        <button class="btn ghost" id="deleteBtn" type="button" disabled>Clear</button>
+      </div>
+    </div>
 
-      <div class="msgs" id="msgs">
-        <div style="color:#6b7280;text-align:center;margin-top:20px">No conversation selected.</div>
-      </div>
+    <div class="msgs" id="msgs">
+      <div style="color:#6b7280;text-align:center;margin-top:20px">No conversation selected.</div>
+    </div>
 
-      <div class="composer">
-        <textarea id="msgInput" placeholder="Write a message (Enter to send, Shift+Enter for newline)" disabled></textarea>
-        <button class="btn" id="sendBtn" disabled>Send</button>
-      </div>
-      <div class="hint" id="sendHint" style="padding:0 10px 10px"> </div>
-    </section>
-  </div>
+    <div class="composer">
+      <textarea id="msgInput" placeholder="Write a message (Enter to send, Shift+Enter for newline)" disabled></textarea>
+      <button class="btn" id="sendBtn" disabled>Send</button>
+    </div>
+  </section>
 </main>
 
-<!-- New message modal -->
-<div class="modal" id="modal">
+<div class="footnote">
+  <div class="policy">
+    View our <a href="#" id="openPolicyLink">Messaging Policy</a>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="policyModal">
   <div class="dialog">
-    <div class="head" style="padding:10px 12px">
-      <strong>New message</strong>
-      <div style="margin-left:auto">
-        <button class="btn gray" id="closeModal" type="button">Close</button>
-      </div>
+    <div class="top">
+      <strong>Messaging Policy</strong>
+      <button class="x" id="closePolicy">✕</button>
     </div>
-    <div class="body">
-      <div class="row">
-        <input id="pickSearch" placeholder="Search your connections" style="flex:1;border:1px solid #e5e7eb;border-radius:8px;padding:.55rem .8rem">
-      </div>
-      <div id="pickList" class="list"></div>
-    </div>
+    <iframe src="" title="Messaging Policy"></iframe>
   </div>
 </div>
 
 <script>
-/* ===== storage keys ===== */
-const PKEY='ltnPeople';            // people directory
-const CKEY='ltnConnections';       // accepted connections
+/* ===== storage keys (shared with other pages) ===== */
+const PKEY='ltnPeople';            // directory of people
+const CKEY='ltnConnections';       // accepted connections (ids)
 const MEKEY='userProfile:v1';      // your profile
 const MSG = id => 'ltnMsgs:'+id;   // per-contact messages
 
@@ -206,14 +198,13 @@ const deleteBtn  = $('deleteBtn');
 const msgs    = $('msgs');
 const msgInput= $('msgInput');
 const sendBtn = $('sendBtn');
-const sendHint= $('sendHint');
 
-const modal = $('modal');
-const pickList = $('pickList');
-const pickSearch = $('pickSearch');
-const closeModal = $('closeModal');
+const rulesBtn = $('rulesBtn');
+const policyLink = $('openPolicyLink');
+const policyModal = $('policyModal');
+const closePolicy = $('closePolicy');
 
-/* ===== thread list ===== */
+/* ===== threads ===== */
 function lastMsgFor(id){
   const arr = load(MSG(id), []);
   if(!arr.length) return { text:'', ts:0, unread:0 };
@@ -320,35 +311,20 @@ deleteBtn.onclick = ()=>{
   }
 };
 
-/* ===== new message modal ===== */
-function openModal(){ modal.classList.add('show'); pickSearch.value=''; renderPick(); }
-function closeModalFn(){ modal.classList.remove('show'); }
-function renderPick(){
-  const q = pickSearch.value.toLowerCase().trim();
-  const candidates = people.filter(p=> connections.has(p.id)).filter(p=>{
-    if(p.id === currentId) return true;
-    if(!q) return true;
-    const hay = (nameOf(p)+' '+(p.trade||'')+' '+(p.location||'')+' '+(p.email||'')).toLowerCase();
-    return hay.includes(q);
+/* ===== new message modal (simple prompt picker) ===== */
+newBtn.onclick = ()=>{
+  // Build a quick pick list from connections
+  const ids = [...connections];
+  if(!ids.length){ alert('No connections yet. Go to the Network page to connect.'); return; }
+  const names = ids.map(id=>{
+    const p = people.find(x=>x.id===id);
+    return p ? `${nameOf(p)} (${id})` : id;
   });
-  pickList.innerHTML = candidates.length ? candidates.map(p=>`
-    <div class="item" data-id="${p.id}">
-      <div class="avatar">${avatarHtml(p)}</div>
-      <div>
-        <div style="font-weight:800">${nameOf(p)}</div>
-        <div class="muted">${[p.trade||'', p.location||''].filter(Boolean).join(' • ')}</div>
-      </div>
-    </div>
-  `).join('') : `<div class="empty">No connections to message. Visit the <a href="network.html">Network</a> page.</div>`;
-
-  document.querySelectorAll('.item').forEach(el=>{
-    el.onclick = ()=>{ openChat(el.getAttribute('data-id')); closeModalFn(); };
-  });
-}
-newBtn.onclick = openModal;
-closeModal.onclick = closeModalFn;
-pickSearch.addEventListener('input', renderPick);
-modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModalFn(); });
+  const choice = prompt('Start chat with (type exact ID):\n' + ids.map((id,i)=>`${ids[i]} — ${names[i]}`).join('\n'));
+  if(!choice) return;
+  if(connections.has(choice)) openChat(choice);
+  else alert('Not found. Make sure you typed the ID exactly.');
+};
 
 /* ===== search in threads ===== */
 searchBox.addEventListener('input', ()=>{
@@ -364,9 +340,17 @@ function tryDeepLink(){
   if(to && connections.has(to)){
     openChat(to);
   }else if(newFlag === '1'){
-    openModal();
+    newBtn.click();
   }
 }
+
+/* ===== messaging policy modal ===== */
+function openPolicy(){ policyModal.classList.add('show'); policyModal.querySelector('iframe').src='terms-messaging.html'; }
+function closePolicyModal(){ policyModal.classList.remove('show'); policyModal.querySelector('iframe').src=''; }
+rulesBtn.onclick = openPolicy;
+policyLink.onclick = (e)=>{ e.preventDefault(); openPolicy(); }
+closePolicy.onclick = closePolicyModal;
+policyModal.addEventListener('click', (e)=>{ if(e.target===policyModal) closePolicyModal(); });
 
 /* ===== init ===== */
 (function init(){
@@ -375,8 +359,8 @@ function tryDeepLink(){
   if(!Array.isArray(people)) { people = []; save(PKEY, people); }
   buildThreads();
   tryDeepLink();
-  sendHint.textContent = 'Tip: Press Enter to send, Shift+Enter for a new line.';
 })();
 </script>
 </body>
 </html>
+
