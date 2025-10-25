@@ -1,432 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - LinkTradeNetwork</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f3f4f6;
-            min-height: 100vh;
-        }
-
-        header {
-            background: #64748b;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .logo-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #000000;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            font-size: 2rem;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-edit, .btn-back {
-            background: #3b82f6;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-back {
-            background: #6b7280;
-        }
-
-        .btn-edit:hover {
-            background: #2563eb;
-        }
-
-        .btn-back:hover {
-            background: #4b5563;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .profile-header {
-            background: white;
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        .profile-photo-large {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            color: #9ca3af;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .profile-photo-large img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-header-info {
-            flex: 1;
-        }
-
-        .profile-name {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-headline {
-            font-size: 1.25rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-        }
-
-        .profile-meta {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            color: #6b7280;
-            font-size: 0.95rem;
-        }
-
-        .profile-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .profile-section {
-            background: white;
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        .about-text {
-            color: #4b5563;
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-
-        .experience-item {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .experience-item:last-child {
-            border-bottom: none;
-        }
-
-        .experience-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 0.25rem;
-        }
-
-        .experience-company {
-            font-size: 1rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-dates {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            margin-bottom: 0.75rem;
-        }
-
-        .experience-description {
-            color: #4b5563;
-            line-height: 1.6;
-        }
-
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-badge {
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 0.5rem 1.25rem;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .availability-badge {
-            display: inline-block;
-            padding: 0.5rem 1.25rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .availability-badge.active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .availability-badge.open {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .availability-badge.employed {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .availability-badge.unavailable {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .certifications-text {
-            color: #4b5563;
-            line-height: 1.8;
-            white-space: pre-wrap;
-        }
-
-        .no-profile {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .no-profile h2 {
-            font-size: 2rem;
-            color: #1f2937;
-            margin-bottom: 1rem;
-        }
-
-        .no-profile p {
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .profile-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .profile-name {
-                font-size: 2rem;
-            }
-
-            .profile-meta {
-                justify-content: center;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn-edit, .btn-back {
-                width: 100%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile - LinkTradeNetwork</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;background:#f3f4f6;min-height:100vh}
+    header{background:#64748b;padding:1.5rem 2rem;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+    .logo-header{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto}
+    .logo-link{display:flex;align-items:center;gap:12px;color:#000;text-decoration:none}
+    .logo-icon{font-size:2rem}
+    .logo-text{font-size:1.5rem;font-weight:700}
+    .header-actions{display:flex;gap:1rem}
+    .btn-edit,.btn-back{background:#3b82f6;color:#fff;padding:.75rem 1.5rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:.3s}
+    .btn-back{background:#6b7280}
+    .btn-edit:hover{background:#2563eb}
+    .btn-back:hover{background:#4b5563}
+    .container{max-width:1000px;margin:2rem auto;padding:0 2rem}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .btn{background:#3b82f6;color:#fff;border:none;padding:.55rem .9rem;border-radius:8px;font-weight:700;cursor:pointer;text-decoration:none}
+    .btn.alt{background:#6b7280}
+    .btn.warn{background:#f59e0b}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .profile-header{background:#fff;border-radius:12px;padding:2.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.1);display:flex;gap:2rem;align-items:start}
+    .profile-photo-large{width:200px;height:200px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:5rem;color:#9ca3af;overflow:hidden;flex-shrink:0}
+    .profile-photo-large img{width:100%;height:100%;object-fit:cover}
+    .profile-header-info{flex:1}
+    .profile-name{font-size:2.5rem;font-weight:700;color:#1f2937;margin-bottom:.5rem}
+    .profile-headline{font-size:1.25rem;color:#4b5563;margin-bottom:1rem}
+    .profile-meta{display:flex;gap:2rem;flex-wrap:wrap;color:#6b7280;font-size:.95rem}
+    .profile-meta-item{display:flex;align-items:center;gap:.5rem}
+    .profile-section{background:#fff;border-radius:12px;padding:2.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+    .section-title{font-size:1.75rem;font-weight:700;color:#1f2937;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:2px solid #e5e7eb}
+    .about-text{color:#4b5563;line-height:1.8;font-size:1rem;white-space:pre-wrap}
+    .experience-item{padding:1.5rem 0;border-bottom:1px solid #e5e7eb}
+    .experience-item:last-child{border-bottom:none}
+    .experience-title{font-size:1.25rem;font-weight:600;color:#1f2937;margin-bottom:.25rem}
+    .experience-company{font-size:1rem;color:#6b7280;margin-bottom:.5rem}
+    .experience-dates{font-size:.9rem;color:#9ca3af;margin-bottom:.75rem}
+    .experience-description{color:#4b5563;line-height:1.6;white-space:pre-wrap}
+    .skills-container{display:flex;flex-wrap:wrap;gap:.75rem}
+    .skill-badge{background:#dbeafe;color:#1e40af;padding:.5rem 1.25rem;border-radius:20px;font-size:.95rem;font-weight:500}
+    .availability-badge{display:inline-block;padding:.5rem 1.25rem;border-radius:20px;font-weight:600;font-size:.95rem}
+    .availability-badge.active{background:#d1fae5;color:#065f46}
+    .availability-badge.open{background:#dbeafe;color:#1e40af}
+    .availability-badge.employed{background:#fef3c7;color:#92400e}
+    .availability-badge.unavailable{background:#fee2e2;color:#991b1b}
+    .certifications-text{color:#4b5563;line-height:1.8;white-space:pre-wrap}
+    .no-profile{text-align:center;padding:4rem 2rem;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+    .no-profile h2{font-size:2rem;color:#1f2937;margin-bottom:1rem}
+    .no-profile p{color:#6b7280;margin-bottom:2rem}
+    .msg{margin:.5rem 0;padding:.6rem .9rem;border-radius:8px;display:none}
+    .msg.ok{display:block;background:#d1fae5;border:1px solid #10b981;color:#065f46}
+    .msg.err{display:block;background:#fee2e2;border:1px solid #ef4444;color:#991b1b}
+    @media (max-width:768px){
+      .profile-header{flex-direction:column;align-items:center;text-align:center}
+      .profile-name{font-size:2rem}
+      .profile-meta{justify-content:center}
+      .header-actions{flex-direction:column;width:100%}
+      .btn-edit,.btn-back{width:100%}
+    }
+    @media print{
+      header,.toolbar,.msg{display:none!important}
+      body{background:#fff}
+      .container{margin:0;padding:0}
+      .profile-header,.profile-section{box-shadow:none;border:1px solid #ddd;border-radius:0}
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo-header">
-            <a href="front.html" class="logo-link">
-                <span class="logo-icon">🌍</span>
-                <span class="logo-text">LinkTradeNetwork</span>
-            </a>
-            <div class="header-actions">
-                <a href="build-profile.html" class="btn-edit">Edit Profile</a>
-                <a href="front.html" class="btn-back">Home</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="container" id="profileContainer">
-        <!-- Profile will be loaded here by JavaScript -->
+  <header>
+    <div class="logo-header">
+      <a href="front.html" class="logo-link">
+        <span class="logo-icon">🌍</span>
+        <span class="logo-text">LinkTradeNetwork</span>
+      </a>
+      <div class="header-actions">
+        <a href="build-profile.html" class="btn-edit">Edit Profile</a>
+        <a href="front.html" class="btn-back">Home</a>
+      </div>
     </div>
+  </header>
 
-    <script>
-        // Load profile from localStorage
-        const profileData = localStorage.getItem('userProfile');
+  <div class="container">
+    <!-- Actions / Sync -->
+    <div class="toolbar" id="toolbar" hidden>
+      <button class="btn" id="exportPdfBtn" type="button">Export PDF</button>
+      <button class="btn alt" id="downloadJsonBtn" type="button">Download JSON</button>
+      <label class="btn alt" for="importJsonInput" style="cursor:pointer">Import JSON</label>
+      <input id="importJsonInput" type="file" accept="application/json" hidden />
+      <button class="btn warn" id="syncSheetsBtn" type="button" title="Send this profile to your Google Sheet">Sync to Google Sheets</button>
+    </div>
+    <div id="flash" class="msg"></div>
 
-        if (!profileData) {
-            // No profile found
-            document.getElementById('profileContainer').innerHTML = `
-                <div class="no-profile">
-                    <h2>No Profile Found</h2>
-                    <p>You haven't created your profile yet.</p>
-                    <a href="build-profile.html" class="btn-edit">Build Your Profile</a>
-                </div>
-            `;
-        } else {
-            // Parse and display profile
-            const profile = JSON.parse(profileData);
-            
-            // Get availability badge class
-            let availabilityClass = 'employed';
-            if (profile.availability === 'Actively Looking') availabilityClass = 'active';
-            else if (profile.availability === 'Open to Offers') availabilityClass = 'open';
-            else if (profile.availability === 'Not Available') availabilityClass = 'unavailable';
+    <div id="profileContainer"><!-- filled by JS --></div>
+  </div>
 
-            // Build profile HTML
-            let profileHTML = `
-                <!-- Profile Header -->
-                <div class="profile-header">
-                    <div class="profile-photo-large">
-                        ${profile.photo ? `<img src="${profile.photo}" alt="${profile.firstName}">` : '👤'}
-                    </div>
-                    <div class="profile-header-info">
-                        <h1 class="profile-name">${profile.firstName} ${profile.lastName}</h1>
-                        <p class="profile-headline">${profile.headline}</p>
-                        <div class="profile-meta">
-                            <div class="profile-meta-item">
-                                <strong>🔧</strong> ${profile.trade}
-                            </div>
-                            <div class="profile-meta-item">
-                                <strong>📍</strong> ${profile.location}
-                            </div>
-                            <div class="profile-meta-item">
-                                <strong>📧</strong> ${profile.email}
-                            </div>
-                            <div class="profile-meta-item">
-                                <strong>📞</strong> ${profile.phone}
-                            </div>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <span class="availability-badge ${availabilityClass}">${profile.availability}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+  <script>
+    // === CONFIG ===
+    // Replace with your own Apps Script Web App URL (must end in /exec)
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
+    const STORAGE_KEY = 'userProfile:v1';
+    const LEGACY_KEY  = 'userProfile';
 
-            // About section
-            if (profile.summary) {
-                profileHTML += `
-                    <div class="profile-section">
-                        <h2 class="section-title">About</h2>
-                        <p class="about-text">${profile.summary}</p>
-                    </div>
-                `;
-            }
+    // === UTIL ===
+    function escapeHTML(str){
+      return String(str ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+    }
+    function telHref(raw){ const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; }
+    function fmtPhone(raw){
+      const d=(raw||'').replace(/\D/g,'').slice(-10);
+      return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||'');
+    }
+    function flash(msg, ok=true){
+      const el=document.getElementById('flash');
+      el.className = 'msg ' + (ok?'ok':'err');
+      el.textContent = msg;
+      el.style.display = 'block';
+      if(ok){ setTimeout(()=>{ el.style.display='none'; }, 1800); }
+    }
 
-            // Experience section
-            if (profile.experiences && profile.experiences.length > 0) {
-                const hasExperience = profile.experiences.some(exp => exp.jobTitle || exp.company);
-                if (hasExperience) {
-                    profileHTML += `
-                        <div class="profile-section">
-                            <h2 class="section-title">Experience</h2>
-                    `;
-                    profile.experiences.forEach(exp => {
-                        if (exp.jobTitle || exp.company) {
-                            profileHTML += `
-                                <div class="experience-item">
-                                    <div class="experience-title">${exp.jobTitle || 'Position'}</div>
-                                    <div class="experience-company">${exp.company || 'Company'}</div>
-                                    <div class="experience-dates">${exp.startDate || ''} ${exp.startDate && exp.endDate ? '- ' : ''}${exp.endDate || ''}</div>
-                                    ${exp.description ? `<p class="experience-description">${exp.description}</p>` : ''}
-                                </div>
-                            `;
-                        }
-                    });
-                    profileHTML += `</div>`;
-                }
-            }
+    // === LOAD PROFILE ===
+    function loadProfile(){
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+      if(!raw) return null;
+      try{ return JSON.parse(raw); }catch{ return null; }
+    }
 
-            // Skills section
-            if (profile.skills) {
-                const skillsArray = profile.skills.split(',').map(s => s.trim()).filter(s => s);
-                if (skillsArray.length > 0) {
-                    profileHTML += `
-                        <div class="profile-section">
-                            <h2 class="section-title">Skills</h2>
-                            <div class="skills-container">
-                                ${skillsArray.map(skill => `<span class="skill-badge">${skill}</span>`).join('')}
-                            </div>
-                        </div>
-                    `;
-                }
-            }
+    function availabilityClass(v){
+      if(v==='Actively Looking') return 'active';
+      if(v==='Open to Offers')   return 'open';
+      if(v==='Not Available')    return 'unavailable';
+      return 'employed';
+    }
 
-            // Certifications section
-            if (profile.certifications) {
-                profileHTML += `
-                    <div class="profile-section">
-                        <h2 class="section-title">Certifications & Licenses</h2>
-                        <p class="certifications-text">${profile.certifications}</p>
-                    </div>
-                `;
-            }
+    function render(){
+      const container = document.getElementById('profileContainer');
+      const toolbar   = document.getElementById('toolbar');
+      const profile   = loadProfile();
 
-            document.getElementById('profileContainer').innerHTML = profileHTML;
-        }
-    </script>
+      if(!profile){
+        toolbar.hidden = true;
+        container.innerHTML = `
+          <div class="no-profile">
+            <h2>No Profile Found</h2>
+            <p>You haven't created your profile yet.</p>
+            <a href="build-profile.html" class="btn-edit" style="display:inline-block">Build Your Profile</a>
+          </div>`;
+        return;
+      }
+      toolbar.hidden = false;
+
+      const photoHTML = profile.photo
+        ? `<img src="${escapeHTML(profile.photo)}" alt="${escapeHTML(profile.firstName||'Profile')}" loading="lazy">`
+        : '👤';
+
+      const skillsArray = typeof profile.skills==='string'
+        ? profile.skills.split(',').map(s=>s.trim()).filter(Boolean)
+        : [];
+
+      let html = `
+        <div class="profile-header">
+          <div class="profile-photo-large">${photoHTML}</div>
+          <div class="profile-header-info">
+            <h1 class="profile-name">${escapeHTML(profile.firstName||'')} ${escapeHTML(profile.lastName||'')}</h1>
+            ${profile.headline?`<p class="profile-headline">${escapeHTML(profile.headline)}</p>`:''}
+            <div class="profile-meta">
+              ${profile.trade?`<div class="profile-meta-item"><strong>🔧</strong> ${escapeHTML(profile.trade)}</div>`:''}
+              ${profile.location?`<div class="profile-meta-item"><strong>📍</strong> ${escapeHTML(profile.location)}</div>`:''}
+              ${profile.email?`<div class="profile-meta-item"><strong>📧</strong> <a href="mailto:${escapeHTML(profile.email)}">${escapeHTML(profile.email)}</a></div>`:''}
+              ${profile.phone?`<div class="profile-meta-item"><strong>📞</strong> <a href="${telHref(profile.phone)}">${fmtPhone(profile.phone)}</a></div>`:''}
+            </div>
+            <div style="margin-top:1.5rem">
+              <span class="availability-badge ${availabilityClass(profile.availability)}">${escapeHTML(profile.availability||'Employed')}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if(profile.summary){
+        html += `
+          <div class="profile-section">
+            <h2 class="section-title">About</h2>
+            <p class="about-text">${escapeHTML(profile.summary)}</p>
+          </div>`;
+      }
+
+      if(Array.isArray(profile.experiences) && profile.experiences.some(e=>e?.jobTitle || e?.company)){
+        html += `<div class="profile-section"><h2 class="section-title">Experience</h2>`;
+        profile.experiences.forEach(exp=>{
+          if(!(exp?.jobTitle || exp?.company)) return;
+          const title = escapeHTML(exp.jobTitle||'Position');
+          const company = escapeHTML(exp.company||'Company');
+          const start = escapeHTML(exp.startDate||'');
+          const end = escapeHTML(exp.endDate||'');
+          const dates = start || end ? `<div class="experience-dates">${start}${start&&end?' - ':''}${end}</div>`:'';
+          const desc = exp.description ? `<p class="experience-description">${escapeHTML(exp.description)}</p>`:'';
+          html += `
+            <div class="experience-item">
+              <div class="experience-title">${title}</div>
+              <div class="experience-company">${company}</div>
+              ${dates}
+              ${desc}
+            </div>`;
+        });
+        html += `</div>`;
+      }
+
+      if(skillsArray.length){
+        html += `
+          <div class="profile-section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-container">
+              ${skillsArray.map(s=>`<span class="skill-badge">${escapeHTML(s)}</span>`).join('')}
+            </div>
+          </div>`;
+      }
+
+      if(profile.certifications){
+        html += `
+          <div class="profile-section">
+            <h2 class="section-title">Certifications & Licenses</h2>
+            <p class="certifications-text">${escapeHTML(profile.certifications)}</p>
+          </div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // === ACTIONS ===
+    function exportPDF(){ window.print(); }
+    function downloadJSON(){
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+      if(!raw){ flash('No profile to download', false); return; }
+      const blob = new Blob([raw], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'LinkTradeNetwork_Profile.json';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+    async function importJSON(file){
+      try{
+        const text = await file.text();
+        const obj = JSON.parse(text);
+        if(!obj || typeof obj!=='object') throw new Error('Invalid JSON');
+        const raw = JSON.stringify(obj);
+        localStorage.setItem(STORAGE_KEY, raw);
+        localStorage.setItem(LEGACY_KEY,  raw);
+        flash('Profile imported'); render();
+      }catch(e){ flash('Import failed: '+e.message, false); }
+    }
+    async function syncToGoogleSheets(){
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+      if(!raw){ flash('Nothing to sync. Build your profile first.', false); return; }
+      const profile = JSON.parse(raw);
+      const btn = document.getElementById('syncSheetsBtn');
+      btn.disabled = true; btn.textContent = 'Syncing…';
+      try{
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method:'POST',
+          mode:'no-cors',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(profile)
+        });
+        flash('✅ Synced to Google Sheets');
+      }catch(e){
+        console.error(e); flash('❌ Sync failed. Check your Apps Script URL.', false);
+      }finally{
+        btn.disabled = false; btn.textContent = 'Sync to Google Sheets';
+      }
+    }
+
+    // === WIRE UP ===
+    document.getElementById('exportPdfBtn') .addEventListener('click', exportPDF);
+    document.getElementById('downloadJsonBtn').addEventListener('click', downloadJSON);
+    document.getElementById('importJsonInput').addEventListener('change', e=>{
+      const f = e.target.files?.[0]; if(f) importJSON(f); e.target.value='';
+    });
+    document.getElementById('syncSheetsBtn').addEventListener('click', syncToGoogleSheets);
+
+    // Initial render
+    render();
+  </script>
 </body>
 </html>
