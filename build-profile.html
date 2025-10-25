@@ -119,7 +119,6 @@
           <textarea id="certs" placeholder="OSHA-10, BICSI Installer 1, Lift Certified"></textarea>
         </div>
 
-        <!-- Experience block -->
         <div class="full">
           <label>Experience (one recent role)</label>
         </div>
@@ -150,13 +149,11 @@
 
 <script>
   // === CONFIG ===
-  // Same Google Apps Script Web App URL used on your profile page:
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
-  const REDIRECT_TO = 'profile.html'; // change if needed
+  const REDIRECT_TO = 'profile.html';
 
-  // === ELEMENTS ===
   const els = {
     firstName:  document.getElementById('firstName'),
     lastName:   document.getElementById('lastName'),
@@ -181,16 +178,13 @@
     demoBtn:    document.getElementById('demoBtn'),
   };
 
-  // === HELPERS ===
   function setVal(el, v){ if(v!==undefined && v!==null) el.value = v; }
   function showMsg(text, ok=true){
     els.msg.className = ok ? 'ok' : 'err';
-    els.msg.id = 'message';
     els.msg.textContent = text;
     els.msg.style.display = 'block';
   }
 
-  // Photo handling
   let currentPhotoDataUrl = '';
   els.photo.addEventListener('change', async (e)=>{
     const f = e.target.files?.[0];
@@ -209,7 +203,6 @@
     });
   }
 
-  // Load existing (if any)
   (function loadExisting(){
     const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
     if(!raw) return;
@@ -240,7 +233,6 @@
     }catch(e){ /* ignore */ }
   })();
 
-  // Save handler
   els.saveBtn.addEventListener('click', async ()=>{
     const firstName = els.firstName.value.trim();
     const lastName  = els.lastName.value.trim();
@@ -278,7 +270,6 @@
     els.saveBtn.textContent = 'Saving…';
 
     try{
-      // Send to Google Sheets (Apps Script Web App)
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -286,7 +277,6 @@
         body: JSON.stringify(profile)
       });
 
-      // Save locally (both keys for compatibility)
       const raw = JSON.stringify(profile);
       localStorage.setItem(STORAGE_KEY, raw);
       localStorage.setItem(LEGACY_KEY, raw);
@@ -298,11 +288,9 @@
       showMsg('❌ Save failed. Check your internet or Google Script URL.', false);
       els.saveBtn.disabled = false;
       els.saveBtn.textContent = 'Save';
-      return;
     }
   });
 
-  // Demo data
   els.demoBtn.addEventListener('click', ()=>{
     setVal(els.firstName, 'Alex');
     setVal(els.lastName, 'Rivera');
