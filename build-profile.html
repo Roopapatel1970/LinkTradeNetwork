@@ -10,18 +10,24 @@
   body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;color:var(--ink)}
   a{color:inherit;text-decoration:none}
 
-  /* Shared header (gray) */
+  /* Header */
   header{background:#64748b;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;color:#fff}
+  .topbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
   .brand .logo-icon{font-size:2rem}
   .brand .brand-text{font-weight:800}
-  .topbar a.btn-link{color:#fff;opacity:.95}
-  .topbar a.btn-link:hover{opacity:.85}
+  .links{display:flex;gap:12px;align-items:center}
+  .links a{color:#fff;opacity:.95;text-decoration:none}
+  .links a:hover{opacity:.85}
 
-  .wrap{max-width:900px;margin:1.25rem auto;padding:0 1rem}
-  .card{background:var(--card);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);padding:1.25rem;border:1px solid var(--line)}
-  h1{font-size:1.6rem;margin:.25rem 0 1rem}
+  /* Layout */
+  .wrap{max-width:1200px;margin:16px auto;padding:0 16px}
+  .editor{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:16px}
+  .card{background:var(--card);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid var(--line)}
+  .pane{padding:16px}
+
+  /* Form */
+  h1{font-size:1.6rem;margin:.25rem 0 .75rem}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .full{grid-column:1 / -1}
   label{display:block;font-weight:600;margin:.25rem 0 .35rem}
@@ -32,13 +38,25 @@
   .btn{background:var(--brand);color:#fff;border:none;padding:.7rem 1rem;border-radius:8px;font-weight:800;cursor:pointer}
   .btn:hover{background:var(--brand2)}
   .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
+  .status{font-size:.95rem;color:#047857;background:#d1fae5;border:1px solid #10b981;padding:.4rem .6rem;border-radius:8px;display:none}
+  .status.show{display:inline-block}
+
+  /* Photo */
   .photo{display:flex;align-items:center;gap:12px}
   .photo-preview{width:64px;height:64px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 2px #dbeafe}
   .photo-preview img{width:100%;height:100%;object-fit:cover}
-  #message{margin:.75rem 0;padding:.6rem .8rem;border-radius:8px;display:none}
-  #message.ok{display:block;background:#d1fae5;border:1px solid #10b981;color:#065f46}
-  #message.err{display:block;background:#fee2e2;border:1px solid #ef4444;color:#991b1b}
-  @media (max-width:720px){.grid{grid-template-columns:1fr}}
+
+  /* Live preview (right) */
+  .profile-card .profile-row{display:flex;gap:16px}
+  .avatar{width:96px;height:96px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:44px;color:#9aa2b1;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px var(--line)}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .headline{font-size:22px;font-weight:800;margin:4px 0 2px}
+  .muted{color:#6b7280}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:4px 8px;border-radius:999px;font-weight:700;font-size:12px}
+  .sec{padding-top:8px;border-top:1px solid var(--line);margin-top:12px}
+  .skill{background:#eef2ff;border:1px solid #dfe3f6;padding:4px 10px;border-radius:999px;font-weight:700;color:#27316f;margin:4px 6px 0 0;display:inline-block}
+  @media (max-width:960px){ .editor{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -48,115 +66,155 @@
         <span class="logo-icon">🌍</span>
         <span class="brand-text">LinkTradeNetwork</span>
       </a>
-      <a class="btn-link" href="my-profile.html">My Profile</a>
+      <div class="links">
+        <span id="saveStatus" class="status">Saved ✓</span>
+        <a href="my-profile.html" target="_blank" rel="noopener">Open My Profile</a>
+      </div>
     </div>
   </header>
 
-  <div class="wrap">
-    <div class="card" style="margin-bottom:12px">
-      <div id="message"></div>
-      <p style="color:#475569;margin:0 0 .5rem"><strong>Start fresh.</strong> Fields are blank on purpose. Only <em>First Name</em>, <em>Last Name</em>, and <em>Trade</em> are required.</p>
-    </div>
-
-    <!-- Form kept for a11y; default submit is blocked -->
-    <form id="profileForm" onsubmit="return false;">
-      <div class="card">
-        <h1>Build Your Profile</h1>
-
-        <div class="grid">
-          <div>
-            <label for="firstName">First Name *</label>
-            <input id="firstName" autocomplete="off" />
-          </div>
-          <div>
-            <label for="lastName">Last Name *</label>
-            <input id="lastName" autocomplete="off" />
-          </div>
-
-          <div class="full">
-            <label for="headline">Headline</label>
-            <input id="headline" autocomplete="off" placeholder="e.g., Low-voltage installer • IP cameras • Fiber" />
-          </div>
-
-          <div>
-            <label for="trade">Trade / Role *</label>
-            <input id="trade" autocomplete="off" placeholder="e.g., Low Voltage Technician" />
-          </div>
-          <div>
-            <label for="availability">Availability</label>
-            <select id="availability">
-              <option>Employed</option>
-              <option>Actively Looking</option>
-              <option>Open to Offers</option>
-              <option>Not Available</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="location">Location</label>
-            <input id="location" autocomplete="off" />
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input id="email" autocomplete="off" />
-          </div>
-
-          <div>
-            <label for="phone">Phone</label>
-            <input id="phone" autocomplete="off" />
-          </div>
-          <div class="photo">
+  <main class="wrap">
+    <div class="editor">
+      <!-- Left: Editor -->
+      <section class="card pane">
+        <h1>Edit Profile</h1>
+        <form id="profileForm" onsubmit="return false;">
+          <div class="grid">
             <div>
-              <label for="photo">Photo (optional)</label>
-              <input id="photo" type="file" accept="image/*" />
-              <small>Square works best</small>
+              <label for="firstName">First Name *</label>
+              <input id="firstName" autocomplete="off" />
             </div>
-            <div class="photo-preview" id="preview">👤</div>
+            <div>
+              <label for="lastName">Last Name *</label>
+              <input id="lastName" autocomplete="off" />
+            </div>
+
+            <div class="full">
+              <label for="headline">Headline</label>
+              <input id="headline" autocomplete="off" placeholder="e.g., Low-voltage installer • IP cameras • Fiber" />
+            </div>
+
+            <div>
+              <label for="trade">Trade / Role *</label>
+              <input id="trade" autocomplete="off" placeholder="e.g., Low Voltage Technician" />
+            </div>
+            <div>
+              <label for="availability">Availability</label>
+              <select id="availability">
+                <option>Employed</option>
+                <option>Actively Looking</option>
+                <option>Open to Offers</option>
+                <option>Not Available</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="location">Location</label>
+              <input id="location" autocomplete="off" />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" autocomplete="off" />
+            </div>
+
+            <div>
+              <label for="phone">Phone</label>
+              <input id="phone" autocomplete="off" />
+            </div>
+            <div class="photo">
+              <div>
+                <label for="photo">Photo (optional)</label>
+                <input id="photo" type="file" accept="image/*" />
+                <small>Square works best</small>
+              </div>
+              <div class="photo-preview" id="preview">👤</div>
+            </div>
+
+            <div class="full">
+              <label for="summary">About</label>
+              <textarea id="summary" placeholder="Short summary…"></textarea>
+            </div>
+
+            <div class="full">
+              <label for="skills">Skills (comma-separated)</label>
+              <input id="skills" autocomplete="off" placeholder="Fiber pull, Termination, IP CCTV, Access control"/>
+            </div>
+
+            <div class="full">
+              <label for="certs">Certifications & Licenses</label>
+              <textarea id="certs" placeholder="List your certs…"></textarea>
+            </div>
+
+            <!-- Experience -->
+            <div class="full"><label>Experience (one recent role)</label></div>
+            <div><input id="jobTitle" placeholder="Job Title"/></div>
+            <div><input id="company"  placeholder="Company"/></div>
+            <div><input id="startDate" placeholder="Start e.g., 2023-01"/></div>
+            <div><input id="endDate"   placeholder="End e.g., Present"/></div>
+            <div class="full"><textarea id="jobDesc" placeholder="What you did in this role..."></textarea></div>
           </div>
 
-          <div class="full">
-            <label for="summary">About</label>
-            <textarea id="summary"></textarea>
+          <div class="row">
+            <button class="btn" id="saveToSheetBtn" type="button" title="Push to your Google Sheet">Save to Google Sheet</button>
+            <button class="btn gray" id="clearBtn" type="button" title="Clear everything">Clear</button>
           </div>
+        </form>
+      </section>
 
-          <div class="full">
-            <label for="skills">Skills (comma-separated)</label>
-            <input id="skills" autocomplete="off" />
+      <!-- Right: Live Preview -->
+      <aside class="card pane profile-card">
+        <div class="profile-row">
+          <div class="avatar" id="pv_avatar">👤</div>
+          <div class="flex-1">
+            <div class="headline" id="pv_name">Your Name</div>
+            <div class="muted" id="pv_headline">Headline</div>
+            <div class="muted" style="margin-top:4px">
+              <span id="pv_trade">—</span> · <span id="pv_location">—</span>
+            </div>
+            <div class="chips">
+              <span class="chip" id="pv_availability">Employed</span>
+            </div>
           </div>
-
-          <div class="full">
-            <label for="certs">Certifications & Licenses</label>
-            <textarea id="certs"></textarea>
-          </div>
-
-          <!-- Experience -->
-          <div class="full"><label>Experience (one recent role)</label></div>
-          <div><input id="jobTitle" placeholder="Job Title"/></div>
-          <div><input id="company"  placeholder="Company"/></div>
-          <div><input id="startDate" placeholder="Start e.g., 2023-01"/></div>
-          <div><input id="endDate"   placeholder="End e.g., Present"/></div>
-          <div class="full"><textarea id="jobDesc" placeholder="What you did in this role..."></textarea></div>
         </div>
 
-        <div class="row">
-          <button class="btn" id="saveBtn" type="button">Save</button>
-          <button class="btn gray" id="clearBtn" type="button" title="Clear everything">Clear</button>
-          <a class="btn gray" href="my-profile.html">View My Profile</a>
+        <div class="sec" id="pv_about_sec" style="display:none">
+          <h3>About</h3>
+          <div id="pv_about" class="muted" style="white-space:pre-wrap"></div>
         </div>
-      </div>
-    </form>
-  </div>
+
+        <div class="sec" id="pv_exp_sec" style="display:none">
+          <h3>Experience</h3>
+          <div id="pv_exp"></div>
+        </div>
+
+        <div class="sec" id="pv_skills_sec" style="display:none">
+          <h3>Skills</h3>
+          <div id="pv_skills"></div>
+        </div>
+
+        <div class="sec" id="pv_certs_sec" style="display:none">
+          <h3>Certifications</h3>
+          <div id="pv_certs" class="muted" style="white-space:pre-wrap"></div>
+        </div>
+      </aside>
+    </div>
+  </main>
 
 <script>
   // ===== CONFIG =====
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
-  const REDIRECT_TARGET = 'my-profile.html';
 
   // ===== ELEMENTS =====
   const els = {
     form:       document.getElementById('profileForm'),
+    saveToSheetBtn: document.getElementById('saveToSheetBtn'),
+    clearBtn:   document.getElementById('clearBtn'),
+    saveStatus: document.getElementById('saveStatus'),
+    photo:      document.getElementById('photo'),
+    preview:    document.getElementById('preview'),
+
     firstName:  document.getElementById('firstName'),
     lastName:   document.getElementById('lastName'),
     headline:   document.getElementById('headline'),
@@ -165,8 +223,6 @@
     location:   document.getElementById('location'),
     email:      document.getElementById('email'),
     phone:      document.getElementById('phone'),
-    photo:      document.getElementById('photo'),
-    preview:    document.getElementById('preview'),
     summary:    document.getElementById('summary'),
     skills:     document.getElementById('skills'),
     certs:      document.getElementById('certs'),
@@ -175,107 +231,216 @@
     startDate:  document.getElementById('startDate'),
     endDate:    document.getElementById('endDate'),
     jobDesc:    document.getElementById('jobDesc'),
-    msg:        document.getElementById('message'),
-    saveBtn:    document.getElementById('saveBtn'),
-    clearBtn:   document.getElementById('clearBtn'),
+
+    pv_avatar:  document.getElementById('pv_avatar'),
+    pv_name:    document.getElementById('pv_name'),
+    pv_headline:document.getElementById('pv_headline'),
+    pv_trade:   document.getElementById('pv_trade'),
+    pv_location:document.getElementById('pv_location'),
+    pv_availability:document.getElementById('pv_availability'),
+    pv_about_sec: document.getElementById('pv_about_sec'),
+    pv_about:   document.getElementById('pv_about'),
+    pv_exp_sec: document.getElementById('pv_exp_sec'),
+    pv_exp:     document.getElementById('pv_exp'),
+    pv_skills_sec: document.getElementById('pv_skills_sec'),
+    pv_skills:  document.getElementById('pv_skills'),
+    pv_certs_sec: document.getElementById('pv_certs_sec'),
+    pv_certs:   document.getElementById('pv_certs'),
   };
 
-  // Block default submit
-  els.form.addEventListener('submit', (e)=>{ e.preventDefault(); return false; });
-
   // ===== Helpers =====
-  function showMsg(text, ok=true){
-    els.msg.className = ok ? 'ok' : 'err';
-    els.msg.textContent = text;
-    els.msg.style.display = 'block';
+  const escapeHTML = s => String(s ?? '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const debounce = (fn, ms=500)=>{ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); }; };
+  function availChip(a){
+    if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
+    if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
+    if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
+    return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'};
   }
-  function setVal(el, v=''){ el.value = v; }
 
-  // Photo preview
+  function getProfileFromForm(){
+    return {
+      firstName: els.firstName.value.trim(),
+      lastName:  els.lastName.value.trim(),
+      headline:  els.headline.value.trim(),
+      trade:     els.trade.value.trim(),
+      availability: els.availability.value,
+      location:  els.location.value.trim(),
+      email:     els.email.value.trim(),
+      phone:     els.phone.value.trim(),
+      photo:     currentPhotoDataUrl || '',
+      summary:   els.summary.value.trim(),
+      skills:    els.skills.value.trim(),
+      certifications: els.certs.value.trim(),
+      experiences: [{
+        jobTitle:   els.jobTitle.value.trim(),
+        company:    els.company.value.trim(),
+        startDate:  els.startDate.value.trim(),
+        endDate:    els.endDate.value.trim(),
+        description:els.jobDesc.value.trim()
+      }],
+      updatedAt: new Date().toISOString()
+    };
+  }
+
+  function setSavedTick(){
+    els.saveStatus.textContent = 'Saved ✓';
+    els.saveStatus.classList.add('show');
+    setTimeout(()=>els.saveStatus.classList.remove('show'), 1500);
+  }
+
+  function renderPreview(p){
+    // avatar
+    if(p.photo) els.pv_avatar.innerHTML = `<img src="${escapeHTML(p.photo)}" alt="Photo">`;
+    else els.pv_avatar.textContent = '👤';
+    // name
+    const name = `${p.firstName||''} ${p.lastName||''}`.trim();
+    els.pv_name.textContent = name || 'Your Name';
+    els.pv_headline.textContent = p.headline || 'Headline';
+    els.pv_trade.textContent = p.trade || '—';
+    els.pv_location.textContent = p.location || '—';
+    const ac = availChip(p.availability);
+    Object.assign(els.pv_availability.style,{
+      background:ac.bg,color:ac.color,border:`1px solid ${ac.border}`,borderRadius:'999px'
+    });
+    els.pv_availability.textContent = ac.txt;
+
+    // about
+    const hasAbout = !!(p.summary && p.summary.trim());
+    els.pv_about_sec.style.display = hasAbout ? 'block':'none';
+    els.pv_about.textContent = hasAbout ? p.summary : '';
+
+    // experience
+    els.pv_exp.innerHTML = '';
+    const exps = Array.isArray(p.experiences)? p.experiences.filter(e=>e && (e.jobTitle||e.company)):[];
+    if(exps.length){
+      els.pv_exp_sec.style.display = 'block';
+      exps.forEach(e=>{
+        const dates = [e.startDate||'', e.endDate||''].filter(Boolean).join(' – ');
+        const div = document.createElement('div');
+        div.style.margin='8px 0';
+        div.innerHTML = `<strong>${escapeHTML(e.jobTitle||'Position')}</strong> · ${escapeHTML(e.company||'Company')} ${dates?`<span class="muted">· ${escapeHTML(dates)}</span>`:''}
+                         ${e.description?`<div class="muted" style="white-space:pre-wrap">${escapeHTML(e.description)}</div>`:''}`;
+        els.pv_exp.appendChild(div);
+      });
+    }else{
+      els.pv_exp_sec.style.display = 'none';
+    }
+
+    // skills
+    els.pv_skills.innerHTML = '';
+    const skills = typeof p.skills==='string' ? p.skills.split(',').map(s=>s.trim()).filter(Boolean):[];
+    if(skills.length){
+      els.pv_skills_sec.style.display='block';
+      skills.forEach(s=>{
+        const span = document.createElement('span');
+        span.className='skill';
+        span.textContent = s;
+        els.pv_skills.appendChild(span);
+      });
+    }else{
+      els.pv_skills_sec.style.display='none';
+    }
+
+    // certs
+    const hasCerts = !!(p.certifications && p.certifications.trim());
+    els.pv_certs_sec.style.display = hasCerts ? 'block':'none';
+    els.pv_certs.textContent = hasCerts ? p.certifications : '';
+  }
+
+  // ===== Load from storage (if any), but fields start blank like LinkedIn until you type =====
   let currentPhotoDataUrl = '';
+  (function initFromStorage(){
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+    if(!raw) return;
+    try{
+      const p = JSON.parse(raw);
+      // prefill fields (you can comment these to start truly empty)
+      els.firstName.value = p.firstName || '';
+      els.lastName.value  = p.lastName  || '';
+      els.headline.value  = p.headline  || '';
+      els.trade.value     = p.trade     || '';
+      els.availability.value = p.availability || 'Employed';
+      els.location.value  = p.location  || '';
+      els.email.value     = p.email     || '';
+      els.phone.value     = p.phone     || '';
+      els.summary.value   = p.summary   || '';
+      els.skills.value    = p.skills    || '';
+      els.certs.value     = p.certifications || '';
+      const exp = (p.experiences && p.experiences[0]) || {};
+      els.jobTitle.value  = exp.jobTitle || '';
+      els.company.value   = exp.company  || '';
+      els.startDate.value = exp.startDate|| '';
+      els.endDate.value   = exp.endDate  || '';
+      els.jobDesc.value   = exp.description || '';
+      currentPhotoDataUrl = p.photo || '';
+      if(currentPhotoDataUrl) els.preview.innerHTML = `<img src="${currentPhotoDataUrl}" alt="Preview">`;
+      renderPreview(getProfileFromForm());
+    }catch{}
+  })();
+
+  // ===== Autosave (LinkedIn style) =====
+  const onAnyChange = debounce(()=>{
+    const p = getProfileFromForm();
+    const json = JSON.stringify(p);
+    localStorage.setItem(STORAGE_KEY, json);
+    localStorage.setItem(LEGACY_KEY, json);
+    renderPreview(p);
+    setSavedTick();
+  }, 600);
+
+  // Wire up all inputs for autosave
+  Array.from(document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea')).forEach(el=>{
+    el.addEventListener('input', onAnyChange);
+    el.addEventListener('change', onAnyChange);
+  });
+
+  // Photo preview (kept outside debounce so user sees it instantly)
   els.photo.addEventListener('change', async (e)=>{
     const f = e.target.files?.[0];
     if(!f) return;
-    const dataUrl = await fileToDataURL(f);
-    currentPhotoDataUrl = dataUrl;
-    els.preview.innerHTML = `<img src="${dataUrl}" alt="Preview">`;
+    const r = new FileReader();
+    r.onload = () => {
+      currentPhotoDataUrl = r.result;
+      els.preview.innerHTML = `<img src="${currentPhotoDataUrl}" alt="Preview">`;
+      onAnyChange();
+    };
+    r.readAsDataURL(f);
   });
-  function fileToDataURL(file){
-    return new Promise((res, rej)=>{
-      const r = new FileReader();
-      r.onload = () => res(r.result);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
-  }
 
-  // Clear
-  function clearAll(){
-    setVal(els.firstName); setVal(els.lastName); setVal(els.headline);
-    setVal(els.trade); els.availability.value = 'Employed';
-    setVal(els.location); setVal(els.email); setVal(els.phone);
-    currentPhotoDataUrl=''; els.preview.textContent='👤'; els.photo.value='';
-    setVal(els.summary); setVal(els.skills); setVal(els.certs);
-    setVal(els.jobTitle); setVal(els.company); setVal(els.startDate); setVal(els.endDate); setVal(els.jobDesc);
-    showMsg('Fields cleared.', true);
-  }
-  els.clearBtn.addEventListener('click', clearAll);
+  // Clear everything
+  els.clearBtn.addEventListener('click', ()=>{
+    ['firstName','lastName','headline','trade','location','email','phone','summary','skills','certs','jobTitle','company','startDate','endDate','jobDesc'].forEach(id=>els[id].value='');
+    els.availability.value='Employed';
+    currentPhotoDataUrl=''; els.preview.textContent='👤';
+    onAnyChange();
+  });
 
-  // Save handler
-  els.saveBtn.addEventListener('click', async ()=>{
-    const firstName = els.firstName.value.trim();
-    const lastName  = els.lastName.value.trim();
-    const trade     = els.trade.value.trim();
-    if(!firstName || !lastName || !trade){
-      showMsg('Please fill First Name, Last Name, and Trade (required).', false);
+  // Push to Google Sheet (manual action)
+  els.saveToSheetBtn.addEventListener('click', async ()=>{
+    const p = getProfileFromForm();
+    // basic required like LinkedIn (won’t let you publish with missing core fields)
+    if(!p.firstName || !p.lastName || !p.trade){
+      alert('Please fill First Name, Last Name, and Trade before saving to Google Sheet.');
       return;
     }
-
-    const profile = {
-      firstName, lastName,
-      headline: els.headline.value.trim(),
-      trade,
-      availability: els.availability.value,
-      location: els.location.value.trim(),
-      email: els.email.value.trim(),
-      phone: els.phone.value.trim(),
-      photo: currentPhotoDataUrl || '',
-      summary: els.summary.value.trim(),
-      skills: els.skills.value.trim(),
-      certifications: els.certs.value.trim(),
-      experiences: [{
-        jobTitle: els.jobTitle.value.trim(),
-        company:  els.company.value.trim(),
-        startDate: els.startDate.value.trim(),
-        endDate:   els.endDate.value.trim(),
-        description: els.jobDesc.value.trim()
-      }],
-      createdAt: new Date().toISOString()
-    };
-
-    els.saveBtn.disabled = true;
-    els.saveBtn.textContent = 'Saving…';
-
+    els.saveToSheetBtn.disabled = true;
+    els.saveToSheetBtn.textContent = 'Saving…';
     try{
-      // Send to Google Sheets
       await fetch(GOOGLE_SCRIPT_URL, {
         method:'POST', mode:'no-cors',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(profile)
+        body: JSON.stringify({...p, createdAt: new Date().toISOString()})
       });
-
-      // Save locally for the viewer
-      const raw = JSON.stringify(profile);
-      localStorage.setItem(STORAGE_KEY, raw);
-      localStorage.setItem(LEGACY_KEY, raw);
-
-      showMsg('✅ Profile saved! Opening your profile…', true);
-      setTimeout(()=>{ window.location.href = REDIRECT_TARGET; }, 700);
-    }catch(err){
-      console.error(err);
-      showMsg('❌ Save failed. Check your internet or Google Script URL.', false);
-      els.saveBtn.disabled = false;
-      els.saveBtn.textContent = 'Save';
+      setSavedTick();
+    }catch(e){
+      console.error(e);
+      alert('Save to Google Sheet failed. Check the script URL / network.');
+    }finally{
+      els.saveToSheetBtn.disabled = false;
+      els.saveToSheetBtn.textContent = 'Save to Google Sheet';
     }
   });
 </script>
