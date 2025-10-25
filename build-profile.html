@@ -5,10 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Build Your Profile - LinkTradeNetwork</title>
 <style>
-  :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#3b82f6;--brand2:#2563eb}
+  :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#0a66c2;--brand2:#004182}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink)}
-  header{background:#64748b;color:#fff;padding:1rem 1.25rem}
+  body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+  header{background:#fff;border-bottom:1px solid var(--line)}
+  .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{height:34px;width:auto;border-radius:6px}
+  .brand-text{font-weight:800}
+  .topbar-actions{margin-left:auto;display:flex;gap:8px}
+  .btn{appearance:none;border:none;background:var(--brand);color:#fff;border-radius:8px;font-weight:700;padding:.6rem .9rem;cursor:pointer}
+  .btn:hover{background:var(--brand2)}
+  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
   .wrap{max-width:900px;margin:1.25rem auto;padding:0 1rem}
   .card{background:var(--card);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);padding:1.25rem}
   h1{font-size:1.6rem;margin:.25rem 0 1rem}
@@ -19,10 +28,6 @@
   textarea{min-height:110px;resize:vertical}
   small{color:var(--muted)}
   .row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
-  .btn{background:var(--brand);color:#fff;border:none;padding:.7rem 1rem;border-radius:8px;font-weight:700;cursor:pointer}
-  .btn:hover{background:var(--brand2)}
-  .btn-gray{background:#6b7280}.btn-gray:hover{background:#4b5563}
-  .hint{background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:.75rem 1rem;margin:0 0 1rem}
   .photo{display:flex;align-items:center;gap:12px}
   .photo-preview{width:64px;height:64px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 2px #dbeafe}
   .photo-preview img{width:100%;height:100%;object-fit:cover}
@@ -34,21 +39,28 @@
 </head>
 <body>
   <header>
-    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-      <a href="front.html" style="color:#000;text-decoration:none;display:flex;align-items:center;gap:8px;background:#d1d5db;padding:.4rem .6rem;border-radius:8px">🌍 LinkTradeNetwork</a>
-      <a href="profile.html" class="btn btn-gray" style="text-decoration:none">View My Profile</a>
+    <div class="topbar">
+      <a class="brand" href="front.html" title="Home">
+        <img src="bfd4d33b-2a47-4b82-aa8b-97ca15c01828.png" alt="LinkTradeNetwork Logo">
+        <div class="brand-text">LinkTradeNetwork</div>
+      </a>
+      <div class="topbar-actions">
+        <a class="btn gray" href="my-profile.html">View My Profile</a>
+      </div>
     </div>
   </header>
 
   <div class="wrap">
-    <div class="hint">Start fresh: fields are blank on purpose. Only First Name, Last Name, and Trade are required.</div>
+    <div class="card" style="margin-bottom:12px">
+      <div id="message"></div>
+      <p style="color:#475569;margin:0 0 .5rem"><strong>Start fresh.</strong> Fields are blank on purpose. Only <em>First Name</em>, <em>Last Name</em>, and <em>Trade</em> are required.</p>
+    </div>
 
-    <div id="message"></div>
-
-    <!-- Form is blocked from default submit to avoid unwanted navigation -->
+    <!-- Keep inside a form for a11y, but block default submit -->
     <form id="profileForm" onsubmit="return false;">
       <div class="card">
         <h1>Build Your Profile</h1>
+
         <div class="grid">
           <div>
             <label for="firstName">First Name *</label>
@@ -61,12 +73,12 @@
 
           <div class="full">
             <label for="headline">Headline</label>
-            <input id="headline" autocomplete="off" />
+            <input id="headline" autocomplete="off" placeholder="e.g., Low-voltage installer • IP cameras • Fiber" />
           </div>
 
           <div>
             <label for="trade">Trade / Role *</label>
-            <input id="trade" autocomplete="off" />
+            <input id="trade" autocomplete="off" placeholder="e.g., Low Voltage Technician" />
           </div>
           <div>
             <label for="availability">Availability</label>
@@ -126,21 +138,21 @@
 
         <div class="row">
           <button class="btn" id="saveBtn" type="button">Save</button>
-          <button class="btn btn-gray" id="clearBtn" type="button" title="Clear everything">Clear</button>
-          <a class="btn btn-gray" href="profile.html" id="viewBtn">View My Profile</a>
+          <button class="btn gray" id="clearBtn" type="button" title="Clear everything">Clear</button>
+          <a class="btn gray" href="my-profile.html">View My Profile</a>
         </div>
       </div>
     </form>
   </div>
 
 <script>
-  // === CONFIG ===
+  // ===== CONFIG =====
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
   const STORAGE_KEY = 'userProfile:v1';
   const LEGACY_KEY  = 'userProfile';
-  const REDIRECT_CANDIDATES = ['profile.html','my-profile.html','front.html'];
+  const REDIRECT_TARGET = 'my-profile.html';
 
-  // === ELEMENTS ===
+  // ===== ELEMENTS =====
   const els = {
     form:       document.getElementById('profileForm'),
     firstName:  document.getElementById('firstName'),
@@ -166,7 +178,7 @@
     clearBtn:   document.getElementById('clearBtn'),
   };
 
-  // Keep form from submitting (and navigating)
+  // Block default submit (Enter key)
   els.form.addEventListener('submit', (e)=>{ e.preventDefault(); return false; });
 
   // ===== Helpers =====
@@ -176,11 +188,8 @@
     els.msg.style.display = 'block';
   }
   function setVal(el, v=''){ el.value = v; }
-  function escapeHTML(s){ return String(s ?? '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-  // Photo handling (still blank by default)
+  // Photo preview
   let currentPhotoDataUrl = '';
   els.photo.addEventListener('change', async (e)=>{
     const f = e.target.files?.[0];
@@ -198,10 +207,7 @@
     });
   }
 
-  // IMPORTANT: Do NOT preload from localStorage — always blank.
-  // (If you ever need to opt-in prefill later, we can add a button for that.)
-
-  // Clear all fields quickly
+  // Clear all fields quickly (always starts blank anyway)
   function clearAll(){
     setVal(els.firstName); setVal(els.lastName); setVal(els.headline);
     setVal(els.trade); els.availability.value = 'Employed';
@@ -213,18 +219,7 @@
   }
   els.clearBtn.addEventListener('click', clearAll);
 
-  // Smart redirect after save
-  async function smartRedirect(){
-    for(const file of REDIRECT_CANDIDATES){
-      try{
-        const res = await fetch(file, {method:'HEAD'});
-        if(res.ok){ window.location.href = file; return; }
-      }catch(_){}
-    }
-    window.location.href = REDIRECT_CANDIDATES[0];
-  }
-
-  // Save handler (blank start, but will store what you enter)
+  // Save handler
   els.saveBtn.addEventListener('click', async ()=>{
     const firstName = els.firstName.value.trim();
     const lastName  = els.lastName.value.trim();
@@ -273,7 +268,7 @@
       localStorage.setItem(LEGACY_KEY, raw);
 
       showMsg('✅ Profile saved! Opening your profile…', true);
-      setTimeout(()=>{ smartRedirect(); }, 600);
+      setTimeout(()=>{ window.location.href = REDIRECT_TARGET; }, 700);
     }catch(err){
       console.error(err);
       showMsg('❌ Save failed. Check your internet or Google Script URL.', false);
