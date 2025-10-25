@@ -10,54 +10,79 @@
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
   a{color:inherit;text-decoration:none}
 
-  /* Shared header (gray) */
+  /* Header */
   header{background:#64748b;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.1)}
   .topbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:12px;color:#fff}
   .brand .logo-icon{font-size:2rem}
   .brand .brand-text{font-weight:800}
-  .topbar a.btn-link{color:#fff;opacity:.95}
-  .topbar a.btn-link:hover{opacity:.85}
+  .actions{display:flex;gap:8px;align-items:center}
+  .status{font-size:.95rem;color:#047857;background:#d1fae5;border:1px solid #10b981;padding:.35rem .6rem;border-radius:8px;display:none}
+  .status.show{display:inline-block}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.55rem .85rem;font-weight:800;cursor:pointer}
+  .btn:hover{background:var(--brand2)}
+  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.7);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.12)}
+  .edit-toggle{background:#fff;color:#334155;border:1px solid #cbd5e1}
+  .edit-toggle.active{background:#e8f3ff;color:#0a66c2;border-color:#93c5fd}
 
+  /* Layout */
   .wrap{max-width:1100px;margin:0 auto;padding:16px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
   .profile-card{padding:16px}
-  .profile-row{display:flex;gap:16px}
-  .avatar{width:128px;height:128px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:56px;color:#9aa2b1;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px var(--line)}
+  .profile-row{display:flex;gap:16px;align-items:flex-start}
+  .avatar{position:relative;width:128px;height:128px;border-radius:50%;border:4px solid #fff;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:56px;color:#9aa2b1;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px var(--line)}
   .avatar img{width:100%;height:100%;object-fit:cover}
+  .avatar .edit-badge{display:none;position:absolute;bottom:8px;right:8px;background:#000a;color:#fff;padding:.25rem .45rem;border-radius:8px;font-size:12px}
+  .edit-mode .avatar .edit-badge{display:block;cursor:pointer}
+
   .flex-1{flex:1;min-width:0}
-  .headline{font-size:26px;font-weight:800;margin:4px 0 2px;word-break:break-word}
+  .headline{font-size:26px;font-weight:800;margin:2px 0}
   .sub{color:var(--muted)}
   .meta{display:flex;gap:14px;flex-wrap:wrap;color:#4b5563;margin-top:8px}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .chip{background:#fff7e0;border:1px solid #fde68a;color:#92400e;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
-  .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.6rem .9rem;font-weight:800;cursor:pointer}
-  .btn:hover{background:var(--brand2)}
-  .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
-  .nav{margin-top:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;padding-top:8px}
-  .tab{padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:700;color:#334155}
-  .tab.active{background:#e8f3ff;color:#0a66c2}
+  .chip.select{padding:0}
+  .chip select{appearance:none;background:transparent;border:none;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px;outline:none;color:#92400e}
+
+  .toolbar{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:6px;border:1px dashed #cbd5e1;border-radius:999px;padding:4px 10px;color:#334155;background:#f8fafc}
+  .pencil{font-size:14px;opacity:.8}
+  .hide{display:none!important}
 
   .grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;margin-top:16px}
   .section{padding:16px}
   .section h2{font-size:18px;margin:0 0 8px}
-  .about{white-space:pre-wrap;line-height:1.7;color:#374151}
+  .about[contenteditable="true"], .editable[contenteditable="true"]{outline:2px solid #e0ecff;border-radius:8px;padding:6px}
+  .about{white-space:pre-wrap;line-height:1.7;color:#374151;min-height:1.5em}
+
+  /* Experience */
   .exp-item{padding:12px 0;border-bottom:1px solid var(--line)}
   .exp-item:last-child{border-bottom:none}
   .exp-title{font-weight:800}
   .exp-meta{color:#6b7280;font-size:14px;margin:4px 0}
   .exp-desc{white-space:pre-wrap;color:#374151;margin-top:6px}
+  .exp-tools{display:none;gap:6px;margin-top:6px}
+  .edit-mode .exp-tools{display:flex}
+  .icon-btn{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px}
+  .icon-btn.danger{background:#fff5f5;border-color:#fecaca;color:#b91c1c}
+
+  /* Skills */
   .skills{display:flex;flex-wrap:wrap;gap:8px}
   .skill{background:var(--chip);border:1px solid #dfe3f6;padding:6px 12px;border-radius:999px;font-weight:700;color:#27316f}
-  .certs{white-space:pre-wrap;color:#374151}
+  .skill.edit{cursor:pointer}
+  .add-skill{display:none;margin-top:10px;gap:6px}
+  .add-skill input{flex:1;border:1px solid #d1d5db;border-radius:8px;padding:.5rem .6rem}
+  .edit-mode .add-skill{display:flex}
 
+  /* Sidebar */
   .side .row{display:flex;align-items:center;gap:8px;margin:8px 0;color:#374151}
   .side .pill{display:inline-block;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:4px 10px;font-weight:700;font-size:12px;color:#374151}
 
   footer{color:#64748b;font-size:13px;text-align:center;padding:24px}
   @media (max-width:900px){ .grid{grid-template-columns:1fr} .profile-row{flex-direction:column;align-items:start} }
-  @media print{ header,.nav,.actions{display:none!important} body{background:#fff} }
+  @media print{ header,.toolbar,.actions{display:none!important} body{background:#fff} .about[contenteditable], .editable[contenteditable]{outline:none} }
 </style>
 </head>
 <body>
@@ -67,63 +92,86 @@
       <span class="logo-icon">🌍</span>
       <span class="brand-text">LinkTradeNetwork</span>
     </a>
-    <div style="display:flex;gap:12px;align-items:center">
-      <a class="btn-link" href="build-profile.html">Edit Profile</a>
-      <button class="btn" id="printBtn" type="button">Export PDF</button>
+    <div class="actions">
+      <span id="saveStatus" class="status">Saved ✓</span>
+      <button class="btn gray" id="exportBtn" type="button">Export PDF</button>
+      <button class="btn gray" id="pushBtn" type="button" title="Send a copy to your Google Sheet">Save to Google Sheet</button>
+      <button class="btn edit-toggle" id="editToggle" type="button">Edit</button>
     </div>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="mainWrap">
+  <!-- If no profile, this will be replaced -->
   <section class="card profile-card">
     <div class="profile-row">
-      <div class="avatar" id="avatar">👤</div>
+      <div class="avatar" id="avatar">
+        <span>👤</span>
+        <span class="edit-badge" id="avatarEdit">Edit photo</span>
+        <input id="photoInput" type="file" accept="image/*" style="display:none">
+      </div>
       <div class="flex-1">
-        <div class="headline" id="name">Your Name</div>
-        <div class="sub" id="headline">Headline</div>
+        <div class="headline">
+          <span id="name" class="editable" data-field="name" contenteditable="false">Your Name</span>
+          <span class="badge hide" id="nameHint"><span class="pencil">✎</span> Click to edit name</span>
+        </div>
+        <div class="sub">
+          <span id="headline" class="editable" data-field="headline" contenteditable="false">Headline</span>
+        </div>
         <div class="meta">
-          <div id="trade">—</div>
-          <div id="location">—</div>
-          <div id="email">—</div>
-          <div id="phone">—</div>
+          <div><strong>🔧</strong> <span id="trade" class="editable" data-field="trade" contenteditable="false">—</span></div>
+          <div><strong>📍</strong> <span id="location" class="editable" data-field="location" contenteditable="false">—</span></div>
+          <div><strong>📧</strong> <span id="email" class="editable" data-field="email" contenteditable="false">—</span></div>
+          <div><strong>📞</strong> <span id="phone" class="editable" data-field="phone" contenteditable="false">—</span></div>
         </div>
-        <div class="chips">
-          <span class="chip" id="availability">Employed</span>
+        <div class="chips" id="availWrap">
+          <span class="chip" id="availabilityChip">Employed</span>
+          <span class="chip select hide" id="availabilitySelectWrap">
+            <select id="availabilitySelect">
+              <option>Employed</option>
+              <option>Actively Looking</option>
+              <option>Open to Offers</option>
+              <option>Not Available</option>
+            </select>
+          </span>
         </div>
-        <div class="actions">
-          <a class="btn" id="contactBtn" href="#" target="_blank" rel="noopener">Contact</a>
-          <a class="btn gray" href="build-profile.html">Update details</a>
+
+        <div class="toolbar">
+          <span class="badge"><span class="pencil">✎</span> Inline edit is on</span>
+          <a class="btn gray" href="build-profile.html" target="_blank" rel="noopener">Open Builder</a>
+          <a class="btn gray" href="front.html">Home</a>
         </div>
-        <nav class="nav" aria-label="Sections">
-          <span class="tab active" data-target="#about">About</span>
-          <span class="tab" data-target="#experience">Experience</span>
-          <span class="tab" data-target="#skills">Skills</span>
-          <span class="tab" data-target="#certs">Certifications</span>
-        </nav>
       </div>
     </div>
   </section>
 
   <section class="grid">
     <div>
-      <div class="card section" id="about">
+      <div class="card section" id="aboutSec">
         <h2>About</h2>
-        <div class="about" id="aboutText">No summary yet.</div>
+        <div class="about editable" id="about" data-field="summary" contenteditable="false">No summary yet.</div>
       </div>
 
-      <div class="card section" id="experience" style="display:none">
-        <h2>Experience</h2>
+      <div class="card section" id="expSec" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Experience</h2>
+          <button class="btn gray hide" id="addExpBtn" type="button">Add Experience</button>
+        </div>
         <div id="expList"></div>
       </div>
 
-      <div class="card section" id="skills" style="display:none">
+      <div class="card section" id="skillsSec" style="display:none">
         <h2>Skills</h2>
         <div class="skills" id="skillsList"></div>
+        <div class="add-skill">
+          <input id="skillInput" placeholder="Add a skill and press Enter or +"/>
+          <button class="btn" id="addSkillBtn" type="button">+</button>
+        </div>
       </div>
 
-      <div class="card section" id="certs" style="display:none">
+      <div class="card section" id="certsSec" style="display:none">
         <h2>Certifications & Licenses</h2>
-        <div class="certs" id="certsText">—</div>
+        <div class="about editable" id="certs" data-field="certifications" contenteditable="false">—</div>
       </div>
     </div>
 
@@ -141,180 +189,437 @@
 <footer>© LinkTradeNetwork — Profile</footer>
 
 <script>
-  const STORAGE_KEY = 'userProfile:v1';
-  const LEGACY_KEY  = 'userProfile';
+/* ===== Config & Storage ===== */
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec';
+const STORAGE_KEY = 'userProfile:v1';
+const LEGACY_KEY  = 'userProfile';
 
-  const els = {
-    avatar: document.getElementById('avatar'),
-    name: document.getElementById('name'),
-    headline: document.getElementById('headline'),
-    trade: document.getElementById('trade'),
-    location: document.getElementById('location'),
-    email: document.getElementById('email'),
-    phone: document.getElementById('phone'),
-    availability: document.getElementById('availability'),
-    aboutText: document.getElementById('aboutText'),
-    expList: document.getElementById('expList'),
-    skillsList: document.getElementById('skillsList'),
-    certsText: document.getElementById('certsText'),
-    emailLink: document.getElementById('emailLink'),
-    phoneLink: document.getElementById('phoneLink'),
-    locSide: document.getElementById('locSide'),
-    tradeSide: document.getElementById('tradeSide'),
-    availSide: document.getElementById('availSide'),
-    printBtn: document.getElementById('printBtn'),
-    contactBtn: document.getElementById('contactBtn')
-  };
+/* ===== State ===== */
+let profile = null;
+let editMode = false;
+let currentPhotoDataUrl = '';
 
-  function escapeHTML(s){ return String(s ?? '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-  function telHref(raw){ const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; }
-  function mailHref(e){ return e?`mailto:${e}`:'#'; }
-  function fmtPhone(raw){ const d=(raw||'').replace(/\D/g,'').slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||''); }
-  function availChip(a){
-    if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
-    if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
-    if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
-    return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'};
+/* ===== Elements ===== */
+const E = id => document.getElementById(id);
+const els = {
+  wrap: E('mainWrap'),
+  saveStatus: E('saveStatus'),
+  exportBtn: E('exportBtn'),
+  pushBtn: E('pushBtn'),
+  editToggle: E('editToggle'),
+
+  avatar: E('avatar'),
+  avatarEdit: E('avatarEdit'),
+  photoInput: E('photoInput'),
+  name: E('name'),
+  headline: E('headline'),
+  trade: E('trade'),
+  location: E('location'),
+  email: E('email'),
+  phone: E('phone'),
+
+  availabilityChip: E('availabilityChip'),
+  availabilitySelectWrap: E('availabilitySelectWrap'),
+  availabilitySelect: E('availabilitySelect'),
+  availSide: E('availSide'),
+
+  about: E('about'),
+  certs: E('certs'),
+
+  expSec: E('expSec'),
+  expList: E('expList'),
+  addExpBtn: E('addExpBtn'),
+
+  skillsSec: E('skillsSec'),
+  skillsList: E('skillsList'),
+  addSkillBtn: E('addSkillBtn'),
+  skillInput: E('skillInput'),
+
+  emailLink: E('emailLink'),
+  phoneLink: E('phoneLink'),
+  locSide: E('locSide'),
+  tradeSide: E('tradeSide'),
+  aboutSec: E('aboutSec'),
+  certsSec: E('certsSec'),
+  nameHint: E('nameHint')
+};
+
+/* ===== Utils ===== */
+const debounce = (fn, ms=500)=>{ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; };
+const escapeHTML = s => String(s ?? '')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const telHref = raw => { const d=(raw||'').replace(/\D/g,''); return d?`tel:${d}`:'#'; };
+const mailHref = e => e?`mailto:${e}`:'#';
+function fmtPhone(raw){ const d=(raw||'').replace(/\D/g,'').slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:escapeHTML(raw||''); }
+function availChip(a){
+  if(a==='Actively Looking') return {txt:'Actively Looking', bg:'#e6f4ea', color:'#0f5132', border:'#b7e1c1'};
+  if(a==='Open to Offers')   return {txt:'Open to Offers', bg:'#e7f0ff', color:'#0a66c2', border:'#c7daf8'};
+  if(a==='Not Available')    return {txt:'Not Available', bg:'#fde2e2', color:'#991b1b', border:'#f8caca'};
+  return {txt:'Employed', bg:'#fff7e0', color:'#92400e', border:'#fde68a'};
+}
+
+/* ===== Storage ===== */
+function loadProfile(){
+  const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+  if(!raw) return null;
+  try { return JSON.parse(raw); } catch { return null; }
+}
+function saveProfile(){
+  const json = JSON.stringify(profile);
+  localStorage.setItem(STORAGE_KEY, json);
+  localStorage.setItem(LEGACY_KEY, json);
+  tickSaved();
+}
+const tickSaved = debounce(()=>{
+  els.saveStatus.textContent = 'Saved ✓';
+  els.saveStatus.classList.add('show');
+  setTimeout(()=>els.saveStatus.classList.remove('show'), 1200);
+}, 50);
+
+/* ===== Render ===== */
+function renderAll(){
+  if(!profile){
+    els.wrap.innerHTML = `
+      <section class="card section" style="margin-top:16px;text-align:center">
+        <h2>No Profile Found</h2>
+        <p class="sub" style="margin:.5rem 0 1rem">Create your profile to see it here.</p>
+        <a class="btn gray" href="build-profile.html">Build Profile</a>
+      </section>`;
+    return;
   }
 
-  function readProfile(){
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-    if(!raw) return null;
-    try{ return JSON.parse(raw); }catch{ return null; }
+  // Photo
+  currentPhotoDataUrl = profile.photo || '';
+  if(currentPhotoDataUrl){
+    els.avatar.innerHTML = `<img src="${escapeHTML(currentPhotoDataUrl)}" alt="Profile photo"><span class="edit-badge" id="avatarEdit">Edit photo</span><input id="photoInput" type="file" accept="image/*" style="display:none">`;
+  }else{
+    els.avatar.innerHTML = `<span>👤</span><span class="edit-badge" id="avatarEdit">Edit photo</span><input id="photoInput" type="file" accept="image/*" style="display:none">`;
   }
+  // rebind photo controls after innerHTML
+  els.avatarEdit = document.getElementById('avatarEdit');
+  els.photoInput = document.getElementById('photoInput');
+  bindPhotoControls();
 
-  function render(){
-    const p = readProfile();
-    if(!p){
-      document.querySelector('main').innerHTML = `
-        <section class="card section" style="margin-top:16px;text-align:center">
-          <h2>No Profile Found</h2>
-          <p class="sub" style="margin:.5rem 0 1rem">Create your profile to see it here.</p>
-          <a class="btn" href="build-profile.html">Build Profile</a>
-        </section>`;
-      return;
-    }
+  // Name (combine first/last for inline edit)
+  const fullName = `${profile.firstName||''} ${profile.lastName||''}`.trim();
+  els.name.textContent = fullName || 'Your Name';
+  // hint only in edit mode
+  els.nameHint?.classList.toggle('hide', !editMode);
 
-    if(p.photo){
-      els.avatar.innerHTML = `<img src="${escapeHTML(p.photo)}" alt="Profile photo" loading="lazy">`;
-    }else{
-      els.avatar.textContent = '👤';
-    }
+  els.headline.textContent = profile.headline || 'Headline';
+  els.trade.textContent = profile.trade || '—';
+  els.location.textContent = profile.location || '—';
+  els.email.textContent = profile.email || '—';
+  els.phone.textContent = profile.phone || '—';
 
-    const fullName = `${p.firstName||''} ${p.lastName||''}`.trim();
-    els.name.textContent = fullName || 'Your Name';
-    els.headline.textContent = p.headline || '';
-    els.trade.textContent = p.trade || '';
-    els.location.textContent = p.location || '';
-    els.email.innerHTML = p.email ? `<a href="${mailHref(p.email)}">${escapeHTML(p.email)}</a>` : '';
-    els.phone.innerHTML = p.phone ? `<a href="${telHref(p.phone)}">${fmtPhone(p.phone)}</a>` : '';
+  // Availability
+  updateAvailabilityUI(profile.availability||'Employed');
 
-    els.contactBtn.href = p.email ? mailHref(p.email) : (p.phone ? telHref(p.phone) : '#');
-    els.contactBtn.textContent = p.email ? 'Email' : (p.phone ? 'Call' : 'Contact');
+  // About
+  const hasAbout = !!(profile.summary && profile.summary.trim());
+  els.about.textContent = hasAbout ? profile.summary : 'No summary yet.';
+  els.aboutSec.style.display = 'block';
 
-    const ac = availChip(p.availability);
-    [els.availability, els.availSide].forEach(node=>{
-      node.textContent = ac.txt;
-      node.style.background = ac.bg;
-      node.style.color = ac.color;
-      node.style.border = `1px solid ${ac.border}`;
-      node.style.borderRadius = '999px';
-      node.style.padding = node === els.availSide ? '4px 10px' : '6px 10px';
-      node.style.fontWeight = '700';
-    });
+  // Experience
+  renderExperiences();
 
-    // About
-    const hasAbout = !!(p.summary && p.summary.trim());
-    els.aboutText.textContent = hasAbout ? p.summary : '—';
-    document.getElementById('about').style.display = 'block';
+  // Skills
+  renderSkills();
 
-    // Experience
-    els.expList.innerHTML = '';
-    const exps = Array.isArray(p.experiences) ? p.experiences.filter(e=>e && (e.jobTitle || e.company)) : [];
-    if(exps.length){
-      exps.forEach(exp=>{
-        const title = escapeHTML(exp.jobTitle||'Position');
-        const company = escapeHTML(exp.company||'Company');
-        const dates = [exp.startDate||'', exp.endDate||''].filter(Boolean).join(' – ');
-        const desc = escapeHTML(exp.description||'');
-        const div = document.createElement('div');
-        div.className = 'exp-item';
-        div.innerHTML = `
-          <div class="exp-title">${title}</div>
-          <div class="exp-meta">${company}${dates ? ' · ' + dates : ''}</div>
-          ${desc ? `<div class="exp-desc">${desc}</div>`:''}
-        `;
-        els.expList.appendChild(div);
-      });
-      document.getElementById('experience').style.display = 'block';
-    }else{
-      document.getElementById('experience').style.display = 'none';
-    }
+  // Certs
+  const hasCerts = !!(profile.certifications && profile.certifications.trim());
+  els.certs.textContent = hasCerts ? profile.certifications : '—';
+  els.certsSec.style.display = hasCerts ? 'block' : (editMode ? 'block' : 'none');
 
-    // Skills
-    els.skillsList.innerHTML = '';
-    const skills = typeof p.skills==='string' ? p.skills.split(',').map(s=>s.trim()).filter(Boolean) : [];
-    if(skills.length){
-      skills.forEach(s=>{
-        const span = document.createElement('span');
-        span.className='skill';
-        span.textContent = s;
-        els.skillsList.appendChild(span);
-      });
-      document.getElementById('skills').style.display = 'block';
-    }else{
-      document.getElementById('skills').style.display = 'none';
-    }
+  // Sidebar mirrors
+  els.emailLink.href = profile.email ? mailHref(profile.email) : '#';
+  els.emailLink.textContent = profile.email || '—';
+  els.phoneLink.href = profile.phone ? telHref(profile.phone) : '#';
+  els.phoneLink.textContent = profile.phone ? fmtPhone(profile.phone) : '—';
+  els.locSide.textContent = profile.location || '—';
+  els.tradeSide.textContent = profile.trade || '—';
 
-    // Certs
-    const hasCerts = !!(p.certifications && p.certifications.trim());
-    els.certsText.textContent = hasCerts ? p.certifications : '—';
-    document.getElementById('certs').style.display = hasCerts ? 'block' : 'none';
+  // Edit mode toggles
+  document.body.classList.toggle('edit-mode', editMode);
+  setContentEditable(editMode);
+}
 
-    // Sidebar mirrors
-    els.emailLink.href = p.email ? mailHref(p.email) : '#';
-    els.emailLink.textContent = p.email || '—';
-    els.phoneLink.href = p.phone ? telHref(p.phone) : '#';
-    els.phoneLink.textContent = p.phone ? fmtPhone(p.phone) : '—';
-    els.locSide.textContent = p.location || '—';
-    els.tradeSide.textContent = p.trade || '—';
+/* ===== Availability UI ===== */
+function updateAvailabilityUI(value){
+  const ac = availChip(value);
+  // main chip or select depending on mode
+  els.availabilityChip.textContent = ac.txt;
+  Object.assign(els.availabilityChip.style,{
+    background:ac.bg,color:ac.color,border:`1px solid ${ac.border}`,borderRadius:'999px'
+  });
+  els.availabilityChip.classList.toggle('hide', editMode);
+  els.availabilitySelectWrap.classList.toggle('hide', !editMode);
+  els.availabilitySelect.value = value || 'Employed';
 
-    activateFirstVisibleTab();
-  }
+  // sidebar pill
+  els.availSide.textContent = ac.txt;
+}
 
-  function showSection(id){
-    ['about','experience','skills','certs'].forEach(secId=>{
-      const el = document.getElementById(secId);
-      if(!el) return;
-      el.style.display = (secId===id) ? 'block' : (el.style.display==='none' ? 'none' : 'none');
-    });
-  }
-  function activateFirstVisibleTab(){
-    const ids = ['about','experience','skills','certs'];
-    let first = 'about';
-    for(const id of ids){
-      const el = document.getElementById(id);
-      if(el && el.style.display !== 'none'){ first = id; break; }
-    }
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    const tab = Array.from(document.querySelectorAll('.tab')).find(t=>t.dataset.target === '#'+first);
-    if(tab){ tab.classList.add('active'); }
-    showSection(first);
-  }
-  document.querySelectorAll('.tab').forEach(tab=>{
-    tab.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-      const target = tab.getAttribute('data-target').slice(1);
-      showSection(target);
-    });
+/* ===== Experiences ===== */
+function renderExperiences(){
+  els.expList.innerHTML = '';
+  const exps = Array.isArray(profile.experiences) ? profile.experiences : [];
+  if(!exps.length && !editMode){ els.expSec.style.display = 'none'; return; }
+  els.expSec.style.display = 'block';
+
+  exps.forEach((exp, idx)=>{
+    const title = escapeHTML(exp.jobTitle||'Position');
+    const company = escapeHTML(exp.company||'Company');
+    const dates = [exp.startDate||'', exp.endDate||''].filter(Boolean).join(' – ');
+    const desc = escapeHTML(exp.description||'');
+
+    const div = document.createElement('div');
+    div.className = 'exp-item';
+    div.innerHTML = `
+      <div class="exp-title">${title}</div>
+      <div class="exp-meta">${company}${dates ? ' · ' + escapeHTML(dates) : ''}</div>
+      ${desc ? `<div class="exp-desc">${desc}</div>`:''}
+      <div class="exp-tools">
+        <button class="icon-btn" data-action="edit" data-index="${idx}">✎ Edit</button>
+        <button class="icon-btn danger" data-action="delete" data-index="${idx}">🗑 Delete</button>
+      </div>
+    `;
+    els.expList.appendChild(div);
   });
 
-  els.printBtn.addEventListener('click', ()=>window.print());
+  // Tools visibility
+  els.addExpBtn.classList.toggle('hide', !editMode);
+  // Bind buttons
+  els.expList.querySelectorAll('.icon-btn').forEach(btn=>{
+    btn.addEventListener('click', handleExpTool);
+  });
+}
 
-  render();
+/* Experience handlers */
+function handleExpTool(e){
+  const btn = e.currentTarget;
+  const idx = Number(btn.dataset.index);
+  const action = btn.dataset.action;
+  if(action==='delete'){
+    profile.experiences.splice(idx,1);
+    saveProfile(); renderExperiences();
+    return;
+  }
+  if(action==='edit'){
+    openExpEditor(idx);
+  }
+}
+function openExpEditor(idx){
+  const exp = profile.experiences[idx] || {jobTitle:'',company:'',startDate:'',endDate:'',description:''};
+  const row = document.createElement('div');
+  row.className = 'card';
+  row.style.margin = '10px 0';
+  row.innerHTML = `
+    <div style="padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><label>Job Title</label><input id="ee_title" value="${escapeHTML(exp.jobTitle||'')}" /></div>
+      <div><label>Company</label><input id="ee_company" value="${escapeHTML(exp.company||'')}" /></div>
+      <div><label>Start</label><input id="ee_start" placeholder="YYYY-MM" value="${escapeHTML(exp.startDate||'')}" /></div>
+      <div><label>End</label><input id="ee_end" placeholder="Present" value="${escapeHTML(exp.endDate||'')}" /></div>
+      <div style="grid-column:1 / -1"><label>Description</label><textarea id="ee_desc" style="width:100%;min-height:90px">${escapeHTML(exp.description||'')}</textarea></div>
+      <div style="grid-column:1 / -1;display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn gray" id="ee_cancel" type="button">Cancel</button>
+        <button class="btn" id="ee_save" type="button">Save</button>
+      </div>
+    </div>
+  `;
+  els.expList.insertBefore(row, els.expList.children[idx]);
+  // Button events
+  row.querySelector('#ee_cancel').onclick = ()=> row.remove();
+  row.querySelector('#ee_save').onclick = ()=>{
+    const updated = {
+      jobTitle: row.querySelector('#ee_title').value.trim(),
+      company: row.querySelector('#ee_company').value.trim(),
+      startDate: row.querySelector('#ee_start').value.trim(),
+      endDate: row.querySelector('#ee_end').value.trim(),
+      description: row.querySelector('#ee_desc').value.trim()
+    };
+    profile.experiences[idx] = updated;
+    saveProfile(); renderExperiences();
+  };
+}
+
+/* Add new experience */
+els.addExpBtn.addEventListener('click', ()=>{
+  if(!Array.isArray(profile.experiences)) profile.experiences = [];
+  profile.experiences.unshift({jobTitle:'',company:'',startDate:'',endDate:'',description:''});
+  saveProfile(); renderExperiences();
+  // auto-open editor for the new one
+  openExpEditor(0);
+});
+
+/* ===== Skills ===== */
+function renderSkills(){
+  els.skillsList.innerHTML = '';
+  const skillsStr = typeof profile.skills==='string' ? profile.skills : '';
+  const skills = skillsStr.split(',').map(s=>s.trim()).filter(Boolean);
+  if(!skills.length && !editMode){ els.skillsSec.style.display='none'; return; }
+  els.skillsSec.style.display='block';
+  skills.forEach(s=>{
+    const sp = document.createElement('span');
+    sp.className = 'skill' + (editMode ? ' edit' : '');
+    sp.textContent = s;
+    if(editMode){
+      sp.title = 'Click to remove';
+      sp.onclick = ()=>{
+        const arr = (profile.skills||'').split(',').map(x=>x.trim()).filter(Boolean);
+        profile.skills = arr.filter(x=>x!==s).join(', ');
+        saveProfile(); renderSkills();
+      };
+    }
+    els.skillsList.appendChild(sp);
+  });
+  // controls
+  document.querySelector('.add-skill').classList.toggle('hide', !editMode);
+}
+
+/* Add skill */
+els.addSkillBtn.addEventListener('click', addSkillFromInput);
+els.skillInput.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){ e.preventDefault(); addSkillFromInput(); }
+});
+function addSkillFromInput(){
+  const v = els.skillInput.value.trim();
+  if(!v) return;
+  const arr = (profile.skills||'').split(',').map(x=>x.trim()).filter(Boolean);
+  if(!arr.includes(v)) arr.push(v);
+  profile.skills = arr.join(', ');
+  els.skillInput.value = '';
+  saveProfile(); renderSkills();
+}
+
+/* ===== Edit Mode ===== */
+function setContentEditable(on){
+  ['name','headline','trade','location','email','phone','about','certs'].forEach(id=>{
+    const node = E(id);
+    const isName = id==='name';
+    node.contentEditable = on ? 'true' : 'false';
+    if(on){
+      node.setAttribute('spellcheck','false');
+    }else{
+      node.removeAttribute('spellcheck');
+    }
+    // subtle hint for name
+    if(isName) els.nameHint?.classList.toggle('hide', !on);
+  });
+  document.body.classList.toggle('edit-mode', on);
+}
+els.editToggle.addEventListener('click', ()=>{
+  editMode = !editMode;
+  els.editToggle.classList.toggle('active', editMode);
+  els.editToggle.textContent = editMode ? 'Done' : 'Edit';
+  setContentEditable(editMode);
+  updateAvailabilityUI(profile.availability||'Employed');
+  renderExperiences(); renderSkills();
+});
+
+/* Inline edits → save */
+function splitName(full){
+  const t = full.trim().replace(/\s+/g,' ');
+  if(!t) return {firstName:'', lastName:''};
+  const parts = t.split(' ');
+  const firstName = parts.shift() || '';
+  const lastName = parts.join(' ');
+  return {firstName, lastName};
+}
+function onInlineChange(e){
+  const el = e.target;
+  const field = el.dataset.field;
+  if(!field) return;
+  let val = el.innerText.trim();
+
+  if(field==='name'){
+    const {firstName,lastName} = splitName(val);
+    profile.firstName = firstName; profile.lastName = lastName;
+  }else if(field==='summary'){
+    profile.summary = val;
+  }else if(field==='certifications'){
+    profile.certifications = val;
+  }else{
+    profile[field] = val;
+  }
+  // reflect to sidebar & contact links
+  reflectMetaToSidebar();
+  saveProfile();
+}
+['name','headline','trade','location','email','phone','about','certs'].forEach(id=>{
+  const node = E(id);
+  node.addEventListener('input', debounce(onInlineChange, 300));
+});
+
+/* Availability select */
+els.availabilitySelect.addEventListener('change', ()=>{
+  profile.availability = els.availabilitySelect.value;
+  updateAvailabilityUI(profile.availability);
+  saveProfile();
+});
+
+/* Photo controls */
+function bindPhotoControls(){
+  if(!els.avatarEdit || !els.photoInput) return;
+  els.avatarEdit.addEventListener('click', ()=>els.photoInput.click());
+  els.photoInput.addEventListener('change', (e)=>{
+    const f = e.target.files?.[0];
+    if(!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      currentPhotoDataUrl = r.result;
+      profile.photo = currentPhotoDataUrl;
+      saveProfile(); renderAll();
+    };
+    r.readAsDataURL(f);
+  });
+}
+
+/* Reflect meta to sidebar/contact */
+function reflectMetaToSidebar(){
+  els.tradeSide.textContent = profile.trade || '—';
+  els.locSide.textContent = profile.location || '—';
+  els.emailLink.href = profile.email ? mailHref(profile.email) : '#';
+  els.emailLink.textContent = profile.email || '—';
+  els.phoneLink.href = profile.phone ? telHref(profile.phone) : '#';
+  els.phoneLink.textContent = profile.phone ? fmtPhone(profile.phone) : '—';
+}
+
+/* Export & Push buttons */
+els.exportBtn.addEventListener('click', ()=>window.print());
+els.pushBtn.addEventListener('click', async ()=>{
+  if(!profile) return;
+  // Basic guard like LinkedIn gating publish
+  if(!(profile.firstName && profile.lastName && profile.trade)){
+    alert('Please include First Name, Last Name, and Trade before saving to Google Sheet.');
+    return;
+  }
+  els.pushBtn.disabled = true; els.pushBtn.textContent = 'Saving…';
+  try{
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({...profile, pushedAt: new Date().toISOString()})
+    });
+    tickSaved();
+  }catch(err){
+    console.error(err);
+    alert('Save to Google Sheet failed. Check network or Apps Script URL.');
+  }finally{
+    els.pushBtn.disabled = false; els.pushBtn.textContent = 'Save to Google Sheet';
+  }
+});
+
+/* ===== Init ===== */
+(function init(){
+  profile = loadProfile() || {
+    firstName:'', lastName:'', headline:'', trade:'', availability:'Employed',
+    location:'', email:'', phone:'', photo:'', summary:'', skills:'',
+    certifications:'', experiences:[]
+  };
+  renderAll();
+})();
 </script>
 </body>
 </html>
