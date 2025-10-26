@@ -143,25 +143,33 @@
 
 <!-- ===== LIVE BACKEND ADAPTER (uses your URL) ===== -->
 <script>
-  // Your live Apps Script endpoint:
+  /* Your live Apps Script endpoint */
   const LTN_API_BASE = "https://script.google.com/macros/s/AKfycbyGdnl2QSB36asGlyX9voB0iZaQzamojty5HHzvYuBhWmhfsabmf3jsCcR2Lm-udsnl/exec";
 
+  // GET helper (fine with CORS)
   async function ltnGet(params={}) {
     const u = new URL(LTN_API_BASE);
     Object.entries(params).forEach(([k,v]) => { if(v!==undefined&&v!==null) u.searchParams.set(k,v); });
-    const r = await fetch(u.toString(), { method:'GET', mode:'cors' });
+    const r = await fetch(u.toString(), { method:'GET' });
     if(!r.ok) throw new Error('HTTP '+r.status);
     const d = await r.json().catch(()=>({}));
     if(d.error) throw new Error(d.error);
     return d;
   }
-  async function ltnPost(payload={}) {
-    const r = await fetch(LTN_API_BASE, { method:'POST', mode:'cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const d = await r.json().catch(()=>({}));
-    if(d.error) throw new Error(d.error);
+
+  // POST helper as a **simple request** (no preflight; avoids “Failed to fetch”)
+  async function ltnPost(payload = {}) {
+    const r = await fetch(LTN_API_BASE, {
+      method: 'POST',
+      body: JSON.stringify(payload) // no headers -> simple request
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json().catch(() => ({}));
+    if (d.error) throw new Error(d.error);
     return d;
   }
+
+  // Small wrapper
   const LTN = {
     people: {
       search: (q)=> ltnGet({action:'searchPeople', q}),
@@ -172,14 +180,14 @@
     }
   };
 
-  // "me" from local storage (build-profile.html saves it as userProfile:v1)
+  // Profile from localStorage (saved by build-profile.html as userProfile:v1)
   function meLocal() { try { return JSON.parse(localStorage.getItem('userProfile:v1'))||null } catch{ return null } }
   const me = meLocal();
   const meId = (me?.email || me?.id || '').trim();
 
   // UI helpers
   const $ = (id)=>document.getElementById(id);
-  const avatarHtml = (p)=> p?.photo ? `<img src="${p.photo}" alt="">` : '👤';
+  function avatarHtml(p){ return p?.photo ? `<img src="${p.photo}" alt="">` : '👤'; }
   function inviteUrlFromId(inviteId){
     const u = new URL(location.href);
     u.pathname = u.pathname.replace(/[^/]*$/, 'accept-invite.html');
@@ -189,7 +197,7 @@
   }
   function copy(text){ if(navigator.clipboard?.writeText) navigator.clipboard.writeText(text); else prompt('Copy the link:', text); }
 
-  // Render me
+  // Render current user
   (function initMe(){
     if(me?.photo){ $('meAva').innerHTML = `<img src="${me.photo}">`; $('meAvaSmall').innerHTML = `<img src="${me.photo}">`; }
     $('meName').textContent = `${me?.firstName||''} ${me?.lastName||''}`.trim() || 'You';
@@ -197,7 +205,7 @@
     if(!meId) $('profileWarn').style.display = 'block';
   })();
 
-  // Global search bar → go to network with ?query=
+  // Global search → network.html?query=
   $('searchBtn').onclick = ()=> {
     const q = $('globalSearch').value.trim();
     location.href = 'network.html' + (q ? ('?query='+encodeURIComponent(q)) : '');
@@ -206,7 +214,7 @@
     if(e.key==='Enter') $('searchBtn').click();
   });
 
-  // Simple local posts (so the page has content)
+  // Feed (local demo posts so the page isn’t empty)
   const seedPosts = [
     {title:'Franco Marano', time:'just now', text:'Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.'},
     {title:'Trade Tips Daily', time:'5d ago', text:'Best practices for labeling and testing.'},
@@ -235,7 +243,7 @@
     savePosts(posts); $('composerInput').value=''; renderFeed();
   };
 
-  // Invite by email (REAL – uses your Apps Script)
+  // Invite by email (live)
   $('sendInviteBtn').onclick = async ()=>{
     const email = $('inviteEmail').value.trim().toLowerCase();
     $('inviteStatus').textContent = '';
@@ -243,7 +251,7 @@
     if(!email || !email.includes('@') || !email.includes('.')){ $('inviteStatus').textContent='Enter a valid email.'; return; }
 
     try{
-      // 1) Create or find the person in directory
+      // 1) Ensure target exists in People
       let target = null;
       const found = await LTN.people.search(email);
       if(found?.people?.length){ target = found.people[0]; }
@@ -260,7 +268,7 @@
       $('inviteStatus').innerHTML = `<span class="ok">Invite created.</span> Link copied to clipboard.`;
       $('inviteEmail').value = '';
     }catch(err){
-      $('inviteStatus').textContent = 'Error: '+(err?.message||err);
+      $('inviteStatus').textContent = 'Error: ' + (err?.message||err);
     }
   };
 </script>
