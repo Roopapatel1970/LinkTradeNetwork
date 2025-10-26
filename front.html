@@ -1,333 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LinkTradeNetwork - Home</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinkTradeNetwork – Home</title>
 <style>
-  :root {
-    --bg: #f3f4f6;
-    --ink: #0f172a;
-    --muted: #64748b;
-    --card: #ffffff;
-    --brand: #0a66c2;
+  :root{
+    --bg:#f3f4f6; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --card:#ffffff;
+    --brand:#0a66c2; --brand2:#004182; --accent:#22c55e;
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, Arial;
-    background: var(--bg);
-    color: var(--ink);
-  }
-  header {
-    background: #64748b;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 30px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.1);
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .logo span {
-    font-size: 22px;
-  }
-  .logo b {
-    font-size: 20px;
-  }
-  .search {
-    display: flex;
-    gap: 8px;
-    flex: 1;
-    max-width: 600px;
-    margin: 0 40px;
-  }
-  .search input {
-    flex: 1;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 20px;
-  }
-  .search button {
-    background: var(--brand);
-    color: white;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-  }
-  nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 500;
-  }
-  nav a:hover {
-    text-decoration: underline;
-  }
-  main {
-    display: grid;
-    grid-template-columns: 270px 1fr 270px;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-  .card {
-    background: var(--card);
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
-  }
-  .left .avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #dbeafe;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    margin: 0 auto 10px;
-  }
-  .left h2 {
-    text-align: center;
-    font-size: 16px;
-  }
-  .left p {
-    text-align: center;
-    color: var(--muted);
-    margin: 4px 0 10px;
-  }
-  .left button {
-    width: 100%;
-    background: var(--brand);
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  .center .post {
-    background: #fff;
-    border-radius: 8px;
-    padding: 14px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
-  }
-  .center .post .author {
-    font-weight: bold;
-  }
-  .center .new-post {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .center .new-post input {
-    flex: 1;
-    border: 1px solid #d1d5db;
-    border-radius: 20px;
-    padding: 8px 12px;
-  }
-  .center .new-post button {
-    background: var(--brand);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 18px;
-    cursor: pointer;
-  }
-  .right h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  .right ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .right ul li {
-    margin-bottom: 8px;
-    font-size: 14px;
-  }
-  .sponsor {
-    margin-top: 20px;
-    background: #eef2ff;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-  }
-  .sponsor h4 {
-    margin: 0;
-    color: var(--brand);
-  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
+
+  /* header */
+  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.10)}
+  .bar{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
+  .brand b{font-size:18px}
+  .nav{margin-left:auto;display:flex;gap:16px}
+  .nav a{color:#fff;text-decoration:none;opacity:.95}
+  .nav a:hover{opacity:.85}
+  .search{flex:1;display:flex;gap:8px;max-width:560px;margin-left:8px}
+  .search input{flex:1;border:1px solid #cbd5e1;border-radius:999px;padding:.6rem .9rem}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.5rem .9rem;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--brand2)}
+  .btn.ghost{background:#fff;color:#0f172a;border:1px solid #e5e7eb}
+  .btn.ghost:hover{background:#f8fafc}
+
+  /* layout */
+  .wrap{max-width:1100px;margin:20px auto;padding:0 14px;display:grid;grid-template-columns:280px 1fr 300px;gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  .pad{padding:14px}
+  .left .profile{display:flex;gap:10px;align-items:center;border:1px solid #e5e7eb;border-radius:10px;padding:10px;background:#fff}
+  .ava{width:56px;height:56px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .ava img{width:100%;height:100%;object-fit:cover}
+  .muted{color:var(--muted);font-size:13px}
+
+  /* composer + posts */
+  .composer{display:flex;gap:10px;align-items:center}
+  .composer input{flex:1;border:1px solid #d1d5db;border-radius:999px;padding:.7rem 1rem}
+  .post{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fff}
+  .post + .post{margin-top:12px}
+  .post .title{font-weight:800;margin-bottom:4px}
+  .post .time{font-size:12px;color:#6b7280;margin-bottom:6px}
+
+  /* right column */
+  .sponsored{background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;padding:14px}
+  .sponsored h4{margin:0 0 6px 0}
+  .invite{margin-top:14px;border-top:1px dashed #d1d5db;padding-top:12px}
+  .invite .row{display:flex;gap:8px}
+  .invite input{flex:1;border:1px solid #d1d5db;border-radius:8px;padding:.55rem .7rem}
+
+  .ok{color:var(--accent);font-weight:700}
+  .warn{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:10px;margin:10px 0}
+  @media(max-width:1000px){ .wrap{grid-template-columns:1fr} .right{order:3} }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <span>🌍</span><b>LinkTradeNetwork</b>
+  <div class="bar">
+    <a class="brand" href="front.html"><span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b></a>
+    <div class="search">
+      <input id="globalSearch" placeholder="Search or add by name/email…">
+      <button class="btn" id="searchBtn">Search</button>
+    </div>
+    <nav class="nav">
+      <a href="front.html">Home</a>
+      <a href="network.html">Network</a>
+      <a href="messaging.html">Messaging</a>
+      <a href="my-profile.html">My Profile</a>
+    </nav>
   </div>
-  <div class="search">
-    <input type="text" placeholder="Search or add by name or email…" id="searchInput">
-    <button id="searchBtn">Search</button>
-  </div>
-  <nav>
-    <a href="front.html">Home</a>
-    <a href="network.html">Network</a>
-    <a href="messaging.html">Messaging</a>
-    <a href="my-profile.html">My Profile</a>
-  </nav>
 </header>
 
-<main>
-  <!-- Left Sidebar -->
-  <aside class="left card">
-    <div class="avatar">👤</div>
-    <h2>Franco Marano</h2>
-    <p>Low Voltage | Cable</p>
-    <button onclick="location.href='my-profile.html'">Open Profile</button>
+<main class="wrap">
+  <!-- LEFT -->
+  <aside class="left">
+    <div class="card pad profile">
+      <div class="ava" id="meAva">👤</div>
+      <div>
+        <div id="meName" style="font-weight:800">You</div>
+        <div class="muted" id="meHeadline"></div>
+      </div>
+    </div>
+
+    <div class="warn" id="profileWarn" style="display:none">
+      Add your <b>name & email</b> in <a href="build-profile.html" style="text-decoration:underline">Build Profile</a> to send invites.
+    </div>
+
+    <div class="card pad" style="margin-top:12px">
+      <button class="btn" onclick="location.href='my-profile.html'">Open Profile</button>
+    </div>
   </aside>
 
-  <!-- Center Feed -->
-  <section class="center">
-    <div class="card new-post">
-      <input id="postText" placeholder="Start a post...">
-      <button id="postBtn">Post</button>
-    </div>
-    <div id="feed">
-      <div class="post">
-        <div class="author">Trade Tips Daily</div>
-        <div class="time">5d ago</div>
-        <p>Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.</p>
-      </div>
-      <div class="post">
-        <div class="author">Low Voltage Network</div>
-        <div class="time">2d ago</div>
-        <p>What labelers and test sets are you using for fiber jobs this month?</p>
+  <!-- MIDDLE -->
+  <section>
+    <div class="card pad">
+      <div class="composer">
+        <div class="ava" id="meAvaSmall">👤</div>
+        <input id="composerInput" placeholder="Start a post…">
+        <button class="btn" id="postBtn">Post</button>
       </div>
     </div>
+
+    <div class="card pad" id="feed"></div>
   </section>
 
-  <!-- Right Sidebar -->
-  <aside class="right card">
-    <h3>LinkTN News</h3>
-    <ul>
-      <li><b>Watch History</b> launches for videos.</li>
-      <li>High material costs easing in several regions.</li>
-      <li>New city projects posted in municipal boards.</li>
-    </ul>
+  <!-- RIGHT -->
+  <aside class="right">
+    <div class="card pad">
+      <h3 style="margin:4px 0 10px 0">LinkTN News</h3>
+      <div class="post">
+        <div class="title">Watch History</div>
+        <div class="muted">Launches for videos.</div>
+      </div>
+      <div class="post" style="margin-top:10px">
+        <div class="title">Municipal boards</div>
+        <div class="muted">New city projects posted.</div>
+      </div>
+    </div>
 
-    <div class="sponsor">
-      <h4>Sponsored</h4>
-      <p>Promote your business or service here!</p>
-      <button style="background:#0a66c2;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;">Learn More</button>
+    <div class="card pad" style="margin-top:12px">
+      <div class="sponsored">
+        <h4>Sponsored</h4>
+        <div class="muted">Promote your business or service here!</div>
+        <button class="btn ghost" style="margin-top:10px" onclick="alert('Contact us to sponsor!')">Learn More</button>
+      </div>
+
+      <div class="invite">
+        <h4 style="margin:12px 0 8px 0">Invite by email</h4>
+        <div class="row">
+          <input id="inviteEmail" placeholder="name@example.com">
+          <button class="btn" id="sendInviteBtn">Send Invite</button>
+        </div>
+        <div class="muted" style="margin-top:6px">We’ll create a unique acceptance link and copy it for you.</div>
+        <div id="inviteStatus" class="muted" style="margin-top:8px"></div>
+      </div>
     </div>
   </aside>
 </main>
 
+<!-- ===== LIVE BACKEND ADAPTER (uses your URL) ===== -->
 <script>
-const feed = document.getElementById("feed");
-const postBtn = document.getElementById("postBtn");
-const searchBtn = document.getElementById("searchBtn");
-const searchInput = document.getElementById("searchInput");
+  // Your live Apps Script endpoint:
+  const LTN_API_BASE = "https://script.google.com/macros/s/AKfycbyGdnl2QSB36asGlyX9voB0iZaQzamojty5HHzvYuBhWmhfsabmf3jsCcR2Lm-udsnl/exec";
 
-// --- Post new content ---
-postBtn.onclick = () => {
-  const text = document.getElementById("postText").value.trim();
-  if (!text) return alert("Write something to post.");
-  const div = document.createElement("div");
-  div.className = "post";
-  div.innerHTML = `<div class="author">Franco Marano</div><p>${text}</p>`;
-  feed.prepend(div);
-  document.getElementById("postText").value = "";
-};
-
-// --- Basic localStorage setup ---
-const PKEY = "ltnPeople";
-const CKEY = "ltnConnections";
-function load(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }
-function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-
-let people = load(PKEY, []);
-let connections = new Set(load(CKEY, []));
-
-// --- Simple search ---
-searchBtn.onclick = () => searchPeople();
-searchInput.addEventListener("keydown", e => { if (e.key === "Enter") searchPeople(); });
-
-function searchPeople() {
-  const term = searchInput.value.trim().toLowerCase();
-  if (!term) return alert("Enter a name or email to search.");
-
-  const results = people.filter(p =>
-    (p.firstName && p.firstName.toLowerCase().includes(term)) ||
-    (p.lastName && p.lastName.toLowerCase().includes(term)) ||
-    (p.email && p.email.toLowerCase().includes(term))
-  );
-
-  showSearchResults(results);
-}
-
-function showSearchResults(results) {
-  const section = document.createElement("section");
-  section.className = "card";
-  section.style.marginTop = "20px";
-
-  if (!results.length) {
-    section.innerHTML = `<h3>No results found.</h3>
-      <p>You can invite someone new by email below.</p>
-      <input id="inviteEmail" placeholder="Enter email…" style="padding:8px;width:70%;border:1px solid #ccc;border-radius:6px">
-      <button id="inviteBtn" style="padding:8px 14px;background:#0a66c2;color:#fff;border:none;border-radius:6px;margin-left:6px;cursor:pointer;">Send Invite</button>`;
-    document.querySelector(".center").appendChild(section);
-    document.getElementById("inviteBtn").onclick = sendInvite;
-    return;
+  async function ltnGet(params={}) {
+    const u = new URL(LTN_API_BASE);
+    Object.entries(params).forEach(([k,v]) => { if(v!==undefined&&v!==null) u.searchParams.set(k,v); });
+    const r = await fetch(u.toString(), { method:'GET', mode:'cors' });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d = await r.json().catch(()=>({}));
+    if(d.error) throw new Error(d.error);
+    return d;
   }
+  async function ltnPost(payload={}) {
+    const r = await fetch(LTN_API_BASE, { method:'POST', mode:'cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d = await r.json().catch(()=>({}));
+    if(d.error) throw new Error(d.error);
+    return d;
+  }
+  const LTN = {
+    people: {
+      search: (q)=> ltnGet({action:'searchPeople', q}),
+      add: (person)=> ltnPost({action:'addPerson', person})
+    },
+    invite: {
+      create: ({inviter, toPersonId=null, emailHint=null}) => ltnPost({action:'createInvite', inviter, toPersonId, emailHint})
+    }
+  };
 
-  section.innerHTML = `<h3>Found ${results.length} result(s):</h3>` + results.map(p => `
-    <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #eee;padding:8px 0;">
-      <div>
-        <b>${p.firstName || ''} ${p.lastName || ''}</b><br>
-        <small>${p.trade || ''}</small>
-      </div>
-      <button class="connectBtn" data-id="${p.id}" style="background:#0a66c2;color:white;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;">
-        ${connections.has(p.id) ? 'Connected' : 'Connect'}
-      </button>
-    </div>
-  `).join('');
+  // "me" from local storage (build-profile.html saves it as userProfile:v1)
+  function meLocal() { try { return JSON.parse(localStorage.getItem('userProfile:v1'))||null } catch{ return null } }
+  const me = meLocal();
+  const meId = (me?.email || me?.id || '').trim();
 
-  document.querySelector(".center").appendChild(section);
+  // UI helpers
+  const $ = (id)=>document.getElementById(id);
+  const avatarHtml = (p)=> p?.photo ? `<img src="${p.photo}" alt="">` : '👤';
+  function inviteUrlFromId(inviteId){
+    const u = new URL(location.href);
+    u.pathname = u.pathname.replace(/[^/]*$/, 'accept-invite.html');
+    u.search = '?id='+encodeURIComponent(inviteId);
+    u.hash = '';
+    return u.toString();
+  }
+  function copy(text){ if(navigator.clipboard?.writeText) navigator.clipboard.writeText(text); else prompt('Copy the link:', text); }
 
-  document.querySelectorAll(".connectBtn").forEach(btn => {
-    btn.onclick = () => {
-      const id = btn.dataset.id;
-      if (connections.has(id)) {
-        alert("Already connected!");
-        return;
-      }
-      connections.add(id);
-      save(CKEY, [...connections]);
-      btn.textContent = "Invite Sent ✅";
-      btn.disabled = true;
-    };
+  // Render me
+  (function initMe(){
+    if(me?.photo){ $('meAva').innerHTML = `<img src="${me.photo}">`; $('meAvaSmall').innerHTML = `<img src="${me.photo}">`; }
+    $('meName').textContent = `${me?.firstName||''} ${me?.lastName||''}`.trim() || 'You';
+    $('meHeadline').textContent = me?.headline || '';
+    if(!meId) $('profileWarn').style.display = 'block';
+  })();
+
+  // Global search bar → go to network with ?query=
+  $('searchBtn').onclick = ()=> {
+    const q = $('globalSearch').value.trim();
+    location.href = 'network.html' + (q ? ('?query='+encodeURIComponent(q)) : '');
+  };
+  $('globalSearch').addEventListener('keydown', e=>{
+    if(e.key==='Enter') $('searchBtn').click();
   });
-}
 
-// --- Send invite (demo only) ---
-function sendInvite() {
-  const email = document.getElementById("inviteEmail").value.trim();
-  if (!email) return alert("Please enter an email.");
-  alert(`Invite sent to ${email}! (Simulated)`);
-}
+  // Simple local posts (so the page has content)
+  const seedPosts = [
+    {title:'Franco Marano', time:'just now', text:'Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.'},
+    {title:'Trade Tips Daily', time:'5d ago', text:'Best practices for labeling and testing.'},
+    {title:'Low Voltage Network', time:'2d ago', text:'What labelers and test sets are you using for fiber jobs this month?'}
+  ];
+  function loadPosts(){
+    const saved = JSON.parse(localStorage.getItem('ltn:posts')||'[]');
+    return saved.length ? saved : seedPosts;
+  }
+  function savePosts(posts){ localStorage.setItem('ltn:posts', JSON.stringify(posts)); }
+  function renderFeed(){
+    const posts = loadPosts();
+    $('feed').innerHTML = posts.map(p=>`
+      <div class="post">
+        <div class="title">${p.title}</div>
+        <div class="time">${p.time}</div>
+        <div>${p.text}</div>
+      </div>`).join('');
+  }
+  renderFeed();
+  $('postBtn').onclick = ()=>{
+    const txt = $('composerInput').value.trim();
+    if(!txt) return;
+    const posts = loadPosts();
+    posts.unshift({title: $('meName').textContent || 'You', time:'just now', text: txt});
+    savePosts(posts); $('composerInput').value=''; renderFeed();
+  };
+
+  // Invite by email (REAL – uses your Apps Script)
+  $('sendInviteBtn').onclick = async ()=>{
+    const email = $('inviteEmail').value.trim().toLowerCase();
+    $('inviteStatus').textContent = '';
+    if(!meId){ $('inviteStatus').textContent='Add your email in Build Profile first.'; return; }
+    if(!email || !email.includes('@') || !email.includes('.')){ $('inviteStatus').textContent='Enter a valid email.'; return; }
+
+    try{
+      // 1) Create or find the person in directory
+      let target = null;
+      const found = await LTN.people.search(email);
+      if(found?.people?.length){ target = found.people[0]; }
+      if(!target){
+        const add = await LTN.people.add({ firstName:'', lastName:'', email });
+        target = add?.person || null;
+      }
+      if(!target){ $('inviteStatus').textContent='Could not add or find that email.'; return; }
+
+      // 2) Create invite
+      const res = await LTN.invite.create({ inviter: me, toPersonId: target.id || null, emailHint: email });
+      const link = inviteUrlFromId(res?.inviteId);
+      copy(link);
+      $('inviteStatus').innerHTML = `<span class="ok">Invite created.</span> Link copied to clipboard.`;
+      $('inviteEmail').value = '';
+    }catch(err){
+      $('inviteStatus').textContent = 'Error: '+(err?.message||err);
+    }
+  };
 </script>
-
 </body>
 </html>
 
