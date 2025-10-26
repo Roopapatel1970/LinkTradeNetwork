@@ -3,128 +3,180 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Accept Invite – LinkTradeNetwork</title>
+<title>Accept Invite — LinkTradeNetwork</title>
 <style>
-  :root{ --bg:#f3f4f6; --ink:#0f172a; --muted:#64748b; --card:#ffffff; --brand:#0a66c2; }
+  :root{
+    --bg:#f3f4f6; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --card:#ffffff;
+    --brand:#0a66c2; --brand2:#004182; --ok:#16a34a; --bad:#b91c1c;
+  }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
+
   header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}
-  .bar{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:#fff}
+  .bar{max-width:960px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center}
+  .brand{display:flex;gap:10px;align-items:center;color:#fff;text-decoration:none}
   .brand b{font-size:18px}
-  main{max-width:900px;margin:24px auto;padding:0 16px}
-  .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-  .row{display:flex;gap:12px;align-items:center}
-  .ava{width:56px;height:56px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.55rem 1rem;font-weight:700;cursor:pointer}
+  .nav{margin-left:auto;display:flex;gap:14px}
+  .nav a{color:#fff;text-decoration:none;opacity:.95}
+  .nav a:hover{opacity:.85}
+
+  .wrap{max-width:720px;margin:26px auto;padding:0 16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  .pad{padding:18px}
+  h1{font-size:22px;margin:0 0 10px 0}
+  .muted{color:var(--muted)}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;
+       padding:.6rem 1rem;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--brand2)}
   .btn.ghost{background:#fff;color:#0f172a;border:1px solid #e5e7eb}
-  .muted{color:#64748b}
+  .btn.ghost:hover{background:#f8fafc}
+  .btn.red{background:#ef4444}.btn.red:hover{background:#dc2626}
+  .btn.ok{background:#16a34a}.btn.ok:hover{background:#15803d}
+  .center{display:flex;align-items:center;justify-content:center}
+  .status{margin-top:12px;font-weight:700}
+  .status.ok{color:var(--ok)}
+  .status.bad{color:var(--bad)}
+  .foot{margin-top:16px;border-top:1px dashed #e5e7eb;padding-top:12px;color:#475569}
+  .inp{border:1px solid #d1d5db;border-radius:10px;padding:.55rem .75rem;width:100%}
+  .help{font-size:13px;color:#64748b;margin-top:6px}
+  .spinner{display:inline-block;width:16px;height:16px;border:2px solid #cbd5e1;border-top-color:#0a66c2;border-radius:50%;animation:spin 1s linear infinite;margin-left:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
+
 <header>
   <div class="bar">
     <a class="brand" href="front.html"><span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b></a>
+    <nav class="nav">
+      <a href="front.html">Home</a>
+      <a href="network.html">Network</a>
+      <a href="messaging.html">Messaging</a>
+      <a href="my-profile.html">My Profile</a>
+    </nav>
   </div>
 </header>
 
-<main>
-  <div class="card" id="content">
-    <h2>Checking your invite…</h2>
-    <p class="muted">Please wait.</p>
+<main class="wrap">
+  <div class="card pad">
+    <h1>Invitation</h1>
+    <p id="intro" class="muted">Use the buttons below to respond to this connection invite.</p>
+
+    <div id="noId" style="display:none;margin-top:8px">
+      <div class="help">No invite ID detected in the link. If you received an ID, paste it below:</div>
+      <div class="row" style="margin-top:8px">
+        <input id="manualId" class="inp" placeholder="Paste invite ID…" />
+        <button class="btn" id="loadBtn" type="button">Load</button>
+      </div>
+    </div>
+
+    <div id="actions" class="row" style="margin-top:12px;display:none">
+      <button class="btn ok" id="acceptBtn" type="button">Accept</button>
+      <button class="btn red" id="declineBtn" type="button">Decline</button>
+      <button class="btn ghost" id="backBtn" type="button">Back to Home</button>
+    </div>
+
+    <div id="working" class="muted" style="display:none;margin-top:10px">
+      Working<span class="spinner"></span>
+    </div>
+
+    <div id="result" class="status" style="display:none"></div>
+
+    <div class="foot">
+      Having trouble? You can always manage invites from your <a href="network.html">Network</a> page.
+    </div>
   </div>
 </main>
 
 <script>
-const PKEY='ltnPeople', CKEY='ltnConnections', RKEY='ltnRequests';
-function load(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}
-function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+  /* Your live Apps Script endpoint */
+  const LTN_API_BASE = "https://script.google.com/macros/s/AKfycbyGdnl2QSB36asGlyX9voB0iZaQzamojty5HHzvYuBhWmhfsabmf3jsCcR2Lm-udsnl/exec";
 
-function nameOf(p){return `${p.firstName||''} ${p.lastName||''}`.trim()||'Someone'}
-
-(function init(){
-  const sp=new URLSearchParams(location.search);
-  const raw=sp.get('invite');
-  const box=document.getElementById('content');
-
-  if(!raw){ box.innerHTML='<h2>Invite not found</h2><p class="muted">Missing invite code.</p>'; return; }
-
-  let payload=null;
-  try{
-    payload = JSON.parse(decodeURIComponent(escape(atob(raw))));
-  }catch(e){
-    box.innerHTML='<h2>Invalid invite</h2><p class="muted">The invite link is not valid.</p>';
-    return;
-  }
-
-  if(payload?.v!==1 || !payload.inviter){
-    box.innerHTML='<h2>Invalid invite</h2><p class="muted">The invite is incomplete.</p>';
-    return;
-  }
-
-  // Ensure inviter exists in my local people
-  let people=load(PKEY,[]);
-  const inviter = payload.inviter;
-
-  if(!people.find(p=>p.id===inviter.id)){
-    people.unshift({
-      id: inviter.id,
-      firstName: inviter.firstName || '',
-      lastName:  inviter.lastName  || '',
-      trade:     inviter.trade     || '',
-      location:  inviter.location  || '',
-      email:     inviter.email     || '',
-      photo:     inviter.photo     || ''
+  async function ltnPost(payload={}) {
+    const r = await fetch(LTN_API_BASE, {
+      method:'POST',
+      mode:'cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
     });
-    save(PKEY, people);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d = await r.json().catch(()=>({}));
+    if(d.error) throw new Error(d.error);
+    return d;
   }
 
-  // Mark as an incoming request
-  let req=new Set(load(RKEY,[]));
-  req.add(inviter.id);
-  save(RKEY,[...req]);
+  const $ = id => document.getElementById(id);
 
-  // UI
-  box.innerHTML = `
-    <h2>Connect with ${nameOf(inviter)}</h2>
-    <div class="row" style="margin:10px 0 14px">
-      <div class="ava">👤</div>
-      <div>
-        <div><b>${nameOf(inviter)}</b></div>
-        <div class="muted">${[inviter.trade, inviter.location].filter(Boolean).join(' • ')}</div>
-        <div class="muted">${inviter.email || ''}</div>
-      </div>
-    </div>
-    <div class="row" style="gap:8px">
-      <button class="btn" id="acceptBtn">Accept</button>
-      <button class="btn ghost" id="declineBtn">Decline</button>
-    </div>
-    <p class="muted" style="margin-top:10px">Accepting will add this person to your connections on this device.</p>
-  `;
+  function getInviteIdFromUrl(){
+    const sp = new URLSearchParams(location.search);
+    return sp.get('id') || sp.get('invite') || '';
+  }
 
-  document.getElementById('acceptBtn').onclick=()=>{
-    const cons=new Set(load(CKEY,[]));
-    cons.add(inviter.id); save(CKEY,[...cons]);
+  function showActions(visible){
+    $('actions').style.display = visible ? 'flex' : 'none';
+  }
+  function working(on){
+    $('working').style.display = on ? 'block' : 'none';
+  }
+  function showResult(text, ok=true){
+    const el = $('result');
+    el.className = 'status ' + (ok ? 'ok' : 'bad');
+    el.textContent = text;
+    el.style.display = 'block';
+  }
 
-    // clear the pending request
-    const r=new Set(load(RKEY,[])); r.delete(inviter.id); save(RKEY,[...r]);
+  let inviteId = getInviteIdFromUrl();
 
-    box.innerHTML = `
-      <h2>You're now connected 🎉</h2>
-      <p class="muted">You can start messaging or view your network.</p>
-      <div class="row" style="gap:8px;margin-top:8px">
-        <a class="btn" href="messaging.html?to=${encodeURIComponent(inviter.id)}">Open Messages</a>
-        <a class="btn ghost" href="network.html">View Network</a>
-      </div>
-    `;
+  function init(){
+    if(!inviteId){
+      $('noId').style.display = 'block';
+      $('intro').textContent = 'Paste the invite ID from your message to respond.';
+    }else{
+      showActions(true);
+      $('intro').textContent = 'You have a pending connection invitation. Choose an option below.';
+    }
+  }
+
+  $('loadBtn').onclick = ()=>{
+    const v = $('manualId').value.trim();
+    if(!v){ alert('Please paste the invite ID.'); return; }
+    inviteId = v;
+    $('noId').style.display = 'none';
+    showActions(true);
+    $('intro').textContent = 'Invite detected. Choose an option below.';
   };
 
-  document.getElementById('declineBtn').onclick=()=>{
-    const r=new Set(load(RKEY,[])); r.delete(inviter.id); save(RKEY,[...r]);
-    box.innerHTML = `<h2>Invite declined</h2><p class="muted">You can connect later from your Network page.</p>`;
+  $('acceptBtn').onclick = async ()=>{
+    if(!inviteId) return;
+    working(true); showResult('', true); $('result').style.display='none';
+    try{
+      await ltnPost({ action:'respondInvite', inviteId, accept:true });
+      showResult('Invite accepted! You’re now connected.');
+      // Optional: redirect after a moment
+      setTimeout(()=> location.href='network.html', 1200);
+    }catch(err){
+      showResult('Error: ' + (err?.message||err), false);
+    }finally{ working(false); }
   };
-})();
+
+  $('declineBtn').onclick = async ()=>{
+    if(!inviteId) return;
+    working(true); showResult('', true); $('result').style.display='none';
+    try{
+      await ltnPost({ action:'respondInvite', inviteId, accept:false });
+      showResult('Invite declined.');
+      setTimeout(()=> location.href='front.html', 1200);
+    }catch(err){
+      showResult('Error: ' + (err?.message||err), false);
+    }finally{ working(false); }
+  };
+
+  $('backBtn').onclick = ()=> location.href='front.html';
+
+  init();
 </script>
 </body>
 </html>
