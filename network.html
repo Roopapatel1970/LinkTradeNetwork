@@ -28,14 +28,15 @@
   .pad{padding:14px}
 
   /* Sidebar */
-  .side h3{margin:0 0 10px}
-  .filter .row{display:grid;gap:6px;margin-bottom:10px}
-  .filter input{border:1px solid #d1d5db;border-radius:10px;padding:.55rem .7rem}
-
   .you{display:flex;gap:10px;align-items:center;border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin-bottom:14px;background:#fff}
   .ava{width:48px;height:48px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .ava img{width:100%;height:100%;object-fit:cover}
   .muted{color:var(--muted);font-size:13px}
+  .banner{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:10px;margin-bottom:12px}
+
+  .side h3{margin:10px 0}
+  .filter .row{display:grid;gap:6px;margin-bottom:10px}
+  .filter input{border:1px solid #d1d5db;border-radius:10px;padding:.55rem .7rem}
 
   /* Requests panel */
   .req-item{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid #f1f5f9}
@@ -44,7 +45,7 @@
   .req-name{font-weight:800}
   .req-meta{font-size:12px;color:#64748b}
   .req-actions{display:flex;gap:6px}
-  .badge{display:inline-block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:999px;font-size:12px;padding:.1rem .5rem;margin-left:6px}
+  .badge{display:inline-block;background:#e2e8f0;color:#0f172a;border:1px solid #cbd5e1;border-radius:999px;font-size:12px;padding:.1rem .5rem;margin-left:6px}
 
   /* Directory */
   .tools{display:flex;gap:10px;align-items:center;margin-bottom:10px}
@@ -62,6 +63,8 @@
   .btn.ghost:hover{background:#f8fafc}
   .btn.gray{background:#6b7280}.btn.gray:hover{background:#4b5563}
   .empty{padding:16px;color:#6b7280;text-align:center}
+  .spinner{display:inline-block;width:16px;height:16px;border:2px solid #cbd5e1;border-top-color:#0a66c2;border-radius:50%;animation:spin 1s linear infinite;margin-left:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
   @media(max-width:900px){ .wrap{grid-template-columns:1fr} }
 </style>
 </head>
@@ -82,6 +85,10 @@
 <main class="wrap">
   <!-- Sidebar -->
   <aside class="card pad side">
+    <div id="meBanner" class="banner" style="display:none">
+      Add your <b>name or email</b> in <a href="build-profile.html" style="text-decoration:underline">Build Profile</a> to send real invites.
+    </div>
+
     <div class="you">
       <div class="ava" id="youAva">👤</div>
       <div>
@@ -97,14 +104,14 @@
       <div class="row"><input id="fLoc" placeholder="Location"></div>
     </div>
 
-    <h3 style="margin-top:12px">Add person (local)</h3>
+    <h3 style="margin-top:12px">Add person (directory)</h3>
     <div class="filter">
       <div class="row"><input id="addName" placeholder="Full name"></div>
       <div class="row"><input id="addTrade" placeholder="Trade"></div>
       <div class="row"><input id="addLoc" placeholder="Location"></div>
       <div class="row"><input id="addEmail" placeholder="Email (optional)"></div>
       <div class="row"><button class="btn gray" id="addBtn" type="button">Add</button></div>
-      <div class="muted">Adds to your local directory only.</div>
+      <div class="muted">Adds a person to the shared directory.</div>
     </div>
   </aside>
 
@@ -117,7 +124,7 @@
         <button class="btn ghost" id="acceptAllBtn" type="button">Accept All</button>
       </div>
       <div id="requestsList"></div>
-      <div class="muted" style="margin-top:8px">These requests were sent to you (e.g., via invite links).</div>
+      <div class="muted" style="margin-top:8px">These requests are pulled live from the server.</div>
     </div>
 
     <!-- Directory -->
@@ -129,105 +136,97 @@
       </div>
       <div id="dir" class="grid"></div>
       <div class="muted" style="margin-top:10px">
-        Tip: Share an <b>Invite Link</b> to connect someone new.
+        Tip: Use <b>Invite Link</b> to connect anyone (copies a unique acceptance URL).
       </div>
     </div>
   </section>
 </main>
 
+<!-- ===== Embedded backend adapter (scripts/api.js) ===== -->
 <script>
-/* Shared keys */
-const PKEY='ltnPeople', CKEY='ltnConnections', RKEY='ltnRequests', MEKEY='userProfile:v1';
+/* Google Apps Script Web App URL (Deploy → Anyone with the link) */
+const LTN_API_BASE="https://script.google.com/macros/s/AKfycbwvpweco_FFHNvx-XT4JDvULZ0ax9fVG34gJGbk_3zZz6mUYuvUwJo8ayR0ysqrIDyw/exec";
+
+/* Low-level fetch helpers */
+async function ltnGet(params={}){const u=new URL(LTN_API_BASE);Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null)u.searchParams.set(k,v)});const r=await fetch(u.toString(),{method:"GET",mode:"cors"});if(!r.ok)throw new Error("HTTP "+r.status);const d=await r.json().catch(()=>({}));if(d.error)throw new Error(d.error);return d;}
+async function ltnPost(payload={}){const r=await fetch(LTN_API_BASE,{method:"POST",mode:"cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(!r.ok)throw new Error("HTTP "+r.status);const d=await r.json().catch(()=>({}));if(d.error)throw new Error(d.error);return d;}
+
+/* High-level API */
+const LTN={
+  profile:{ save:(profile)=>ltnPost({action:"saveProfile",profile}), get:(q)=>ltnGet({action:"getProfile",...q}) },
+  people:{ list:(opts={})=>ltnGet({action:"listPeople",...opts}), add:(p)=>ltnPost({action:"addPerson",person:p}), search:(q)=>ltnGet({action:"searchPeople",q}) },
+  invite:{ create:({inviter,toPersonId=null,emailHint=null})=>ltnPost({action:"createInvite",inviter,toPersonId,emailHint}),
+           respond:({inviteId,accept})=>ltnPost({action:"respondInvite",inviteId,accept}),
+           incoming:({userId,email})=>ltnGet({action:"incomingRequests",userId,email}) },
+  connections:{ list:({userId,email})=>ltnGet({action:"listConnections",userId,email}),
+                remove:({userId,peerId})=>ltnPost({action:"removeConnection",userId,peerId}) },
+  messages:{ list:({userId,peerId,sinceTs=null})=>ltnGet({action:"listMessages",userId,peerId,sinceTs}),
+             send:({fromId,toId,text})=>ltnPost({action:"sendMessage",fromId,toId,text}) }
+};
+function ltnMeLocal(){ try{ return JSON.parse(localStorage.getItem("userProfile:v1"))||null } catch { return null } }
+</script>
+<!-- ===== Page logic ===== -->
+<script>
+/* ========= Identity ("me") ========= */
+const me = ltnMeLocal(); // from Build Profile page
+const meId = (me?.email || me?.id || "").trim();
+const meName = `${me?.firstName||""} ${me?.lastName||""}`.trim();
+
 const $=id=>document.getElementById(id);
-function load(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}
-function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function avatarHtml(photo){ return photo ? `<img src="${photo}" alt="">` : "👤" }
+function nameOf(p){ return `${p.firstName||""} ${p.lastName||""}`.trim() || "Unknown" }
 
-/* Seed demo users if empty */
-(function seed(){
-  if(!load(PKEY,[]).length){
-    save(PKEY,[
-      {id:'p-rosa',firstName:'Rosa',lastName:'Vega',trade:'Tower/Fiber Tech',location:'Milwaukee, WI'},
-      {id:'p-tim',firstName:'Tim',lastName:'McCarron',trade:'Cabling',location:'Madison, WI'},
-      {id:'p-lee',firstName:'Lee',lastName:'Khan',trade:'Access Control',location:'Chicago, IL'},
-      {id:'p-sam',firstName:'Sam',lastName:'Park',trade:'Low Voltage',location:'Detroit, MI'}
-    ]);
-  }
-  if(!Array.isArray(load(CKEY,null))) save(CKEY,[]);
-  if(!Array.isArray(load(RKEY,null))) save(RKEY,[]);
-})();
-
-/* Me card */
-let me=load(MEKEY,null);
+/* Render "me" */
 (function(){
-  const ava=$('youAva'), nm=$('youName'), hd=$('youHeadline');
-  if(me?.photo) ava.innerHTML=`<img src="${me.photo}" alt="">`;
-  nm.textContent = me ? `${me.firstName||''} ${me.lastName||''}`.trim() || 'You' : 'You';
-  hd.textContent = me?.headline || '';
+  if(!meId){ $('meBanner').style.display='block'; }
+  if(me?.photo) $('youAva').innerHTML = `<img src="${me.photo}" alt="">`;
+  $('youName').textContent = meName || 'You';
+  $('youHeadline').textContent = me?.headline || '';
 })();
 
-/* State */
-let people=load(PKEY,[]);
-let connections=new Set(load(CKEY,[]));
-let requests=new Set(load(RKEY,[]));
+/* ========= State ========= */
+let people=[];              // directory (server)
+let connections=new Set();  // peerId/email (server)
+let requests=[];            // [{inviteId, from:{...}}] (server)
 
-/* Helpers */
-function nameOf(p){return `${p.firstName||''} ${p.lastName||''}`.trim()||'Unknown'}
-function avatarHtml(p){ return p?.photo ? `<img src="${p.photo}" alt="">` : '👤' }
-
-/* ----- Requests panel render ----- */
-function renderRequests(){
-  people=load(PKEY,[]);
-  requests=new Set(load(RKEY,[]));
-
-  const ids=[...requests];
-  const card=$('requestsCard');
-  const countEl=$('reqCount');
-  const listEl=$('requestsList');
-
-  if(!ids.length){
-    card.style.display='none';
-    listEl.innerHTML='';
-    return;
-  }
-
-  card.style.display='block';
-  countEl.style.display='inline-block';
-  countEl.textContent=ids.length;
-
-  listEl.innerHTML=ids.map(id=>{
-    const p=people.find(x=>x.id===id) || {firstName:'Unknown', lastName:'', trade:'', location:''};
-    return `
-      <div class="req-item">
-        <div class="mini-ava">${avatarHtml(p)}</div>
-        <div>
-          <div class="req-name">${nameOf(p)}</div>
-          <div class="req-meta">${[p.trade,p.location].filter(Boolean).join(' • ')}</div>
-        </div>
-        <div class="req-actions">
-          <button class="btn" onclick="accept('${id}')">Accept</button>
-          <button class="btn ghost" onclick="decline('${id}')">Decline</button>
-        </div>
-      </div>`;
-  }).join('');
+/* ========= Load from backend ========= */
+async function loadDirectory(){
+  const q = ($('q').value || $('search').value || '').trim();
+  const trade = ($('fTrade').value || '').trim();
+  const location = ($('fLoc').value || '').trim();
+  const res = await LTN.people.list({ q, trade, location, limit: 200 });
+  people = Array.isArray(res?.people) ? res.people : [];
+}
+async function loadConnections(){
+  if(!meId){ connections=new Set(); return; }
+  const res = await LTN.connections.list({ email: meId });
+  const arr = Array.isArray(res?.connections) ? res.connections : [];
+  connections = new Set(arr.map(c => c.peerId || c.id || c.email || c.userId));
+}
+async function loadIncoming(){
+  if(!meId){ requests=[]; return; }
+  const res = await LTN.invite.incoming({ email: meId });
+  requests = Array.isArray(res?.requests) ? res.requests : [];
 }
 
-/* ----- Directory render ----- */
+/* ========= Render ========= */
 function personCard(p){
-  const id=p.id;
-  const isConn=connections.has(id);
-  const isReq=requests.has(id);
+  const id = p.id || p.email || '';
+  const isConn = connections.has(id);
+  const req = requests.find(r => (r.from?.id||r.from?.email) === id);
+
   const btns = isConn
     ? `<button class="btn" onclick="message('${id}')">Message</button>
        <button class="btn ghost" onclick="removeConn('${id}')">Remove</button>`
-    : isReq
-      ? `<button class="btn" onclick="accept('${id}')">Accept</button>
-         <button class="btn ghost" onclick="decline('${id}')">Decline</button>`
-      : `<button class="btn" onclick="connect('${id}')">Connect</button>
+    : req
+      ? `<button class="btn" onclick="acceptInvite('${req.inviteId}')">Accept</button>
+         <button class="btn ghost" onclick="declineInvite('${req.inviteId}')">Decline</button>`
+      : `<button class="btn" onclick="createInvite('${id}')">Connect</button>
          <button class="btn ghost" onclick="copyInvite('${id}')">Invite Link</button>`;
 
   return `
     <div class="person">
-      <div class="ava">${avatarHtml(p)}</div>
+      <div class="ava">${avatarHtml(p.photo)}</div>
       <div>
         <div class="name">${nameOf(p)}</div>
         <div class="meta">${[p.trade,p.location].filter(Boolean).join(' • ')}</div>
@@ -236,151 +235,168 @@ function personCard(p){
     </div>`;
 }
 function renderDirectory(){
-  people=load(PKEY,[]);
-  connections=new Set(load(CKEY,[]));
-  requests=new Set(load(RKEY,[]));
+  const q = ($('q').value || $('search').value || '').toLowerCase();
+  const t = ($('fTrade').value || '').toLowerCase();
+  const l = ($('fLoc').value || '').toLowerCase();
 
-  const q=($('q').value||$('search').value||'').toLowerCase();
-  const t=($('fTrade').value||'').toLowerCase();
-  const l=($('fLoc').value||'').toLowerCase();
-
-  const list=people.filter(p=>{
-    const hay=(nameOf(p)+' '+(p.trade||'')+' '+(p.location||'')).toLowerCase();
-    return(!q||hay.includes(q))&&(!t||(p.trade||'').toLowerCase().includes(t))&&(!l||(p.location||'').toLowerCase().includes(l));
+  const list = people.filter(p=>{
+    const hay=(nameOf(p)+' '+(p.trade||'')+' '+(p.location||'')+' '+(p.email||'')).toLowerCase();
+    return (!q || hay.includes(q)) &&
+           (!t || (p.trade||'').toLowerCase().includes(t)) &&
+           (!l || (p.location||'').toLowerCase().includes(l));
   });
 
-  $('dir').innerHTML=list.length?list.map(personCard).join(''):`<div class="empty">No matches.</div>`;
+  $('dir').innerHTML = list.length ? list.map(personCard).join('') : `<div class="empty">No matches.</div>`;
+}
+function renderRequests(){
+  const card=$('requestsCard'), countEl=$('reqCount'), listEl=$('requestsList');
+  if(!requests.length){ card.style.display='none'; listEl.innerHTML=''; return; }
+  card.style.display='block';
+  countEl.style.display='inline-block';
+  countEl.textContent=requests.length;
+
+  listEl.innerHTML = requests.map(r=>{
+    const f = r.from || {};
+    return `
+      <div class="req-item">
+        <div class="mini-ava">${avatarHtml(f.photo)}</div>
+        <div>
+          <div class="req-name">${nameOf(f)}</div>
+          <div class="req-meta">${[f.trade,f.location].filter(Boolean).join(' • ')}</div>
+        </div>
+        <div class="req-actions">
+          <button class="btn" onclick="acceptInvite('${r.inviteId}')">Accept</button>
+          <button class="btn ghost" onclick="declineInvite('${r.inviteId}')">Decline</button>
+        </div>
+      </div>`;
+  }).join('');
 }
 
-/* Combined render */
-function renderAll(){
-  renderRequests();
-  renderDirectory();
-}
-renderAll();
-
-/* ----- Actions ----- */
-window.connect = id => {
-  // Local demo: add as pending request (for your own device)
-  requests.add(id); save(RKEY,[...requests]); renderAll();
-  alert('Request sent (demo). To invite someone on another device, use Invite Link.');
-};
-window.accept = id => {
-  requests.delete(id); connections.add(id);
-  save(RKEY,[...requests]); save(CKEY,[...connections]); renderAll();
-};
-window.decline = id => {
-  requests.delete(id); save(RKEY,[...requests]); renderAll();
-};
-window.removeConn = id => {
-  if(confirm('Remove this connection?')){
-    connections.delete(id); save(CKEY,[...connections]); renderAll();
+/* ========= Combined refresh ========= */
+async function refreshAll(spinTargetId=null){
+  try{
+    if(spinTargetId){ const t=$(spinTargetId); if(t){ t.insertAdjacentHTML('beforeend','<span class="spinner" data-spin></span>'); } }
+    await Promise.all([loadDirectory(), loadConnections(), loadIncoming()]);
+    renderDirectory();
+    renderRequests();
+  }catch(err){
+    alert('Error loading data: '+ (err?.message||err));
+  }finally{
+    document.querySelectorAll('[data-spin]').forEach(n=>n.remove());
   }
+}
+refreshAll();
+
+/* ========= Actions (server) ========= */
+window.acceptInvite = async (inviteId)=>{
+  try{ await LTN.invite.respond({ inviteId, accept: true }); await refreshAll(); }
+  catch(err){ alert('Accept failed: '+(err?.message||err)); }
 };
-window.message = id => { location.href = `messaging.html?to=${encodeURIComponent(id)}`; };
+window.declineInvite = async (inviteId)=>{
+  try{ await LTN.invite.respond({ inviteId, accept: false }); await refreshAll(); }
+  catch(err){ alert('Decline failed: '+(err?.message||err)); }
+};
+window.removeConn = async (peerId)=>{
+  if(!confirm('Remove this connection?')) return;
+  try{ await LTN.connections.remove({ userId: meId, peerId }); await refreshAll(); }
+  catch(err){ alert('Remove failed: '+(err?.message||err)); }
+};
+window.message = (peerId)=>{ location.href = `messaging.html?to=${encodeURIComponent(peerId)}`; };
 
 /* Accept All in panel */
-$('acceptAllBtn').onclick = ()=>{
-  const ids=[...new Set(load(RKEY,[]))];
-  if(!ids.length) return;
-  ids.forEach(id=>connections.add(id));
-  save(CKEY,[...connections]); save(RKEY,[]);
-  renderAll();
-};
-
-/* ----- Filters & search ----- */
-['q','fTrade','fLoc','search'].forEach(id=>$(`${id}`).addEventListener('input',renderAll));
-$('showAll').onclick = ()=>{
-  ['q','fTrade','fLoc','search'].forEach(id=>$(`${id}`).value='');
-  renderAll();
-};
-
-/* ----- Add person (local) ----- */
-$('addBtn').onclick=()=>{
-  const n=$('addName').value.trim(); if(!n) return alert('Enter a name');
-  const [f,...r]=n.split(' ');
-  const p={id:'p-'+Date.now(),firstName:f,lastName:r.join(' '),
-    trade:$('addTrade').value.trim(),location:$('addLoc').value.trim(),email:$('addEmail').value.trim(),photo:''};
-  const arr=load(PKEY,[]); arr.unshift(p); save(PKEY,arr);
-  ['addName','addTrade','addLoc','addEmail'].forEach(i=>$(`${i}`).value='');
-  renderAll();
-};
-
-/* ----- Invite Links (Option A) ----- */
-function myProfile() {
-  const me = load(MEKEY, null);
-  const name = me ? `${me.firstName||''} ${me.lastName||''}`.trim() : '';
-  const baseId = (me?.email || name || 'user').toLowerCase().replace(/\s+/g,'-');
-  return {
-    id: baseId,
-    firstName: me?.firstName || '',
-    lastName:  me?.lastName  || '',
-    email:     me?.email     || '',
-    trade:     me?.trade     || '',
-    location:  me?.location  || '',
-    photo:     me?.photo     || ''
-  };
-}
-window.copyInvite = targetId => {
-  const inviter=myProfile();
-  if(!inviter.email && !inviter.firstName && !inviter.lastName){
-    alert('Add your name or email in Build Profile first.'); return;
-  }
-  const payload={v:1,inviter,to:targetId,ts:Date.now()};
-  const enc=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-  const base=new URL(window.location.href); base.search=''; base.hash=''; base.pathname='accept-invite.html';
-  const link=`${base}?invite=${encodeURIComponent(enc)}`;
-  navigator.clipboard?.writeText(link).then(()=>alert('Invite link copied!'),()=>prompt('Copy this link:',link));
-};
-
-/* Handle incoming invite links (?invite=)  — keep support if someone lands here */
-(function handleIncomingInvite(){
-  const sp=new URLSearchParams(location.search);
-  const raw=sp.get('invite'); if(!raw) return;
+$('acceptAllBtn').onclick = async ()=>{
+  if(!requests.length) return;
   try{
-    const p=JSON.parse(decodeURIComponent(escape(atob(raw))));
-    if(p?.v!==1) return;
-    const arr=load(PKEY,[]);
-    if(!arr.find(x=>x.id===p.inviter.id)) arr.unshift(p.inviter);
-    save(PKEY,arr);
-    const req=new Set(load(RKEY,[])); req.add(p.inviter.id); save(RKEY,[...req]);
-    if(history.replaceState){ history.replaceState({},'', 'network.html'); }
-    renderAll();
-    alert(`Connection request from ${p.inviter.firstName||'Someone'}.`);
-  }catch(e){ console.warn(e); }
-})();
+    await Promise.all(requests.map(r => LTN.invite.respond({ inviteId: r.inviteId, accept: true })));
+    await refreshAll();
+  }catch(err){ alert('Accept all failed: '+(err?.message||err)); }
+};
 
-/* Global name/email add-or-find */
+/* Create + copy invite link (for an existing directory person) */
+window.createInvite = async (toPersonId)=>{
+  try{
+    if(!meId){ alert('Please add your name or email in Build Profile first.'); return; }
+    const res = await LTN.invite.create({ inviter: me, toPersonId, emailHint: null });
+    const link = inviteAcceptanceUrl(res);
+    copyToClipboard(link);
+    alert('Invite link copied!');
+  }catch(err){ alert('Could not create invite: '+(err?.message||err)); }
+};
+window.copyInvite = window.createInvite; // alias
+
+function inviteAcceptanceUrl(apiRes){
+  const id = apiRes?.inviteId || apiRes?.id || apiRes?.token;
+  const u = new URL(window.location.href);
+  u.pathname = u.pathname.replace(/[^/]*$/, 'accept-invite.html');
+  u.search   = id ? ('?id=' + encodeURIComponent(id)) : '';
+  u.hash     = '';
+  return u.toString();
+}
+function copyToClipboard(text){
+  if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(text); }
+  else { prompt('Copy this link:', text); }
+}
+
+/* Add person to shared directory */
+$('addBtn').onclick = async ()=>{
+  const n = $('addName').value.trim();
+  if(!n) return alert('Enter a name');
+  const [firstName, ...rest] = n.split(/\s+/);
+  const person = {
+    firstName,
+    lastName: rest.join(' '),
+    trade: $('addTrade').value.trim(),
+    location: $('addLoc').value.trim(),
+    email: $('addEmail').value.trim()
+  };
+  try{
+    await LTN.people.add(person);
+    ['addName','addTrade','addLoc','addEmail'].forEach(i=>$(i).value='');
+    await refreshAll();
+  }catch(err){ alert('Add failed: '+(err?.message||err)); }
+};
+
+/* Filters & search */
+['q','fTrade','fLoc','search'].forEach(id=>{
+  $(id).addEventListener('input', ()=> refreshAll() );
+});
+$('showAll').onclick = ()=>{
+  ['q','fTrade','fLoc','search'].forEach(id=>$(id).value='');
+  refreshAll();
+};
+
+/* Global quick add/search: creates or finds, then offers invite */
 const g=$('globalSearch');
-function norm(s){return (s||'').toLowerCase().trim();}
-function findByEmail(email){const e=norm(email); if(!e) return null; return people.find(p=>norm(p.email)===e)||null;}
-function findByName(name){const n=norm(name); if(!n) return null; return people.find(p=>norm(`${p.firstName||''} ${p.lastName||''}`)===n)||null;}
-function ensurePersonByNameEmail(name,email){
-  let found=email?findByEmail(email):null; if(found) return found;
-  found=name?findByName(name):null; if(found) return found;
-  const id='p-'+Date.now();
-  let firstName='',lastName=''; if(name){const parts=name.trim().split(/\s+/); firstName=parts.shift()||''; lastName=parts.join(' ');}
-  const person={id,firstName,lastName,trade:'',location:'',email:(email||'').trim(),photo:''};
-  const arr=load(PKEY,[]); arr.unshift(person); save(PKEY,arr); people=arr; renderAll(); return person;
-}
-function scrollToPerson(id){
-  const card = Array.from(document.querySelectorAll('.person'))
-    .find(el => el.querySelector(`.row button[onclick*="'${id}'"]`));
-  if(card){ card.style.outline='2px solid #60a5fa'; card.scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(()=>card.style.outline='',1200); }
-}
-g.addEventListener('keydown', (e)=>{
+g.addEventListener('keydown', async (e)=>{
   if(e.key!=='Enter') return;
   const val=g.value.trim(); if(!val) return;
-  let name='',email='';
-  if(val.includes('@') && val.includes('.')){ email=val; name=(prompt('Enter their full name (optional):','')||'').trim(); }
-  else { name=val; email=(prompt('Enter their email (optional):','')||'').trim(); }
-  const person=ensurePersonByNameEmail(name,email);
-  if(confirm(`Found/added "${(person.firstName||'')+' '+(person.lastName||'')}". Copy an invite link to send them?`)){
-    copyInvite(person.id);
+
+  let firstName='', lastName='', email='';
+  if(val.includes('@') && val.includes('.')){ email = val; }
+  else { const parts = val.split(/\s+/); firstName = parts.shift()||''; lastName = parts.join(' '); }
+
+  try{
+    let found=[];
+    if(email){ const r = await LTN.people.search(email); found = r?.people||[]; }
+    else { const r = await LTN.people.search(val); found = r?.people||[]; }
+    let target = found[0];
+
+    if(!target){
+      const addRes = await LTN.people.add({ firstName, lastName, email, trade:'', location:'' });
+      target = addRes?.person || addRes;
+    }
+
+    await refreshAll();
+    if(target?.id || target?.email){
+      if(confirm(`Invite ${nameOf(target)} to connect?`)){
+        await createInvite(target.id || target.email);
+      }
+    }
+  }catch(err){
+    alert('Search/add failed: '+(err?.message||err));
+  }finally{
+    g.value='';
   }
-  scrollToPerson(person.id);
-  g.value='';
 });
 
 /* Handle ?query= from front.html */
