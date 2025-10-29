@@ -5,99 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Join • LinkTradeNetwork</title>
 <style>
-  :root{ --bg:#2d3748; --ink:#0f172a; --line:#e5e7eb; --brand:#6366f1; --card:#fff; --muted:#6b7280; --ok:#065f46; --err:#b91c1c; }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
-  header{background:#64748b;padding:18px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
-  .brand{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:10px;color:#000;text-decoration:none}
-  .brand .logo{font-size:28px}
-  .brand b{font-size:28px}
-  .wrap{max-width:560px;margin:22px auto;padding:0 12px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.18)}
-  .pad{padding:18px}
-  .h{margin:0 0 6px 0;font-size:24px;font-weight:800}
-  .sub{color:var(--muted);margin-bottom:12px;font-size:14px}
-  label{display:block;font-weight:600;margin:8px 0 6px 0;font-size:13px}
-  input,select{width:100%;border:2px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:15px}
-  input:focus,select:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 2px rgba(99,102,241,.2)}
-  .row{display:grid;gap:10px}
-  @media(min-width:560px){ .row2{grid-template-columns:1fr 1fr} }
-  .check{display:flex;align-items:flex-start;gap:10px;margin-top:8px}
-  .check input{width:18px;height:18px;margin-top:2px}
-  .check span{color:var(--muted);font-size:.9rem}
-  .check a{color:#2563eb;text-decoration:none}
-  .check a:hover{text-decoration:underline}
-  .btn{width:100%;margin-top:12px;background:#ea6a00;color:#fff;border:none;border-radius:10px;padding:.7rem 1rem;font-weight:800;cursor:pointer}
-  .btn[disabled]{opacity:.6;cursor:not-allowed}
-  .msg{display:none;margin-top:10px;border-radius:10px;padding:.65rem .9rem;font-weight:700;text-align:center;font-size:14px}
-  .msg.ok{display:block;background:#d1fae5;color:var(--ok);border:1px solid #10b981}
-  .msg.err{display:block;background:#fee2e2;color:var(--err);border:1px solid #ef4444}
-  .otp{margin-top:14px;border:1px dashed #cbd5e1;border-radius:12px;padding:12px;display:none}
-  .otp h3{margin:0 0 8px;font-size:16px}
+  :root{ --bg:#0b0f17; --panel:#101726; --ink:#eaf0ff; --muted:#a9b7d0; --line:#26324b; --brand:#ea6a00; --ok:#3cd682; --err:#ff6b6b; }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  .wrap{min-height:100svh;display:grid;place-items:center;padding:20px}
+  .card{width:100%;max-width:520px;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:22px 18px}
+  h1{margin:0 0 8px;font-size:22px} .sub{margin:0 0 14px;color:var(--muted);font-size:14px}
+  .row{display:grid;gap:10px} @media(min-width:560px){ .row2{grid-template-columns:1fr 1fr} }
+  label{display:block;font-size:13px;color:var(--muted);margin:6px 0}
+  input,select{width:100%;background:#0d1422;color:var(--ink);border:1px solid #2a3956;border-radius:12px;padding:12px;font-size:14px}
+  .chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin-top:6px}
+  .btn{width:100%;margin-top:12px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:12px 14px;font-weight:800;font-size:15px;cursor:pointer}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .msg{margin-top:10px;font-size:13px} .ok{color:var(--ok)} .err{color:var(--err)}
+  .otp{margin-top:16px;padding:14px;border:1px dashed #31425f;border-radius:12px;background:#0c1526;display:none}
   .otp .inputs{display:flex;gap:8px;margin:10px 0}
-  .otp .inputs input{width:44px;text-align:center;font-size:20px;border:2px solid var(--line);border-radius:10px;padding:.4rem .2rem}
-  .flex{display:flex;gap:10px;align-items:center;justify-content:space-between}
-  .foot{margin-top:10px;text-align:center;color:var(--muted);font-size:14px}
-  .hide{display:none !important}
+  .otp input{width:44px;text-align:center;font-size:20px}
+  .hide{display:none!important}
 </style>
 </head>
 <body>
-<header>
-  <a class="brand" href="#">
-    <span class="logo">🌍</span><b>LinkTradeNetwork</b>
-  </a>
-</header>
+  <div class="wrap">
+    <div class="card">
+      <h1>Join LinkTradeNetwork</h1>
+      <p class="sub">Quick, one-time email verification for new accounts.</p>
 
-<main class="wrap">
-  <section class="card">
-    <div class="pad">
-      <h1 class="h">Create your account</h1>
-      <div class="sub">Quick, one-time email verification for new accounts.</div>
-
-      <form id="joinForm" class="row">
+      <div id="step-join" class="row">
         <div class="row row2">
-          <div>
-            <label for="name">Full name</label>
-            <input id="name" type="text" placeholder="Your full name" required />
-          </div>
-          <div>
-            <label for="email">Email address</label>
-            <input id="email" type="email" autocomplete="email" required />
-          </div>
+          <div><label>Name</label><input id="name" type="text" placeholder="Your full name"></div>
+          <div><label>Email</label><input id="email" type="email" placeholder="you@example.com"></div>
         </div>
         <div class="row row2">
-          <div>
-            <label for="phone">Phone (optional)</label>
-            <input id="phone" type="tel" placeholder="555-123-4567" />
-          </div>
-          <div>
-            <label for="userType">User type</label>
-            <select id="userType" required>
-              <option value="">Select…</option>
-              <option value="Worker">Worker</option>
-              <option value="Business">Business</option>
-            </select>
+          <div><label>Phone (optional)</label><input id="phone" type="tel" placeholder="555-123-4567"></div>
+          <div><label>User Type</label>
+            <select id="userType"><option value="">Select…</option><option>Worker</option><option>Business</option></select>
           </div>
         </div>
-        <div>
-          <label for="trade">Trade / Industry</label>
-          <input id="trade" type="text" placeholder="Electrician, Low Voltage, HVAC, etc." />
-        </div>
-
-        <div class="check">
-          <input id="terms" type="checkbox" required />
-          <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> and understand I may receive important account emails.</span>
-        </div>
-
-        <button id="joinBtn" class="btn" type="submit">Join</button>
+        <div><label>Trade / Industry</label><input id="trade" type="text" placeholder="Electrician, Low Voltage, HVAC, etc."></div>
+        <label class="chk"><input id="consent" type="checkbox"> <span>I agree to the Terms & understand I may receive important account emails.</span></label>
+        <button id="joinBtn" class="btn">Join</button>
         <div id="joinMsg" class="msg"></div>
-      </form>
+      </div>
 
-      <!-- OTP step -->
-      <div id="otpBox" class="otp">
-        <h3>Enter verification code</h3>
-        <p class="sub">We sent a 6-digit code to <b id="otpEmail"></b>. It expires in 10 minutes.</p>
-        <div class="inputs" id="otpInputs">
+      <div id="step-otp" class="otp">
+        <p>Enter the 6-digit code we sent to <b id="otpEmail"></b>. It expires in 10 minutes.</p>
+        <div class="inputs">
           <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
           <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
           <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
@@ -105,144 +56,120 @@
           <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
           <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
         </div>
-        <div class="flex">
-          <button id="verifyBtn" class="btn" type="button">Verify</button>
-          <button id="resendBtn" class="btn" type="button" style="background:#374151">Resend code</button>
-        </div>
+        <button id="verifyBtn" class="btn">Verify</button>
+        <button id="resendBtn" class="btn" style="background:#374151;margin-top:8px">Resend code</button>
         <div id="otpMsg" class="msg"></div>
       </div>
 
-      <div id="doneMsg" class="msg ok hide"><b>Success!</b> You’re in. You can proceed to your dashboard.</div>
-
-      <div class="foot">Already verified? You’ll skip the code next time.</div>
+      <div id="step-done" class="hide">
+        <p class="ok"><b>Success!</b> You’re in.</p>
+      </div>
     </div>
-  </section>
-</main>
+  </div>
 
 <script>
-  // ✅ Updated to your deployed Apps Script URL:
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxEMMRKCkgrjYkhQhei5p_DYj1wGnCo0xEnI49STLWmCzkcNymrYJt5yThe_m3WQLVF/exec';
+(function(){
+  // ✅ point to YOUR new Apps Script Web App URL:
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvpnwMRSFMx_t_iuy39e9rvozdodsVVy9uKsoXMqUr6c6F_XZ9CGiD1ANcSEIX_kJkbg/exec';
 
-  const $ = id => document.getElementById(id);
-  const joinForm = $('joinForm'), joinBtn = $('joinBtn'), joinMsg = $('joinMsg');
-  const nameEl = $('name'), emailEl = $('email'), phoneEl = $('phone'), userTypeEl = $('userType'), tradeEl = $('trade'), termsEl = $('terms');
-  const otpBox = $('otpBox'), otpEmail = $('otpEmail'), otpMsg = $('otpMsg'), verifyBtn = $('verifyBtn'), resendBtn = $('resendBtn');
-  const otpInputs = Array.from(document.querySelectorAll('#otpInputs input'));
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+
+  const joinBtn = $('#joinBtn'), joinMsg = $('#joinMsg');
+  const stepJoin = $('#step-join'), stepOtp = $('#step-otp'), stepDone = $('#step-done');
+  const otpEmail = $('#otpEmail'), otpMsg = $('#otpMsg');
+  const inputs = $$('#step-otp .inputs input');
 
   let currentEmail = '', currentName = '';
 
-  function show(el, type, text){
-    el.className = 'msg ' + (type || '');
-    el.textContent = text || '';
-    el.style.display = text ? 'block' : 'none';
-  }
-  function showOTP(email){
-    otpEmail.textContent = email;
-    otpBox.style.display = 'block';
-    otpInputs.forEach(i=>i.value='');
-    otpInputs[0].focus();
-  }
-  function codeValue(){ return otpInputs.map(i=>i.value.replace(/\D/g,'')).join(''); }
-
-  otpInputs.forEach((inp, i) => {
+  inputs.forEach((inp, i) => {
     inp.addEventListener('input', () => {
       inp.value = inp.value.replace(/\D/g,'').slice(0,1);
-      if(inp.value && i < otpInputs.length - 1) otpInputs[i+1].focus();
+      if (inp.value && i < inputs.length-1) inputs[i+1].focus();
     });
     inp.addEventListener('keydown', (e) => {
-      if(e.key === 'Backspace' && !inp.value && i>0) otpInputs[i-1].focus();
+      if (e.key === 'Backspace' && !inp.value && i>0) inputs[i-1].focus();
     });
   });
 
-  joinForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    show(joinMsg,'','');
-    if(!termsEl.checked){ show(joinMsg,'err','Please accept the Terms to continue.'); return; }
+  function setMsg(el, text, cls=''){ el.textContent = text || ''; el.className = 'msg ' + cls; }
+  function codeValue(){ return inputs.map(i=>i.value).join(''); }
+  function clearCode(){ inputs.forEach(i=>i.value=''); inputs[0].focus(); }
 
-    const payload = {
-      action: 'signup',
-      name: nameEl.value.trim(),
-      email: emailEl.value.trim().toLowerCase(),
-      phone: phoneEl.value.trim(),
-      userType: userTypeEl.value.trim(),
-      trade: tradeEl.value.trim(),
-      consent: !!termsEl.checked,
-      userAgent: navigator.userAgent
-    };
-    if(!payload.name || !payload.email){ show(joinMsg,'err','Name and email are required.'); return; }
+  joinBtn.addEventListener('click', async () => {
+    const name = $('#name').value.trim();
+    const email = $('#email').value.trim().toLowerCase();
+    const phone = $('#phone').value.trim();
+    const userType = $('#userType').value.trim();
+    const trade = $('#trade').value.trim();
+    const consent = $('#consent').checked;
 
-    joinBtn.disabled = true; joinBtn.textContent = 'Working…';
+    if (!name || !email) { setMsg(joinMsg,'Name and email are required','err'); return; }
+    if (!consent) { setMsg(joinMsg,'Please agree to the Terms to continue.','err'); return; }
+
+    joinBtn.disabled = true; setMsg(joinMsg,'Working…','');
 
     try{
       const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(payload)
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          action:'signup',
+          name, email, phone, userType, trade,
+          consent, userAgent: navigator.userAgent
+        })
       });
       const data = await res.json();
+      if (data.success === false) { setMsg(joinMsg, data.error || 'Error','err'); return; }
 
-      if(data.success === false){ show(joinMsg,'err', data.error || 'Something went wrong.'); return; }
-
-      if(data.verified && !data.requiresOtp){
-        show(joinMsg,'ok','Welcome back!'); $('doneMsg').classList.remove('hide'); otpBox.style.display='none'; return;
+      if (data.verified && !data.requiresOtp) {
+        stepJoin.classList.add('hide'); stepDone.classList.remove('hide'); setMsg(joinMsg,'',''); return;
       }
 
-      currentEmail = payload.email; currentName = payload.name;
-      show(joinMsg,'ok','Check your email for a 6-digit code.'); showOTP(currentEmail);
+      currentEmail = email; currentName = name;
+      otpEmail.textContent = email;
+      stepJoin.classList.add('hide'); stepOtp.style.display = 'block'; clearCode();
+      setMsg(joinMsg,'','');
 
-    }catch(err){
-      console.error(err); show(joinMsg,'err','Network error. Try again.');
+    }catch(e){
+      setMsg(joinMsg,'Network error.','err');
     }finally{
-      joinBtn.disabled = false; joinBtn.textContent = 'Join';
+      joinBtn.disabled = false;
     }
   });
 
-  verifyBtn.addEventListener('click', async () => {
+  $('#verifyBtn').addEventListener('click', async () => {
     const code = codeValue();
-    if(code.length !== 6){ show(otpMsg,'err','Please enter the 6-digit code.'); return; }
-    verifyBtn.disabled = true;
-
+    if (code.length !== 6) { setMsg(otpMsg,'Enter the 6-digit code.','err'); return; }
     try{
       const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ action:'verify', email: currentEmail, code })
       });
       const data = await res.json();
-      if(!data.success){ show(otpMsg,'err', data.error || 'Could not verify.'); return; }
-      if(data.verified){
-        show(otpMsg,'ok','Verified!'); $('doneMsg').classList.remove('hide');
-        otpBox.style.display='none';
-      }else{
-        show(otpMsg,'err','Unexpected response.');
-      }
-    }catch(err){
-      console.error(err); show(otpMsg,'err','Network error. Try again.');
-    }finally{
-      verifyBtn.disabled = false;
-    }
+      if (!data.success) { setMsg(otpMsg, data.error || 'Error','err'); return; }
+      if (data.verified) { stepOtp.style.display='none'; stepDone.classList.remove('hide'); }
+      else { setMsg(otpMsg,'Unexpected response.','err'); }
+    }catch(e){ setMsg(otpMsg,'Network error.','err'); }
   });
 
-  resendBtn.addEventListener('click', async () => {
-    resendBtn.disabled = true;
+  $('#resendBtn').addEventListener('click', async () => {
     try{
       const res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ action:'resend', email: currentEmail, name: currentName || 'there' })
       });
       const data = await res.json();
-      if(!data.success){ show(otpMsg,'err', data.error || 'Could not resend.'); return; }
-      show(otpMsg,'ok','A new code has been sent.');
-      otpInputs.forEach(i=>i.value=''); otpInputs[0].focus();
-    }catch(err){
-      console.error(err); show(otpMsg,'err','Network error. Try again.');
-    }finally{
-      resendBtn.disabled = false;
-    }
+      if (!data.success) { setMsg(otpMsg, data.error || 'Error','err'); return; }
+      setMsg(otpMsg,'A new code has been sent.','ok'); clearCode();
+    }catch(e){ setMsg(otpMsg,'Network error.','err'); }
   });
+})();
 </script>
 </body>
 </html>
+
 
 
