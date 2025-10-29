@@ -120,7 +120,7 @@
 </main>
 
 <script>
-  // Your deployed Apps Script Web App URL:
+  // ✅ Updated to your deployed Apps Script URL:
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxEMMRKCkgrjYkhQhei5p_DYj1wGnCo0xEnI49STLWmCzkcNymrYJt5yThe_m3WQLVF/exec';
 
   const $ = id => document.getElementById(id);
@@ -144,7 +144,6 @@
   }
   function codeValue(){ return otpInputs.map(i=>i.value.replace(/\D/g,'')).join(''); }
 
-  // OTP inputs UX
   otpInputs.forEach((inp, i) => {
     inp.addEventListener('input', () => {
       inp.value = inp.value.replace(/\D/g,'').slice(0,1);
@@ -184,12 +183,10 @@
 
       if(data.success === false){ show(joinMsg,'err', data.error || 'Something went wrong.'); return; }
 
-      // already verified user → done
       if(data.verified && !data.requiresOtp){
         show(joinMsg,'ok','Welcome back!'); $('doneMsg').classList.remove('hide'); otpBox.style.display='none'; return;
       }
 
-      // needs OTP
       currentEmail = payload.email; currentName = payload.name;
       show(joinMsg,'ok','Check your email for a 6-digit code.'); showOTP(currentEmail);
 
@@ -247,4 +244,5 @@
 </script>
 </body>
 </html>
+
 
