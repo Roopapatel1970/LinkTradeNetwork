@@ -12,11 +12,11 @@
   h1{margin:0 0 8px;font-size:22px} .sub{margin:0 0 14px;color:var(--muted);font-size:14px}
   .row{display:grid;gap:10px} @media(min-width:560px){ .row2{grid-template-columns:1fr 1fr} }
   label{display:block;font-size:13px;color:var(--muted);margin:6px 0}
-  input,select{width:100%;background:#0d1422;color:var(--ink);border:1px solid #2a3956;border-radius:12px;padding:12px;font-size:14px}
+  input,select{width:100%;background:#0d1422;color:#eaf0ff;border:1px solid #2a3956;border-radius:12px;padding:12px;font-size:14px}
   .chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin-top:6px}
-  .btn{width:100%;margin-top:12px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:12px 14px;font-weight:800;font-size:15px;cursor:pointer}
+  .btn{width:100%;margin-top:12px;background:#ea6a00;color:#fff;border:0;border-radius:12px;padding:12px 14px;font-weight:800;font-size:15px;cursor:pointer}
   .btn:disabled{opacity:.6;cursor:not-allowed}
-  .msg{margin-top:10px;font-size:13px} .ok{color:var(--ok)} .err{color:var(--err)}
+  .msg{margin-top:10px;font-size:13px} .ok{color:#3cd682} .err{color:#ff6b6b}
   .otp{margin-top:16px;padding:14px;border:1px dashed #31425f;border-radius:12px;background:#0c1526;display:none}
   .otp .inputs{display:flex;gap:8px;margin:10px 0}
   .otp input{width:44px;text-align:center;font-size:20px}
@@ -69,8 +69,8 @@
 
 <script>
 (function(){
-  // ✅ point to YOUR new Apps Script Web App URL:
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTjLkK7AZQAA0IfJYGzbtyPvGAqhSd2ub0GBQlo5Xi68agCoqw76QYPgzes85hFuNacw/exec';
+  // 🔗 Your NEW Apps Script Web App URL:
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXTtg4nPlR6xhzn56_0tFjc4NfXAJEjuzIKlJR1PP_90K6yfsMKgG_xnTMUlflf8psfg/exec';
 
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
@@ -85,7 +85,7 @@
   inputs.forEach((inp, i) => {
     inp.addEventListener('input', () => {
       inp.value = inp.value.replace(/\D/g,'').slice(0,1);
-      if (inp.value && i < inputs.length-1) inputs[i+1].focus();
+      if (inp.value && i < inputs.length - 1) inputs[i+1].focus();
     });
     inp.addEventListener('keydown', (e) => {
       if (e.key === 'Backspace' && !inp.value && i>0) inputs[i-1].focus();
@@ -96,6 +96,7 @@
   function codeValue(){ return inputs.map(i=>i.value).join(''); }
   function clearCode(){ inputs.forEach(i=>i.value=''); inputs[0].focus(); }
 
+  // JOIN → action: signup
   joinBtn.addEventListener('click', async () => {
     const name = $('#name').value.trim();
     const email = $('#email').value.trim().toLowerCase();
@@ -108,7 +109,6 @@
     if (!consent) { setMsg(joinMsg,'Please agree to the Terms to continue.','err'); return; }
 
     joinBtn.disabled = true; setMsg(joinMsg,'Working…','');
-
     try{
       const res = await fetch(WEB_APP_URL, {
         method:'POST',
@@ -125,19 +125,16 @@
       if (data.verified && !data.requiresOtp) {
         stepJoin.classList.add('hide'); stepDone.classList.remove('hide'); setMsg(joinMsg,'',''); return;
       }
-
       currentEmail = email; currentName = name;
       otpEmail.textContent = email;
       stepJoin.classList.add('hide'); stepOtp.style.display = 'block'; clearCode();
       setMsg(joinMsg,'','');
 
-    }catch(e){
-      setMsg(joinMsg,'Network error.','err');
-    }finally{
-      joinBtn.disabled = false;
-    }
+    }catch(e){ setMsg(joinMsg,'Network error.','err'); }
+    finally{ joinBtn.disabled = false; }
   });
 
+  // VERIFY → action: verify
   $('#verifyBtn').addEventListener('click', async () => {
     const code = codeValue();
     if (code.length !== 6) { setMsg(otpMsg,'Enter the 6-digit code.','err'); return; }
@@ -154,6 +151,7 @@
     }catch(e){ setMsg(otpMsg,'Network error.','err'); }
   });
 
+  // RESEND → action: resend
   $('#resendBtn').addEventListener('click', async () => {
     try{
       const res = await fetch(WEB_APP_URL, {
@@ -170,6 +168,7 @@
 </script>
 </body>
 </html>
+
 
 
 
