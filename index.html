@@ -143,7 +143,7 @@
 
 <script>
 (function(){
-  // Your live Apps Script Web App URL:
+  // ⚠️ IMPORTANT: Replace this URL with your actual deployed Web App URL
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXTtg4nPlR6xhzn56_0tFjc4NfXAJEjuzIKlJR1PP_90K6yfsMKgG_xnTMUlflf8psfg/exec';
 
   const $ = s => document.querySelector(s);
@@ -200,6 +200,11 @@
           userAgent:navigator.userAgent
         })
       });
+      
+      if(!res.ok){
+        throw new Error('HTTP error! status: '+res.status);
+      }
+      
       const data=await res.json();
 
       if(data.success===false){
@@ -226,7 +231,8 @@
       setMsg(joinMsg,'');
 
     }catch(err){
-      setMsg(joinMsg,'Network error.','err');
+      console.error('Error:',err);
+      setMsg(joinMsg,'Network error: '+err.message,'err');
     }finally{
       joinBtn.disabled=false;
     }
@@ -246,6 +252,11 @@
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({action:'verify',email:currentEmail,code})
       });
+      
+      if(!res.ok){
+        throw new Error('HTTP error! status: '+res.status);
+      }
+      
       const data=await res.json();
 
       if(!data.success){
@@ -262,7 +273,8 @@
         setMsg(otpMsg,'Unexpected response.','err');
       }
     }catch(err){
-      setMsg(otpMsg,'Network error.','err');
+      console.error('Error:',err);
+      setMsg(otpMsg,'Network error: '+err.message,'err');
     }
   });
 
@@ -274,6 +286,11 @@
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({action:'resend',email:currentEmail,name:currentName||'there'})
       });
+      
+      if(!res.ok){
+        throw new Error('HTTP error! status: '+res.status);
+      }
+      
       const data=await res.json();
 
       if(!data.success){
@@ -284,7 +301,8 @@
       setMsg(otpMsg,'A new code has been sent.','ok');
       clearCode();
     }catch(err){
-      setMsg(otpMsg,'Network error.','err');
+      console.error('Error:',err);
+      setMsg(otpMsg,'Network error: '+err.message,'err');
     }
   });
 })();
