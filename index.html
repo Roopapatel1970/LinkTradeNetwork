@@ -107,8 +107,8 @@
 
 <script>
 (function(){
-  // 🔗 LIVE Apps Script endpoint
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyOBJEukJPONcLwPKLNQsHsmdaVNimiGbgfhx4YuFAF9InqjplFPH2QSHp5ItAFMwmz/exec';
+  // ✅ Updated Google Apps Script endpoint
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwIQvDmBMRJzCclPZEt4Lda4zFa1mEOrCiKKUMDjG3LmsE-zvpq4qly9GWSa6pWkRpS/exec';
 
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
@@ -118,7 +118,6 @@
   const inputs=$$('#otpInputs input'); const welcome=$('#welcomeNotice');
   let currentEmail='', currentName='';
 
-  // Helper: show real backend errors (no vague "Network error")
   async function callAPI(payload){
     const res = await fetch(WEB_APP_URL, {
       method:'POST',
@@ -126,16 +125,12 @@
       body: JSON.stringify(payload)
     });
     const text = await res.text();
-    let data;
-    try { data = JSON.parse(text); }
+    try { return JSON.parse(text); }
     catch { throw new Error(`HTTP ${res.status}: ${text.slice(0,200)}`); }
-    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0,200)}`);
-    return data;
   }
 
-  // OTP inputs behavior
   inputs.forEach((inp,i)=>{
-    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\\D/g,'').slice(0,1); if(inp.value&&i<inputs.length-1)inputs[i+1].focus();});
+    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,1); if(inp.value&&i<inputs.length-1)inputs[i+1].focus();});
     inp.addEventListener('keydown',(e)=>{if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();});
   });
   const codeValue=()=>inputs.map(i=>i.value).join('');
@@ -189,5 +184,6 @@
 </script>
 </body>
 </html>
+
 
 
