@@ -22,12 +22,12 @@
   .row2{grid-template-columns:1fr 1fr}
   @media (max-width:640px){.row2{grid-template-columns:1fr}}
   label{display:block;font-size:13px;color:#475569;margin:2px 0 4px}
-  input,select{
+  input{
     width:100%;height:46px;border-radius:12px;border:1.5px solid #cfd7e3;background:#fff;color:#0b1220;
     padding:12px 12px;font-size:15px;transition:border .15s,box-shadow .15s
   }
   input::placeholder{color:#9aa7b7}
-  input:focus,select:focus{outline:none;border-color:#6b94f7;box-shadow:0 0 0 3px rgba(107,148,247,.25)}
+  input:focus{outline:none;border-color:#6b94f7;box-shadow:0 0 0 3px rgba(107,148,247,.25)}
   .agree{display:flex;align-items:center;gap:10px;color:#4b5563;font-size:14px;margin-top:4px}
   .agree input{width:18px;height:18px;accent-color:#3b82f6}
   .btn{
@@ -107,7 +107,7 @@
 
 <script>
 (function(){
-  // ✅ Updated Google Apps Script endpoint
+  // 🔗 Your current Apps Script Web App URL
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwo08TJlqwagHHH4pIDxD0cxpfStePpxMswKn5GtDFC0zVkTQ01NTB70h-xN-7-53n_qQ/exec';
 
   const $ = s => document.querySelector(s);
@@ -118,10 +118,10 @@
   const inputs=$$('#otpInputs input'); const welcome=$('#welcomeNotice');
   let currentEmail='', currentName='';
 
+  // ✅ No Content-Type header → no CORS preflight
   async function callAPI(payload){
     const res = await fetch(WEB_APP_URL, {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
       body: JSON.stringify(payload)
     });
     const text = await res.text();
@@ -184,6 +184,7 @@
 </script>
 </body>
 </html>
+
 
 
 
