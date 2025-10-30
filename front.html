@@ -3,289 +3,294 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LinkTradeNetwork – Home</title>
+<title>Sign In • LinkTradeNetwork</title>
 <style>
-  :root{
-    --bg:#f3f4f6; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --card:#ffffff;
-    --brand:#0a66c2; --brand2:#004182; --accent:#22c55e; --bad:#b91c1c; --ok:#16a34a;
+  :root {
+    --bg:#0b0f17; --panel:#101726; --ink:#eaf0ff; --muted:#a9b7d0; 
+    --line:#26324b; --brand:#ea6a00; --ok:#3cd682; --err:#ff6b6b; --link:#6b94f7;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Arial}
-
-  header{background:#64748b;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.10)}
-  .bar{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
-  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
-  .brand b{font-size:18px}
-  .nav{margin-left:auto;display:flex;gap:16px}
-  .nav a{color:#fff;text-decoration:none;opacity:.95}.nav a:hover{opacity:.85}
-  .search{flex:1;display:flex;gap:8px;max-width:560px;margin-left:8px}
-  .search input{flex:1;border:1px solid #cbd5e1;border-radius:999px;padding:.6rem .9rem}
-  .btn{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.5rem .9rem;font-weight:700;cursor:pointer}
-  .btn:hover{background:var(--brand2)}
-  .btn.ghost{background:#fff;color:#0f172a;border:1px solid #e5e7eb}.btn.ghost:hover{background:#f8fafc}
-
-  .wrap{max-width:1100px;margin:20px auto;padding:0 14px;display:grid;grid-template-columns:280px 1fr 300px;gap:16px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-  .pad{padding:14px}
-  .left .profile{display:flex;gap:10px;align-items:center;border:1px solid #e5e7eb;border-radius:10px;padding:10px;background:#fff}
-  .ava{width:56px;height:56px;border-radius:50%;background:#eef2ff;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .ava img{width:100%;height:100%;object-fit:cover}
-  .muted{color:var(--muted);font-size:13px}
-
-  .composer{display:flex;gap:10px;align-items:center}
-  .composer input{flex:1;border:1px solid #d1d5db;border-radius:999px;padding:.7rem 1rem}
-  .post{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fff}
-  .post+.post{margin-top:12px}
-  .post .title{font-weight:800;margin-bottom:4px}
-  .post .time{font-size:12px;color:#6b7280;margin-bottom:6px}
-
-  .sponsored{background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;padding:14px}
-  .invite{margin-top:14px;border-top:1px dashed #d1d5db;padding-top:12px}
-  .invite .row{display:flex;gap:8px}
-  .invite input{flex:1;border:1px solid #d1d5db;border-radius:8px;padding:.55rem .7rem}
-
-  .warn{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;padding:10px;margin:10px 0}
-  .banner{max-width:1100px;margin:12px auto 0;padding:0 14px}
-  .msg{border-radius:10px;border:1px solid #e5e7eb;padding:10px;font-size:14px}
-  .msg.ok{background:#ecfdf5;border-color:#bbf7d0;color:#065f46}
-  .msg.bad{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
-  .tiny{font-size:12px;color:#475569;margin-top:6px;word-break:break-all}
-  @media(max-width:1000px){ .wrap{grid-template-columns:1fr} .right{order:3} }
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial
+  }
+  .banner{
+    background:linear-gradient(135deg, #5b7a9e 0%, #6b8aae 100%);
+    padding:16px 24px;display:flex;align-items:center;justify-content:center;
+    gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.3)
+  }
+  .banner .globe{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;box-shadow:0 2px 6px rgba(0,0,0,.2)
+  }
+  .banner .title{font-size:26px;font-weight:700;color:#000;letter-spacing:-0.5px}
+  .wrap{min-height:calc(100svh - 74px);display:grid;place-items:center;padding:20px}
+  .card{
+    width:100%;max-width:520px;background:var(--panel);
+    border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);padding:22px 18px
+  }
+  h1{margin:0 0 8px;font-size:22px;text-align:center}
+  .sub{margin:0 0 14px;color:var(--muted);font-size:14px;text-align:center}
+  .notice{
+    display:none;margin:10px 0 14px;padding:12px 14px;border-radius:10px;
+    border:1px solid rgba(60,214,130,.3);background:rgba(60,214,130,.15);color:var(--ok)
+  }
+  .row{display:grid;gap:10px}
+  @media(min-width:560px){.row2{grid-template-columns:1fr 1fr}}
+  label{display:block;font-size:13px;color:var(--muted);margin:6px 0}
+  input,select{
+    width:100%;background:#0d1422;color:var(--ink);
+    border:1px solid #2a3956;border-radius:12px;padding:12px;font-size:14px
+  }
+  input::placeholder{color:#5a6b85}
+  input:focus,select:focus{outline:none;border-color:#3d5278;box-shadow:0 0 0 3px rgba(61,82,120,.25)}
+  .agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin-top:6px}
+  .agree input[type="checkbox"]{width:auto;height:auto}
+  .agree a{color:var(--link);text-decoration:none}
+  .agree a:hover{text-decoration:underline}
+  .btn{
+    width:100%;margin-top:12px;background:var(--brand);color:#fff;
+    border:0;border-radius:12px;padding:12px 14px;
+    font-weight:800;font-size:15px;cursor:pointer
+  }
+  .btn:hover{background:#c35700}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .msg{margin-top:10px;font-size:13px}
+  .ok{color:var(--ok)}
+  .err{color:var(--err)}
+  /* OTP */
+  .otp{
+    margin-top:16px;padding:14px;border:1px dashed #31425f;
+    border-radius:12px;background:#0c1526;display:none
+  }
+  .otp .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .otp .top div{flex:1;min-width:200px;font-size:13px;color:var(--muted)}
+  .otp .inputs{display:flex;gap:8px;margin:10px 0}
+  .otp input{
+    width:44px;height:48px;text-align:center;font-size:20px;
+    background:#0d1422;border:1px solid #2a3956;border-radius:12px;color:var(--ink)
+  }
+  .otp .btn-resend{
+    width:auto;height:42px;padding:0 16px;background:#374151;margin-top:0;font-size:14px
+  }
+  .hide{display:none!important}
 </style>
 </head>
 <body>
-<header>
-  <div class="bar">
-    <a class="brand" href="front.html"><span style="font-size:22px">🌍</span><b>LinkTradeNetwork</b></a>
-    <div class="search">
-      <input id="globalSearch" placeholder="Search or add by name/email…">
-      <button class="btn" id="searchBtn">Search</button>
-    </div>
-    <nav class="nav">
-      <a href="front.html">Home</a>
-      <a href="network.html">Network</a>
-      <a href="messaging.html">Messaging</a>
-      <a href="my-profile.html">My Profile</a>
-    </nav>
+  <div class="banner">
+    <div class="globe">🌍</div>
+    <div class="title">LinkTradeNetwork</div>
   </div>
-</header>
+  <div class="wrap">
+    <div class="card">
+      <h1>Sign In to LinkTradeNetwork</h1>
+      <p class="sub">Access your account with email verification</p>
 
-<!-- Diagnostic banner -->
-<div class="banner">
-  <div id="diag" class="msg" style="display:none"></div>
-  <div id="diagDetail" class="tiny" style="display:none"></div>
-</div>
+      <!-- Welcome notice -->
+      <div id="welcomeNotice" class="notice"></div>
 
-<main class="wrap">
-  <aside class="left">
-    <div class="card pad profile">
-      <div class="ava" id="meAva">👤</div>
-      <div>
-        <div id="meName" style="font-weight:800">You</div>
-        <div class="muted" id="meHeadline"></div>
-      </div>
-    </div>
-    <div class="warn" id="profileWarn" style="display:none">
-      Add your <b>name & email</b> in <a href="build-profile.html" style="text-decoration:underline">Build Profile</a> to send invites.
-    </div>
-    <div class="card pad" style="margin-top:12px">
-      <button class="btn" onclick="location.href='my-profile.html'">Open Profile</button>
-    </div>
-  </aside>
-
-  <section>
-    <div class="card pad">
-      <div class="composer">
-        <div class="ava" id="meAvaSmall">👤</div>
-        <input id="composerInput" placeholder="Start a post…">
-        <button class="btn" id="postBtn">Post</button>
-      </div>
-    </div>
-    <div class="card pad" id="feed"></div>
-  </section>
-
-  <aside class="right">
-    <div class="card pad">
-      <h3 style="margin:4px 0 10px 0">LinkTN News</h3>
-      <div class="post">
-        <div class="title">Watch History</div>
-        <div class="muted">Launches for videos.</div>
-      </div>
-      <div class="post" style="margin-top:10px">
-        <div class="title">Municipal boards</div>
-        <div class="muted">New city projects posted.</div>
-      </div>
-    </div>
-
-    <div class="card pad" style="margin-top:12px">
-      <div class="sponsored">
-        <h4>Sponsored</h4>
-        <div class="muted">Promote your business or service here!</div>
-        <button class="btn ghost" style="margin-top:10px" onclick="alert('Contact us to sponsor!')">Learn More</button>
-      </div>
-
-      <div class="invite">
-        <h4 style="margin:12px 0 8px 0">Invite by email</h4>
-        <div class="row">
-          <input id="inviteEmail" placeholder="name@example.com">
-          <button class="btn" id="sendInviteBtn">Send Invite</button>
+      <!-- STEP 1: Sign In -->
+      <div id="step-join" class="row">
+        <div class="row row2">
+          <div>
+            <label for="firstName">First Name</label>
+            <input id="firstName" type="text" placeholder="First name" autocomplete="given-name">
+          </div>
+          <div>
+            <label for="lastName">Last Name</label>
+            <input id="lastName" type="text" placeholder="Last name" autocomplete="family-name">
+          </div>
         </div>
-        <div class="muted" style="margin-top:6px">We’ll create a unique acceptance link and copy it for you.</div>
-        <div id="inviteStatus" class="muted" style="margin-top:8px"></div>
+        <div>
+          <label for="email">Email Address</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <label class="agree">
+          <input id="consent" type="checkbox">
+          <span>I agree to the <a href="#" target="_blank">Terms &amp; Conditions</a> and understand I may receive important account emails.</span>
+        </label>
+        <button id="joinBtn" class="btn" type="button">Sign In</button>
+        <div id="joinMsg" class="msg"></div>
+      </div>
+
+      <!-- STEP 2: OTP Verification -->
+      <div id="step-otp" class="otp">
+        <div class="top">
+          <div>Enter the 6-digit code sent to <b id="otpEmail"></b>. Expires in 10 minutes.</div>
+          <button id="resendBtn" class="btn btn-resend" type="button">Resend code</button>
+        </div>
+        <div class="inputs">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+        </div>
+        <button id="verifyBtn" class="btn" type="button">Verify</button>
+        <div id="otpMsg" class="msg"></div>
+      </div>
+
+      <!-- STEP 3: Success -->
+      <div id="step-done" class="hide">
+        <p class="ok"><b>Success!</b> You're in.</p>
       </div>
     </div>
-  </aside>
-</main>
+  </div>
 
 <script>
-  /* ===== Your live Apps Script endpoint ===== */
-  const LTN_API_BASE = "https://script.google.com/macros/s/AKfycbyGdnl2QSB36asGlyX9voB0iZaQzamojty5HHzvYuBhWmhfsabmf3jsCcR2Lm-udsnl/exec";
+(function(){
+  // Your live Apps Script Web App URL:
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXTtg4nPlR6xhzn56_0tFjc4NfXAJEjuzIKlJR1PP_90K6yfsMKgG_xnTMUlflf8psfg/exec';
 
-  /* ===== Helpers ===== */
-  const $ = id => document.getElementById(id);
-  function avatarHtml(p){ return p?.photo ? `<img src="${p.photo}" alt="">` : '👤'; }
-  function inviteUrlFromId(inviteId){
-    const u = new URL(location.href);
-    u.pathname = u.pathname.replace(/[^/]*$/, 'accept-invite.html');
-    u.search = '?id='+encodeURIComponent(inviteId);
-    u.hash = '';
-    return u.toString();
-  }
-  function copy(text){ if(navigator.clipboard?.writeText) navigator.clipboard.writeText(text); else prompt('Copy the link:', text); }
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const joinBtn=$('#joinBtn'), joinMsg=$('#joinMsg');
+  const stepJoin=$('#step-join'), stepOtp=$('#step-otp'), stepDone=$('#step-done');
+  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg'), welcome=$('#welcomeNotice');
+  const inputs=$$('#step-otp .inputs input');
+  let currentEmail='', currentName='';
 
-  // simple GET (no special headers)
-  async function ltnGet(params={}) {
-    const u = new URL(LTN_API_BASE);
-    Object.entries(params).forEach(([k,v]) => { if(v!==undefined&&v!==null) u.searchParams.set(k,v); });
-    const r = await fetch(u.toString(), { method:'GET' });
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const d = await r.json().catch(()=>({}));
-    if(d.error) throw new Error(d.error);
-    return d;
-  }
+  // OTP input handling
+  inputs.forEach((inp,i)=>{
+    inp.addEventListener('input',()=>{
+      inp.value=inp.value.replace(/\D/g,'').slice(0,1);
+      if(inp.value&&i<inputs.length-1)inputs[i+1].focus();
+    });
+    inp.addEventListener('keydown',(e)=>{
+      if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();
+    });
+  });
 
-  // simple POST (no headers => no preflight)
-  async function ltnPost(payload = {}) {
-    const r = await fetch(LTN_API_BASE, { method:'POST', body: JSON.stringify(payload) });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json().catch(() => ({}));
-    if (d.error) throw new Error(d.error);
-    return d;
-  }
+  const codeValue=()=>inputs.map(i=>i.value).join('');
+  const clearCode=()=>{inputs.forEach(i=>i.value=''); inputs[0].focus();};
+  const setMsg=(el,t,c='')=>{el.textContent=t||''; el.className='msg '+c;};
 
-  // API wrapper
-  const LTN = {
-    people: {
-      search: (q)=> ltnGet({action:'searchPeople', q}),
-      add: (person)=> ltnPost({action:'addPerson', person})
-    },
-    invite: {
-      create: ({inviter, toPersonId=null, emailHint=null}) => ltnPost({action:'createInvite', inviter, toPersonId, emailHint})
-    },
-    diag: () => ltnGet({action:'diag'}) // shows spreadsheet & tabs (we added this earlier)
-  };
+  // SIGN IN
+  joinBtn.addEventListener('click', async ()=>{
+    const first=$('#firstName').value.trim();
+    const last=$('#lastName').value.trim();
+    const email=$('#email').value.trim().toLowerCase();
+    const consent=$('#consent').checked;
 
-  /* ===== Render current user from localStorage ===== */
-  function meLocal(){ try{ return JSON.parse(localStorage.getItem('userProfile:v1'))||null }catch{ return null } }
-  const me = meLocal();
-  const meId = (me?.email || me?.id || '').trim();
-
-  (function initMe(){
-    if(me?.photo){ $('meAva').innerHTML = `<img src="${me.photo}">`; $('meAvaSmall').innerHTML = `<img src="${me.photo}">`; }
-    $('meName').textContent = `${me?.firstName||''} ${me?.lastName||''}`.trim() || 'You';
-    $('meHeadline').textContent = me?.headline || '';
-    if(!meId) $('profileWarn').style.display = 'block';
-  })();
-
-  /* ===== Diagnostic banner ===== */
-  async function runDiag(){
-    const box = $('diag'), detail = $('diagDetail');
-    try{
-      const d = await LTN.diag(); // requires diag endpoint in Apps Script doGet
-      box.className = 'msg ok';
-      box.style.display = 'block';
-      box.textContent = 'Backend reachable. Your web app can write to the sheet below.';
-      detail.style.display='block';
-      detail.innerHTML = `
-        <div><b>Spreadsheet:</b> <a href="${d.spreadsheetUrl}" target="_blank">${d.spreadsheetId}</a></div>
-        <div><b>Tabs:</b> ${Array.isArray(d.tabs)?d.tabs.join(', '):'(unknown)'} </div>
-      `;
-    }catch(err){
-      box.className = 'msg bad';
-      box.style.display = 'block';
-      box.innerHTML = 'Backend NOT reachable. Fix one of these: ' +
-        '<ul style="margin:6px 0 0 16px"><li>Deploy Web App as <b>Execute as: Me</b>, <b>Who has access: Anyone</b>.</li>' +
-        '<li>Re-deploy after code changes.</li>' +
-        '<li>Ensure your Apps Script includes <code>action=diag</code> in <code>doGet</code>.</li></ul>';
-      detail.style.display='block';
-      detail.textContent = 'Error: ' + (err?.message || err);
+    if(!first||!email){
+      setMsg(joinMsg,'First name and email are required','err');
+      return;
     }
-  }
-  runDiag();
+    if(!consent){
+      setMsg(joinMsg,'Please agree to the Terms to continue.','err');
+      return;
+    }
 
-  /* ===== Search routing ===== */
-  $('searchBtn').onclick = ()=>{
-    const q = $('globalSearch').value.trim();
-    location.href = 'network.html' + (q ? ('?query='+encodeURIComponent(q)) : '');
-  };
-  $('globalSearch').addEventListener('keydown', e=>{ if(e.key==='Enter') $('searchBtn').click(); });
-
-  /* ===== Simple local feed ===== */
-  const seedPosts = [
-    {title:'Franco Marano', time:'just now', text:'Welcome to LinkTradeNetwork! Share job leads, showcase installs, and help others learn.'},
-    {title:'Trade Tips Daily', time:'5d ago', text:'Best practices for labeling and testing.'},
-    {title:'Low Voltage Network', time:'2d ago', text:'What labelers and test sets are you using for fiber jobs this month?'}
-  ];
-  function loadPosts(){ const s = JSON.parse(localStorage.getItem('ltn:posts')||'[]'); return s.length?s:seedPosts; }
-  function savePosts(p){ localStorage.setItem('ltn:posts', JSON.stringify(p)); }
-  function renderFeed(){
-    const posts = loadPosts();
-    $('feed').innerHTML = posts.map(p=>`
-      <div class="post">
-        <div class="title">${p.title}</div>
-        <div class="time">${p.time}</div>
-        <div>${p.text}</div>
-      </div>`).join('');
-  }
-  renderFeed();
-  $('postBtn').onclick = ()=>{
-    const txt = $('composerInput').value.trim(); if(!txt) return;
-    const posts = loadPosts();
-    posts.unshift({title:$('meName').textContent||'You', time:'just now', text:txt});
-    savePosts(posts); $('composerInput').value=''; renderFeed();
-  };
-
-  /* ===== Invite flow (live) ===== */
-  $('sendInviteBtn').onclick = async ()=>{
-    const email = $('inviteEmail').value.trim().toLowerCase();
-    $('inviteStatus').textContent = '';
-    if(!meId){ $('inviteStatus').textContent='Add your email in Build Profile first.'; return; }
-    if(!email || !email.includes('@') || !email.includes('.')){ $('inviteStatus').textContent='Enter a valid email.'; return; }
+    joinBtn.disabled=true;
+    setMsg(joinMsg,'Working…','');
 
     try{
-      // ensure target exists
-      let target = null;
-      const found = await LTN.people.search(email);
-      if(found?.people?.length){ target = found.people[0]; }
-      if(!target){
-        const add = await LTN.people.add({ firstName:'', lastName:'', email });
-        target = add?.person || null;
+      const res=await fetch(WEB_APP_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          action:'signup',
+          name:first+(last?' '+last:''),
+          email,
+          consent,
+          userAgent:navigator.userAgent
+        })
+      });
+      const data=await res.json();
+
+      if(data.success===false){
+        setMsg(joinMsg,data.error||'Error','err');
+        return;
       }
-      if(!target){ $('inviteStatus').textContent='Could not add or find that email.'; return; }
 
-      const res = await LTN.invite.create({ inviter: me, toPersonId: target.id || null, emailHint: email });
-      const link = inviteUrlFromId(res?.inviteId);
-      copy(link);
-      $('inviteStatus').innerHTML = `<span style="color:var(--ok);font-weight:700">Invite created.</span> Link copied to clipboard.`;
-      $('inviteEmail').value = '';
+      if(data.verified && !data.requiresOtp){
+        welcome.textContent='Welcome back, '+first+'!';
+        welcome.style.display='block';
+        stepJoin.classList.add('hide');
+        stepDone.classList.remove('hide');
+        setMsg(joinMsg,'');
+        return;
+      }
+
+      currentEmail=email;
+      currentName=first;
+      otpEmail.textContent=email;
+      welcome.style.display='none';
+      stepJoin.classList.add('hide');
+      stepOtp.style.display='block';
+      clearCode();
+      setMsg(joinMsg,'');
+
     }catch(err){
-      $('inviteStatus').textContent = 'Error: ' + (err?.message||err);
+      setMsg(joinMsg,'Network error.','err');
+    }finally{
+      joinBtn.disabled=false;
     }
-  };
+  });
+
+  // VERIFY
+  $('#verifyBtn').addEventListener('click', async ()=>{
+    const code=codeValue();
+    if(code.length!==6){
+      setMsg(otpMsg,'Enter the 6-digit code.','err');
+      return;
+    }
+
+    try{
+      const res=await fetch(WEB_APP_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'verify',email:currentEmail,code})
+      });
+      const data=await res.json();
+
+      if(!data.success){
+        setMsg(otpMsg,data.error||'Error','err');
+        return;
+      }
+
+      if(data.verified){
+        stepOtp.style.display='none';
+        stepDone.classList.remove('hide');
+        welcome.textContent='Welcome back, '+currentName+'!';
+        welcome.style.display='block';
+      }else{
+        setMsg(otpMsg,'Unexpected response.','err');
+      }
+    }catch(err){
+      setMsg(otpMsg,'Network error.','err');
+    }
+  });
+
+  // RESEND
+  $('#resendBtn').addEventListener('click', async ()=>{
+    try{
+      const res=await fetch(WEB_APP_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'resend',email:currentEmail,name:currentName||'there'})
+      });
+      const data=await res.json();
+
+      if(!data.success){
+        setMsg(otpMsg,data.error||'Error','err');
+        return;
+      }
+
+      setMsg(otpMsg,'A new code has been sent.','ok');
+      clearCode();
+    }catch(err){
+      setMsg(otpMsg,'Network error.','err');
+    }
+  });
+})();
 </script>
 </body>
 </html>
-
 
 
 
