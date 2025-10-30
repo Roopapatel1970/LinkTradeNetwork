@@ -13,10 +13,7 @@
   html,body{height:100%}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Arial,sans-serif}
   .wrap{min-height:100dvh;display:grid;place-items:center;padding:18px}
-  .card{
-    width:100%;max-width:680px;background:var(--card);
-    border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 50px rgba(0,0,0,.35)
-  }
+  .card{width:100%;max-width:680px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
   .pad{padding:24px 22px}
   h1{margin:0 0 4px;text-align:center;font-size:32px;line-height:1.1}
   .sub{margin:0 0 16px;text-align:center;color:#8a94a6}
@@ -41,7 +38,6 @@
   .msg{margin-top:8px;font-size:14px}.msg.ok{color:var(--ok)}.msg.err{color:var(--err)}
   .foot{margin-top:12px;text-align:center;color:#6b7280;font-size:14px}
   .foot a{color:var(--link);text-decoration:none}.foot a:hover{text-decoration:underline}
-  /* OTP */
   .otp{margin-top:14px;padding:14px;border:1px dashed #93a3b8;background:#eef3f9;border-radius:12px;display:none}
   .otp .inputs{display:flex;gap:8px;margin:10px 0;justify-content:center}
   .otp .inputs input{width:54px;height:56px;text-align:center;font-size:22px;border-radius:12px;border:1.5px solid #cbd5e1;background:#fff;color:#0b1220}
@@ -55,10 +51,9 @@
         <h1>Sign In</h1>
         <p class="sub">Access your LinkTradeNetwork account</p>
 
-        <!-- Welcome banner -->
         <div id="welcomeNotice" class="notice"></div>
 
-        <!-- Step 1: Sign In -->
+        <!-- Step 1 -->
         <div id="step-join" class="row" style="margin-top:6px">
           <div class="row row2">
             <div>
@@ -82,7 +77,7 @@
           <div id="joinMsg" class="msg"></div>
         </div>
 
-        <!-- Step 2: Verify -->
+        <!-- Step 2 -->
         <div id="step-otp" class="otp">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
             <div>Enter the 6-digit code sent to <b id="otpEmail"></b>. Expires in 10 minutes.</div>
@@ -100,7 +95,7 @@
           <div id="otpMsg" class="msg"></div>
         </div>
 
-        <!-- Step 3: Done -->
+        <!-- Step 3 -->
         <div id="step-done" class="hide">
           <div class="msg ok"><b>Success!</b> You’re in.</div>
         </div>
@@ -112,8 +107,8 @@
 
 <script>
 (function(){
-  // ✅ Live Apps Script endpoint
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw2QDgu99GSd5GbAWSI6WyPPqP8N9doZ4Mbc65xJfb_RIi1_xNnLo-o8MKKUEPgy05V/exec';
+  // 🔗 LIVE Apps Script endpoint
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyOBJEukJPONcLwPKLNQsHsmdaVNimiGbgfhx4YuFAF9InqjplFPH2QSHp5ItAFMwmz/exec';
 
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
@@ -123,9 +118,24 @@
   const inputs=$$('#otpInputs input'); const welcome=$('#welcomeNotice');
   let currentEmail='', currentName='';
 
-  // OTP input behavior
+  // Helper: show real backend errors (no vague "Network error")
+  async function callAPI(payload){
+    const res = await fetch(WEB_APP_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); }
+    catch { throw new Error(`HTTP ${res.status}: ${text.slice(0,200)}`); }
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0,200)}`);
+    return data;
+  }
+
+  // OTP inputs behavior
   inputs.forEach((inp,i)=>{
-    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,1); if(inp.value&&i<inputs.length-1)inputs[i+1].focus();});
+    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\\D/g,'').slice(0,1); if(inp.value&&i<inputs.length-1)inputs[i+1].focus();});
     inp.addEventListener('keydown',(e)=>{if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();});
   });
   const codeValue=()=>inputs.map(i=>i.value).join('');
@@ -143,46 +153,41 @@
     joinBtn.disabled=true; setMsg(joinMsg,'Working…','');
 
     try{
-      const res=await fetch(WEB_APP_URL,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({action:'signup',name:first+(last?' '+last:''),email,consent,userAgent:navigator.userAgent})});
-      const data=await res.json();
-      if(data.success===false){setMsg(joinMsg,data.error||'Error','err');return;}
+      const data = await callAPI({action:'signup',name:first+(last?' '+last:''),email,consent,userAgent:navigator.userAgent});
       if(data.verified && !data.requiresOtp){
         welcome.textContent='Welcome back, '+first+'!'; welcome.style.display='block';
         stepJoin.classList.add('hide'); stepDone.classList.remove('hide'); setMsg(joinMsg,''); return;
       }
       currentEmail=email; currentName=first; otpEmail.textContent=email;
       welcome.style.display='none'; stepJoin.classList.add('hide'); stepOtp.style.display='block'; clearCode(); setMsg(joinMsg,'');
-
-    }catch(err){ setMsg(joinMsg,'Network error.','err'); }
-    finally{ joinBtn.disabled=false; }
+    }catch(err){
+      setMsg(joinMsg, String(err.message||err), 'err');
+    }finally{
+      joinBtn.disabled=false;
+    }
   });
 
   // Verify
   $('#verifyBtn').addEventListener('click', async ()=>{
     const code=codeValue(); if(code.length!==6){setMsg(otpMsg,'Enter the 6-digit code.','err');return;}
     try{
-      const res=await fetch(WEB_APP_URL,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({action:'verify',email:currentEmail,code})});
-      const data=await res.json();
-      if(!data.success){setMsg(otpMsg,data.error||'Error','err');return;}
+      const data = await callAPI({action:'verify',email:currentEmail,code});
       if(data.verified){ stepOtp.style.display='none'; stepDone.classList.remove('hide'); welcome.textContent='Welcome back, '+currentName+'!'; welcome.style.display='block';}
       else{ setMsg(otpMsg,'Unexpected response.','err'); }
-    }catch(err){ setMsg(otpMsg,'Network error.','err'); }
+    }catch(err){ setMsg(otpMsg, String(err.message||err), 'err'); }
   });
 
   // Resend
   $('#resendBtn').addEventListener('click', async ()=>{
     try{
-      const res=await fetch(WEB_APP_URL,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({action:'resend',email:currentEmail,name:currentName||'there'})});
-      const data=await res.json();
-      if(!data.success){setMsg(otpMsg,data.error||'Error','err');return;}
+      const data = await callAPI({action:'resend',email:currentEmail,name:currentName||'there'});
+      if(!data.success){ setMsg(otpMsg, data.error||'Error','err'); return; }
       setMsg(otpMsg,'A new code has been sent.','ok'); clearCode();
-    }catch(err){ setMsg(otpMsg,'Network error.','err'); }
+    }catch(err){ setMsg(otpMsg, String(err.message||err), 'err'); }
   });
 })();
 </script>
 </body>
 </html>
+
 
