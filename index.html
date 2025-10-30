@@ -55,10 +55,10 @@
         <h1>Sign In</h1>
         <p class="sub">Access your LinkTradeNetwork account</p>
 
-        <!-- Welcome back (only shown programmatically) -->
+        <!-- Welcome banner -->
         <div id="welcomeNotice" class="notice"></div>
 
-        <!-- STEP 1 -->
+        <!-- Step 1: Sign In -->
         <div id="step-join" class="row" style="margin-top:6px">
           <div class="row row2">
             <div>
@@ -82,7 +82,7 @@
           <div id="joinMsg" class="msg"></div>
         </div>
 
-        <!-- STEP 2 -->
+        <!-- Step 2: Verify -->
         <div id="step-otp" class="otp">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
             <div>Enter the 6-digit code sent to <b id="otpEmail"></b>. Expires in 10 minutes.</div>
@@ -100,7 +100,7 @@
           <div id="otpMsg" class="msg"></div>
         </div>
 
-        <!-- STEP 3 -->
+        <!-- Step 3: Done -->
         <div id="step-done" class="hide">
           <div class="msg ok"><b>Success!</b> You’re in.</div>
         </div>
@@ -112,7 +112,7 @@
 
 <script>
 (function(){
-  // Your live Apps Script Web App URL:
+  // ✅ Live Apps Script endpoint
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw2QDgu99GSd5GbAWSI6WyPPqP8N9doZ4Mbc65xJfb_RIi1_xNnLo-o8MKKUEPgy05V/exec';
 
   const $ = s => document.querySelector(s);
@@ -123,7 +123,7 @@
   const inputs=$$('#otpInputs input'); const welcome=$('#welcomeNotice');
   let currentEmail='', currentName='';
 
-  // OTP fields
+  // OTP input behavior
   inputs.forEach((inp,i)=>{
     inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,1); if(inp.value&&i<inputs.length-1)inputs[i+1].focus();});
     inp.addEventListener('keydown',(e)=>{if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();});
@@ -132,7 +132,7 @@
   const clearCode=()=>{inputs.forEach(i=>i.value=''); inputs[0].focus();};
   const setMsg=(el,t,c='')=>{el.textContent=t||''; el.className='msg '+c;};
 
-  // SIGN IN
+  // Sign In
   joinBtn.addEventListener('click', async ()=>{
     const first=$('#firstName').value.trim();
     const last=$('#lastName').value.trim();
@@ -148,7 +148,7 @@
       const data=await res.json();
       if(data.success===false){setMsg(joinMsg,data.error||'Error','err');return;}
       if(data.verified && !data.requiresOtp){
-        welcome.textContent='Welcome back, '+(first.toLowerCase())+'!'; welcome.style.display='block';
+        welcome.textContent='Welcome back, '+first+'!'; welcome.style.display='block';
         stepJoin.classList.add('hide'); stepDone.classList.remove('hide'); setMsg(joinMsg,''); return;
       }
       currentEmail=email; currentName=first; otpEmail.textContent=email;
@@ -158,7 +158,7 @@
     finally{ joinBtn.disabled=false; }
   });
 
-  // VERIFY
+  // Verify
   $('#verifyBtn').addEventListener('click', async ()=>{
     const code=codeValue(); if(code.length!==6){setMsg(otpMsg,'Enter the 6-digit code.','err');return;}
     try{
@@ -166,12 +166,12 @@
         body:JSON.stringify({action:'verify',email:currentEmail,code})});
       const data=await res.json();
       if(!data.success){setMsg(otpMsg,data.error||'Error','err');return;}
-      if(data.verified){ stepOtp.style.display='none'; stepDone.classList.remove('hide'); welcome.textContent='Welcome back, '+(currentName.toLowerCase())+'!'; welcome.style.display='block';}
+      if(data.verified){ stepOtp.style.display='none'; stepDone.classList.remove('hide'); welcome.textContent='Welcome back, '+currentName+'!'; welcome.style.display='block';}
       else{ setMsg(otpMsg,'Unexpected response.','err'); }
     }catch(err){ setMsg(otpMsg,'Network error.','err'); }
   });
 
-  // RESEND
+  // Resend
   $('#resendBtn').addEventListener('click', async ()=>{
     try{
       const res=await fetch(WEB_APP_URL,{method:'POST',headers:{'Content-Type':'application/json'},
@@ -185,3 +185,4 @@
 </script>
 </body>
 </html>
+
