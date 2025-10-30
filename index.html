@@ -54,7 +54,7 @@
   .btn{
     width:100%;margin-top:12px;background:var(--brand);color:#fff;
     border:0;border-radius:12px;padding:12px 14px;
-    font-weight:800;font-size:15px;cursor:pointer
+    font-weight:800;font-size:15px;cursor:pointer;transition:background .2s
   }
   .btn:hover{background:#c35700}
   .btn:disabled{opacity:.6;cursor:not-allowed}
@@ -143,8 +143,8 @@
 
 <script>
 (function(){
-  // ⚠️ IMPORTANT: Replace this URL with your actual deployed Web App URL
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXTtg4nPlR6xhzn56_0tFjc4NfXAJEjuzIKlJR1PP_90K6yfsMKgG_xnTMUlflf8psfg/exec';
+  // Your NEW Web App URL
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw2QDgu99GSd5GbAWSI6WyPPqP8N9doZ4Mbc65xJfb_RIi1_xNnLo-o8MKKUEPgy05V/exec';
 
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
@@ -186,7 +186,7 @@
     }
 
     joinBtn.disabled=true;
-    setMsg(joinMsg,'Working…','');
+    setMsg(joinMsg,'Connecting to server…','');
 
     try{
       const res=await fetch(WEB_APP_URL,{
@@ -202,13 +202,14 @@
       });
       
       if(!res.ok){
-        throw new Error('HTTP error! status: '+res.status);
+        throw new Error('Server returned status: '+res.status);
       }
       
       const data=await res.json();
+      console.log('Response:', data);
 
       if(data.success===false){
-        setMsg(joinMsg,data.error||'Error','err');
+        setMsg(joinMsg,data.error||'Server error','err');
         return;
       }
 
@@ -231,8 +232,8 @@
       setMsg(joinMsg,'');
 
     }catch(err){
-      console.error('Error:',err);
-      setMsg(joinMsg,'Network error: '+err.message,'err');
+      console.error('Sign in error:',err);
+      setMsg(joinMsg,'Connection failed: '+err.message,'err');
     }finally{
       joinBtn.disabled=false;
     }
@@ -254,27 +255,28 @@
       });
       
       if(!res.ok){
-        throw new Error('HTTP error! status: '+res.status);
+        throw new Error('Server returned status: '+res.status);
       }
       
       const data=await res.json();
+      console.log('Verify response:', data);
 
       if(!data.success){
-        setMsg(otpMsg,data.error||'Error','err');
+        setMsg(otpMsg,data.error||'Verification failed','err');
         return;
       }
 
       if(data.verified){
         stepOtp.style.display='none';
         stepDone.classList.remove('hide');
-        welcome.textContent='Welcome back, '+currentName+'!';
+        welcome.textContent='Welcome, '+currentName+'!';
         welcome.style.display='block';
       }else{
         setMsg(otpMsg,'Unexpected response.','err');
       }
     }catch(err){
-      console.error('Error:',err);
-      setMsg(otpMsg,'Network error: '+err.message,'err');
+      console.error('Verify error:',err);
+      setMsg(otpMsg,'Verification failed: '+err.message,'err');
     }
   });
 
@@ -288,21 +290,22 @@
       });
       
       if(!res.ok){
-        throw new Error('HTTP error! status: '+res.status);
+        throw new Error('Server returned status: '+res.status);
       }
       
       const data=await res.json();
+      console.log('Resend response:', data);
 
       if(!data.success){
-        setMsg(otpMsg,data.error||'Error','err');
+        setMsg(otpMsg,data.error||'Resend failed','err');
         return;
       }
 
       setMsg(otpMsg,'A new code has been sent.','ok');
       clearCode();
     }catch(err){
-      console.error('Error:',err);
-      setMsg(otpMsg,'Network error: '+err.message,'err');
+      console.error('Resend error:',err);
+      setMsg(otpMsg,'Resend failed: '+err.message,'err');
     }
   });
 })();
