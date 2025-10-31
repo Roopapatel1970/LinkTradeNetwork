@@ -5,155 +5,313 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sign In • LinkTradeNetwork</title>
 <style>
-  :root{--bg:#0b0f17;--card:#f6f8fb;--ink:#0b1220;--line:#d8e0ea;--btn:#ea6a00;--btn-hover:#c35700;--ok:#22c55e;--err:#ef4444;--link:#3b82f6}
-  *{box-sizing:border-box} html,body{height:100%} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-  .wrap{min-height:100dvh;display:grid;place-items:center;padding:18px}
-  .card{width:100%;max-width:680px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
-  .pad{padding:24px 22px} h1{margin:0 0 4px;text-align:center;font-size:32px} .sub{margin:0 0 16px;text-align:center;color:#8a94a6}
-  .notice{display:none;margin:10px 0 6px;padding:10px 12px;border-radius:10px;border:1px solid #a7e3b8;background:#dcfce7;color:#175a2a}
-  .row{display:grid;gap:10px} .row2{grid-template-columns:1fr 1fr} @media(max-width:640px){.row2{grid-template-columns:1fr}}
-  label{display:block;font-size:13px;color:#475569;margin:2px 0 4px}
-  input{width:100%;height:46px;border-radius:12px;border:1.5px solid #cfd7e3;background:#fff;color:#0b1220;padding:12px;font-size:15px}
-  input:focus{outline:none;border-color:#6b94f7;box-shadow:0 0 0 3px rgba(107,148,247,.25)} input::placeholder{color:#9aa7b7}
-  .agree{display:flex;align-items:center;gap:10px;color:#4b5563;font-size:14px;margin-top:4px} .agree input{width:18px;height:18px;accent-color:#3b82f6}
-  .btn{width:100%;height:52px;margin-top:12px;background:var(--btn);color:#fff;border:0;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer}
-  .btn:hover{background:var(--btn-hover)} .btn[disabled]{opacity:.6;cursor:not-allowed}
-  .msg{margin-top:8px;font-size:14px}.msg.ok{color:var(--ok)}.msg.err{color:var(--err)}
-  .foot{margin-top:12px;text-align:center;color:#6b7280;font-size:14px}.foot a{color:var(--link);text-decoration:none}
-  .otp{margin-top:14px;padding:14px;border:1px dashed #93a3b8;background:#eef3f9;border-radius:12px;display:none}
-  .otp .inputs{display:flex;gap:8px;margin:10px 0;justify-content:center}
-  .otp .inputs input{width:54px;height:56px;text-align:center;font-size:22px;border-radius:12px;border:1.5px solid #cbd5e1;background:#fff;color:#0b1220}
+  :root {
+    --bg:#0b0f17; --panel:#101726; --ink:#eaf0ff; --muted:#a9b7d0; 
+    --line:#26324b; --brand:#ea6a00; --ok:#3cd682; --err:#ff6b6b; --link:#6b94f7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial
+  }
+  .banner{
+    background:linear-gradient(135deg, #5b7a9e 0%, #6b8aae 100%);
+    padding:16px 24px;display:flex;align-items:center;justify-content:center;
+    gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.3)
+  }
+  .banner .globe{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;box-shadow:0 2px 6px rgba(0,0,0,.2)
+  }
+  .banner .title{font-size:26px;font-weight:700;color:#000;letter-spacing:-0.5px}
+  .wrap{min-height:calc(100svh - 74px);display:grid;place-items:center;padding:20px}
+  .card{
+    width:100%;max-width:520px;background:var(--panel);
+    border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);padding:22px 18px
+  }
+  h1{margin:0 0 8px;font-size:22px;text-align:center}
+  .sub{margin:0 0 14px;color:var(--muted);font-size:14px;text-align:center}
+  .notice{
+    display:none;margin:10px 0 14px;padding:12px 14px;border-radius:10px;
+    border:1px solid rgba(60,214,130,.3);background:rgba(60,214,130,.15);color:var(--ok)
+  }
+  .row{display:grid;gap:10px}
+  @media(min-width:560px){.row2{grid-template-columns:1fr 1fr}}
+  label{display:block;font-size:13px;color:var(--muted);margin:6px 0}
+  input,select{
+    width:100%;background:#0d1422;color:var(--ink);
+    border:1px solid #2a3956;border-radius:12px;padding:12px;font-size:14px
+  }
+  input::placeholder{color:#5a6b85}
+  input:focus,select:focus{outline:none;border-color:#3d5278;box-shadow:0 0 0 3px rgba(61,82,120,.25)}
+  .agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin-top:6px}
+  .agree input[type="checkbox"]{width:auto;height:auto}
+  .agree a{color:var(--link);text-decoration:none}
+  .agree a:hover{text-decoration:underline}
+  .btn{
+    width:100%;margin-top:12px;background:var(--brand);color:#fff;
+    border:0;border-radius:12px;padding:12px 14px;
+    font-weight:800;font-size:15px;cursor:pointer;transition:background .2s
+  }
+  .btn:hover{background:#c35700}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .msg{margin-top:10px;font-size:13px}
+  .ok{color:var(--ok)}
+  .err{color:var(--err)}
+  /* OTP */
+  .otp{
+    margin-top:16px;padding:14px;border:1px dashed #31425f;
+    border-radius:12px;background:#0c1526;display:none
+  }
+  .otp .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .otp .top div{flex:1;min-width:200px;font-size:13px;color:var(--muted)}
+  .otp .inputs{display:flex;gap:8px;margin:10px 0}
+  .otp input{
+    width:44px;height:48px;text-align:center;font-size:20px;
+    background:#0d1422;border:1px solid #2a3956;border-radius:12px;color:var(--ink)
+  }
+  .otp .btn-resend{
+    width:auto;height:42px;padding:0 16px;background:#374151;margin-top:0;font-size:14px
+  }
   .hide{display:none!important}
 </style>
 </head>
 <body>
-<div class="wrap"><div class="card"><div class="pad">
-  <h1>Sign In</h1><p class="sub">Access your LinkTradeNetwork account</p>
-  <div id="welcomeNotice" class="notice"></div>
-
-  <!-- Step 1 -->
-  <div id="step-join" class="row" style="margin-top:6px">
-    <div class="row row2">
-      <div><label for="firstName">First Name</label><input id="firstName" placeholder="First name" autocomplete="given-name"></div>
-      <div><label for="lastName">Last Name</label><input id="lastName" placeholder="Last name" autocomplete="family-name"></div>
-    </div>
-    <div><label for="email">Email Address</label><input id="email" type="email" placeholder="you@example.com" autocomplete="email"></div>
-    <label class="agree"><input id="consent" type="checkbox"><span>I agree to the <a href="terms.html">Terms &amp; Conditions</a></span></label>
-    <button id="joinBtn" class="btn" type="button">Sign In</button>
-    <div id="joinMsg" class="msg"></div>
+  <div class="banner">
+    <div class="globe">🌍</div>
+    <div class="title">LinkTradeNetwork</div>
   </div>
+  <div class="wrap">
+    <div class="card">
+      <h1>Sign In to LinkTradeNetwork</h1>
+      <p class="sub">Access your account with email verification</p>
 
-  <!-- Step 2 -->
-  <div id="step-otp" class="otp">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-      <div>Enter the 6-digit code sent to <b id="otpEmail"></b>. Expires in 10 minutes.</div>
-      <button id="resendBtn" class="btn" type="button" style="width:auto;height:42px;padding:0 14px;background:#334155">Resend</button>
+      <!-- Welcome notice -->
+      <div id="welcomeNotice" class="notice"></div>
+
+      <!-- STEP 1: Sign In -->
+      <div id="step-join" class="row">
+        <div class="row row2">
+          <div>
+            <label for="firstName">First Name</label>
+            <input id="firstName" type="text" placeholder="First name" autocomplete="given-name">
+          </div>
+          <div>
+            <label for="lastName">Last Name</label>
+            <input id="lastName" type="text" placeholder="Last name" autocomplete="family-name">
+          </div>
+        </div>
+        <div>
+          <label for="email">Email Address</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <label class="agree">
+          <input id="consent" type="checkbox">
+          <span>I agree to the <a href="#" target="_blank">Terms &amp; Conditions</a> and understand I may receive important account emails.</span>
+        </label>
+        <button id="joinBtn" class="btn" type="button">Sign In</button>
+        <div id="joinMsg" class="msg"></div>
+      </div>
+
+      <!-- STEP 2: OTP Verification -->
+      <div id="step-otp" class="otp">
+        <div class="top">
+          <div>Enter the 6-digit code sent to <b id="otpEmail"></b>. Expires in 10 minutes.</div>
+          <button id="resendBtn" class="btn btn-resend" type="button">Resend code</button>
+        </div>
+        <div class="inputs">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
+        </div>
+        <button id="verifyBtn" class="btn" type="button">Verify</button>
+        <div id="otpMsg" class="msg"></div>
+      </div>
+
+      <!-- STEP 3: Success -->
+      <div id="step-done" class="hide">
+        <p class="ok"><b>Success!</b> You're in.</p>
+      </div>
     </div>
-    <div class="inputs" id="otpInputs">
-      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
-      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
-      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
-    </div>
-    <button id="verifyBtn" class="btn" type="button">Verify</button>
-    <div id="otpMsg" class="msg"></div>
   </div>
-
-  <!-- Step 3 -->
-  <div id="step-done" class="hide"><div class="msg ok"><b>Success!</b> You’re in.</div></div>
-  <div class="foot">Don’t have an account? <a href="#" onclick="return false;">Sign Up</a></div>
-</div></div></div>
 
 <script>
 (function(){
-  // 🔗 Your Google Apps Script Web App endpoint
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwo08TJlqwagHHH4pIDxD0cxpfStePpxMswKn5GtDFC0zVkTQ01NTB70h-xN-7-53n_qQ/exec';
-  // ➜ Where to go after successful sign-in:
-  const NEXT_PAGE = 'landingpage.html';
+  // Your Web App URL - DO NOT CHANGE THIS
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw2QDgu99GSd5GbAWSI6WyPPqP8N9doZ4Mbc65xJfb_RIi1_xNnLo-o8MKKUEPgy05V/exec';
 
-  // Save a simple session and go
-  function saveSessionAndGo(name, email){
-    const user = { name, email, verifiedAt: Date.now() };
-    localStorage.setItem('ltn_user', JSON.stringify(user));
-    window.location.href = NEXT_PAGE;
-  }
-
-  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
   const joinBtn=$('#joinBtn'), joinMsg=$('#joinMsg');
   const stepJoin=$('#step-join'), stepOtp=$('#step-otp'), stepDone=$('#step-done');
-  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg'), inputs=$$('#otpInputs input'), welcome=$('#welcomeNotice');
+  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg'), welcome=$('#welcomeNotice');
+  const inputs=$$('#step-otp .inputs input');
   let currentEmail='', currentName='';
 
-  // No preflight: send as application/x-www-form-urlencoded
-  async function callAPI(payload){
-    const body = new URLSearchParams();
-    for (const [k,v] of Object.entries(payload)) body.append(k, typeof v==='boolean' ? String(v) : String(v ?? ''));
-    const res = await fetch(WEB_APP_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-      body
-    });
-    const text = await res.text();
-    try { return JSON.parse(text); }
-    catch { throw new Error(`HTTP ${res.status}: ${text.slice(0,200)}`); }
-  }
-
+  // OTP input handling
   inputs.forEach((inp,i)=>{
-    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,1); if(inp.value&&i<inputs.length-1)inputs[i+1].focus();});
-    inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();});
+    inp.addEventListener('input',()=>{
+      inp.value=inp.value.replace(/\D/g,'').slice(0,1);
+      if(inp.value&&i<inputs.length-1)inputs[i+1].focus();
+    });
+    inp.addEventListener('keydown',(e)=>{
+      if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();
+    });
   });
+
   const codeValue=()=>inputs.map(i=>i.value).join('');
   const clearCode=()=>{inputs.forEach(i=>i.value=''); inputs[0].focus();};
   const setMsg=(el,t,c='')=>{el.textContent=t||''; el.className='msg '+c;};
 
-  // Sign In (Step 1)
-  $('#joinBtn').addEventListener('click', async ()=>{
-    const first=$('#firstName').value.trim(), last=$('#lastName').value.trim();
-    const email=$('#email').value.trim().toLowerCase(), consent=$('#consent').checked;
-    if(!first||!email){setMsg(joinMsg,'First name and email are required','err');return;}
-    if(!consent){setMsg(joinMsg,'Please agree to the Terms to continue.','err');return;}
-    joinBtn.disabled=true; setMsg(joinMsg,'Working…','');
+  // SIGN IN
+  joinBtn.addEventListener('click', async ()=>{
+    const first=$('#firstName').value.trim();
+    const last=$('#lastName').value.trim();
+    const email=$('#email').value.trim().toLowerCase();
+    const consent=$('#consent').checked;
+
+    if(!first||!email){
+      setMsg(joinMsg,'First name and email are required','err');
+      return;
+    }
+    if(!consent){
+      setMsg(joinMsg,'Please agree to the Terms to continue.','err');
+      return;
+    }
+
+    joinBtn.disabled=true;
+    setMsg(joinMsg,'Connecting to server…','');
 
     try{
-      const data = await callAPI({action:'signup',name:first+(last?' '+last:''),email,consent,userAgent:navigator.userAgent});
-      if(data.verified && !data.requiresOtp){
-        // Returning verified user → go straight in
-        saveSessionAndGo(first, email);
+      const res=await fetch(WEB_APP_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          action:'signup',
+          name:first+(last?' '+last:''),
+          email,
+          consent,
+          userAgent:navigator.userAgent
+        })
+      });
+      
+      if(!res.ok){
+        throw new Error('Server returned status: '+res.status);
+      }
+      
+      const data=await res.json();
+      console.log('Response:', data);
+
+      if(data.success===false){
+        setMsg(joinMsg,data.error||'Server error','err');
         return;
       }
-      // New/not-yet-verified → OTP step
-      currentEmail=email; currentName=first; otpEmail.textContent=email;
-      welcome.style.display='none'; stepJoin.classList.add('hide'); stepOtp.style.display='block'; clearCode(); setMsg(joinMsg,'');
-    }catch(err){ setMsg(joinMsg,String(err.message||err),'err'); }
-    finally{ joinBtn.disabled=false; }
+
+      if(data.verified && !data.requiresOtp){
+        welcome.textContent='Welcome back, '+first+'!';
+        welcome.style.display='block';
+        stepJoin.classList.add('hide');
+        stepDone.classList.remove('hide');
+        setMsg(joinMsg,'');
+        return;
+      }
+
+      currentEmail=email;
+      currentName=first;
+      otpEmail.textContent=email;
+      welcome.style.display='none';
+      stepJoin.classList.add('hide');
+      stepOtp.style.display='block';
+      clearCode();
+      setMsg(joinMsg,'');
+
+    }catch(err){
+      console.error('Sign in error:',err);
+      setMsg(joinMsg,'Connection failed: '+err.message,'err');
+    }finally{
+      joinBtn.disabled=false;
+    }
   });
 
-  // Verify (Step 2)
+  // VERIFY
   $('#verifyBtn').addEventListener('click', async ()=>{
-    const code=codeValue(); if(code.length!==6){setMsg(otpMsg,'Enter the 6-digit code.','err');return;}
+    const code=codeValue();
+    if(code.length!==6){
+      setMsg(otpMsg,'Enter the 6-digit code.','err');
+      return;
+    }
+
     try{
-      const data = await callAPI({action:'verify',email:currentEmail,code});
+      const res=await fetch(WEB_APP_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'verify',email:currentEmail,code})
+      });
+      
+      if(!res.ok){
+        throw new Error('Server returned status: '+res.status);
+      }
+      
+      const data=await res.json();
+      console.log('Verify response:', data);
+
+      if(!data.success){
+        setMsg(otpMsg,data.error||'Verification failed','err');
+        return;
+      }
+
       if(data.verified){
-        // Verified now → save session and go
-        saveSessionAndGo(currentName, currentEmail);
-      } else {
+        stepOtp.style.display='none';
+        stepDone.classList.remove('hide');
+        welcome.textContent='Welcome, '+currentName+'!';
+        welcome.style.display='block';
+      }else{
         setMsg(otpMsg,'Unexpected response.','err');
       }
-    }catch(err){ setMsg(otpMsg,String(err.message||err),'err'); }
+    }catch(err){
+      console.error('Verify error:',err);
+      setMsg(otpMsg,'Verification failed: '+err.message,'err');
+    }
   });
 
-  // Resend OTP
+  // RESEND
   $('#resendBtn').addEventListener('click', async ()=>{
     try{
-      const data = await callAPI({action:'resend',email:currentEmail,name:currentName||'there'});
-      if(!data.success){ setMsg(otpMsg, data.error||'Error','err'); return; }
-      setMsg(otpMsg,'A new code has been sent.','ok'); clearCode();
-    }catch(err){ setMsg(otpMsg,String(err.message||err),'err'); }
+      const res=await fetch(WEB_APP_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'resend',email:currentEmail,name:currentName||'there'})
+      });
+      
+      if(!res.ok){
+        throw new Error('Server returned status: '+res.status);
+      }
+      
+      const data=await res.json();
+      console.log('Resend response:', data);
+
+      if(!data.success){
+        setMsg(otpMsg,data.error||'Resend failed','err');
+        return;
+      }
+
+      setMsg(otpMsg,'A new code has been sent.','ok');
+      clearCode();
+    }catch(err){
+      console.error('Resend error:',err);
+      setMsg(otpMsg,'Resend failed: '+err.message,'err');
+    }
   });
 })();
 </script>
 </body>
 </html>
-
 
 
 
