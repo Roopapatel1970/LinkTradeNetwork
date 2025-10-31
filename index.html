@@ -92,7 +92,7 @@
     </div>
   </div>
 
-<!-- Shared helpers (must load before the inline script below) -->
+<!-- Shared helpers (must load before inline script) -->
 <script src="/script.js"></script>
 <script>
 (function(){
@@ -100,7 +100,7 @@
   const $$ = s => Array.from(document.querySelectorAll(s));
   const joinBtn=$('#joinBtn'), joinMsg=$('#joinMsg');
   const stepJoin=$('#step-join'), stepOtp=$('#step-otp'), stepDone=$('#step-done');
-  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg'), welcome=$('#welcomeNotice');
+  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg');
   const inputs=$$('#step-otp .inputs input');
   let currentEmail='', currentName='';
 
@@ -140,7 +140,7 @@
       if (r.verified && !r.requiresOtp) {
         saveUser({name:first+(last?' '+last:''), email});
         stepJoin.classList.add('hide'); stepDone.classList.remove('hide');
-        setTimeout(()=>location.href='/landingpage.html', 900);
+        setTimeout(()=>location.href='/first.html', 900);
         return;
       }
 
@@ -167,7 +167,7 @@
       if (r.verified){
         saveUser({name:currentName, email:currentEmail});
         stepOtp.style.display='none'; stepDone.classList.remove('hide');
-        setTimeout(()=>location.href='/landingpage.html', 900);
+        setTimeout(()=>location.href='/first.html', 900);
       }
     }catch(e){
       setMsg(otpMsg,'Verification failed: '+e.message,'err');
@@ -188,5 +188,6 @@
 </script>
 </body>
 </html>
+
 
 
