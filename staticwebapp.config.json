@@ -2,13 +2,19 @@
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
+      "/index.html",
+      "/landingpage.html",
+      "/Landingpage.html",
       "/front.html",
       "/build-profile.html",
       "/my-profile.html",
-      "/landingpage.html",
       "/network.html",
       "/messages.html",
-      "/*.{css,js,png,jpg,jpeg,gif,svg,ico,webp}"
+      "/messaging.html",
+      "/accept-invite.html",
+      "/terms.html",
+      "/terms-messaging.html",
+      "/*.{css,js,png,jpg,jpeg,gif,svg,ico,webp,woff,woff2}"
     ]
   },
   "globalHeaders": {
