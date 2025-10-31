@@ -61,7 +61,7 @@
         <div><label>Email Address</label><input id="email" type="email" placeholder="you@example.com" autocomplete="email"></div>
         <label class="agree">
           <input id="consent" type="checkbox">
-          <span>I agree to the <a href="#" target="_blank">Terms &amp; Conditions</a> and understand I may receive important account emails.</span>
+          <span>I agree to the <a href="/terms.html" target="_blank">Terms &amp; Conditions</a> and understand I may receive important account emails.</span>
         </label>
         <button id="joinBtn" class="btn" type="button">Sign In</button>
         <div id="joinMsg" class="msg"></div>
@@ -92,21 +92,10 @@
     </div>
   </div>
 
+<!-- Shared helpers -->
+<script src="/script.js"></script>
 <script>
 (function(){
-  // Backend
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXuEhYvkD8Kzu_X6K32shXtJjxAdysAyuAA5p-Y1BlAefAjFxLJp2dRAJ_yE7G1EGL/exec';
-
-  // Helper: no Content-Type header -> no CORS preflight
-  async function postJSON(url, body) {
-    const res = await fetch(url, { method: 'POST', body: JSON.stringify(body) });
-    let data;
-    try { data = await res.json(); }
-    catch { throw new Error('Backend not returning JSON. Check deployment access is "Anyone".'); }
-    if (!data.success && data.error) throw new Error(data.error);
-    return data;
-  }
-
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const joinBtn=$('#joinBtn'), joinMsg=$('#joinMsg');
@@ -115,7 +104,7 @@
   const inputs=$$('#step-otp .inputs input');
   let currentEmail='', currentName='';
 
-  // OTP UI behavior
+  // OTP UI
   inputs.forEach((inp,i)=>{
     inp.addEventListener('input',()=>{
       inp.value = inp.value.replace(/\D/g,'').slice(0,1);
@@ -141,7 +130,7 @@
 
     joinBtn.disabled=true; setMsg(joinMsg,'Connecting…');
     try{
-      const r = await postJSON(WEB_APP_URL, {
+      const r = await postJSON({
         action:'signup',
         name:first+(last?' '+last:''),
         email, consent,
@@ -149,20 +138,16 @@
       });
 
       if (r.verified && !r.requiresOtp) {
-        welcome.textContent='Welcome back, '+first+'!';
-        welcome.style.display='block';
-        stepJoin.classList.add('hide');
-        stepDone.classList.remove('hide');
+        saveUser({name:first+(last?' '+last:''), email});
+        stepJoin.classList.add('hide'); stepDone.classList.remove('hide');
         setTimeout(()=>location.href='/landingpage.html', 900);
         return;
       }
 
-      currentEmail=email; currentName=first;
+      currentEmail=email; currentName=first+(last?' '+last:'');
       otpEmail.textContent=email;
-      stepJoin.classList.add('hide');
-      stepOtp.style.display='block';
-      clearCode();
-      setMsg(joinMsg,'','');
+      stepJoin.classList.add('hide'); stepOtp.style.display='block';
+      clearCode(); setMsg(joinMsg,'');
 
     }catch(e){
       setMsg(joinMsg,'Connection failed: '+e.message,'err');
@@ -177,11 +162,11 @@
     if (code.length!==6){ setMsg(otpMsg,'Enter the 6-digit code.','err'); return; }
 
     try{
-      const r = await postJSON(WEB_APP_URL, { action:'verify', email:currentEmail, code });
+      const r = await postJSON({ action:'verify', email:currentEmail, code });
       if (!r.success){ setMsg(otpMsg, r.error || 'Verification failed','err'); return; }
       if (r.verified){
-        stepOtp.style.display='none';
-        stepDone.classList.remove('hide');
+        saveUser({name:currentName, email:currentEmail});
+        stepOtp.style.display='none'; stepDone.classList.remove('hide');
         setTimeout(()=>location.href='/landingpage.html', 900);
       }
     }catch(e){
@@ -192,10 +177,9 @@
   // RESEND
   $('#resendBtn').addEventListener('click', async ()=>{
     try{
-      const r = await postJSON(WEB_APP_URL, { action:'resend', email:currentEmail, name:currentName || 'there' });
+      const r = await postJSON({ action:'resend', email:currentEmail, name:currentName || 'there' });
       if (!r.success){ setMsg(otpMsg, r.error || 'Resend failed','err'); return; }
-      setMsg(otpMsg,'A new code has been sent.','ok');
-      clearCode();
+      setMsg(otpMsg,'A new code has been sent.','ok'); clearCode();
     }catch(e){
       setMsg(otpMsg,'Resend failed: '+e.message,'err');
     }
@@ -204,3 +188,4 @@
 </script>
 </body>
 </html>
+
