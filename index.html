@@ -62,7 +62,7 @@
   </div>
 </div>
 
-<script src="/script.js"></script>
+<script src="script.js"></script>
 <script>
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
@@ -101,7 +101,8 @@ verifyBtn.onclick=async()=>{
     if(r.success){
       saveUser({name:currentName,email:currentEmail});
       otpBox.style.display='none';$('#doneStep').style.display='block';
-      setTimeout(()=>location.href='/first.html',800);
+      // ✅ Redirect RELATIVE (no / to avoid Azure root confusion)
+      setTimeout(()=>{ window.location.href = "first.html"; }, 900);
     }else throw new Error(r.error||'Invalid');
   }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
 };
@@ -116,6 +117,7 @@ resendBtn.onclick=async()=>{
 </script>
 </body>
 </html>
+
 
 
 
