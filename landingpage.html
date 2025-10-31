@@ -61,20 +61,12 @@
 
 <script src="/script.js"></script>
 <script>
-  // Require an authenticated session (set by index.html)
   requireUserOrRedirect();
-
-  const user = getUser();
-  const fullName = user?.name || 'there';
-  const email = user?.email || '';
-
-  document.getElementById('hello').textContent = `Welcome, ${fullName}!`;
-  document.getElementById('emailMeta').textContent = email ? `Signed in as ${email}` : '';
-
-  document.getElementById('logoutBtn').addEventListener('click', (e)=>{
-    e.preventDefault();
-    signOut();
-  });
+  const user = getUser() || {};
+  document.getElementById('hello').textContent = `Welcome, ${user.name || 'there'}!`;
+  document.getElementById('emailMeta').textContent = user.email ? `Signed in as ${user.email}` : '';
+  document.getElementById('logoutBtn').addEventListener('click', (e)=>{ e.preventDefault(); signOut(); });
 </script>
 </body>
 </html>
+
