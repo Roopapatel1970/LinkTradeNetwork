@@ -89,38 +89,28 @@
       <h1>Sign In to LinkTradeNetwork</h1>
       <p class="sub">Access your account with email verification</p>
 
-      <!-- Welcome notice -->
       <div id="welcomeNotice" class="notice"></div>
 
-      <!-- STEP 1: Sign In -->
+      <!-- STEP 1 -->
       <div id="step-join" class="row">
         <div class="row row2">
-          <div>
-            <label for="firstName">First Name</label>
-            <input id="firstName" type="text" placeholder="First name" autocomplete="given-name">
-          </div>
-          <div>
-            <label for="lastName">Last Name</label>
-            <input id="lastName" type="text" placeholder="Last name" autocomplete="family-name">
-          </div>
+          <div><label>First Name</label><input id="firstName" placeholder="First name"></div>
+          <div><label>Last Name</label><input id="lastName" placeholder="Last name"></div>
         </div>
-        <div>
-          <label for="email">Email Address</label>
-          <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
-        </div>
+        <div><label>Email</label><input id="email" type="email" placeholder="you@example.com"></div>
         <label class="agree">
-          <input id="consent" type="checkbox">
-          <span>I agree to the <a href="#" target="_blank">Terms &amp; Conditions</a> and understand I may receive important account emails.</span>
+          <input id="consent" type="checkbox"> 
+          <span>I agree to the <a href="#" target="_blank">Terms & Conditions</a>.</span>
         </label>
         <button id="joinBtn" class="btn" type="button">Sign In</button>
         <div id="joinMsg" class="msg"></div>
       </div>
 
-      <!-- STEP 2: OTP Verification -->
+      <!-- STEP 2 -->
       <div id="step-otp" class="otp">
         <div class="top">
-          <div>Enter the 6-digit code sent to <b id="otpEmail"></b>. Expires in 10 minutes.</div>
-          <button id="resendBtn" class="btn btn-resend" type="button">Resend code</button>
+          <div>Enter the 6-digit code sent to <b id="otpEmail"></b>.</div>
+          <button id="resendBtn" class="btn btn-resend" type="button">Resend</button>
         </div>
         <div class="inputs">
           <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
@@ -134,27 +124,25 @@
         <div id="otpMsg" class="msg"></div>
       </div>
 
-      <!-- STEP 3: Success -->
+      <!-- STEP 3 -->
       <div id="step-done" class="hide">
-        <p class="ok"><b>Success!</b> You're in.</p>
+        <p class="ok"><b>Success!</b> Redirecting...</p>
       </div>
     </div>
   </div>
 
 <script>
 (function(){
-  // ✅ CORRECT Web App URL
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwo08TJlqwagHHH4pIDxD0cxpfStePpxMswKn5GtDFC0zVkTQ01NTB70h-xN-7-53n_qQ/exec';
-
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzXuEhYvkD8Kzu_X6K32shXtJjxAdysAyuAA5p-Y1BlAefAjFxLJp2dRAJ_yE7G1EGL/exec';
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const joinBtn=$('#joinBtn'), joinMsg=$('#joinMsg');
   const stepJoin=$('#step-join'), stepOtp=$('#step-otp'), stepDone=$('#step-done');
-  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg'), welcome=$('#welcomeNotice');
+  const otpEmail=$('#otpEmail'), otpMsg=$('#otpMsg');
   const inputs=$$('#step-otp .inputs input');
   let currentEmail='', currentName='';
 
-  // OTP input handling
+  // OTP behavior
   inputs.forEach((inp,i)=>{
     inp.addEventListener('input',()=>{
       inp.value=inp.value.replace(/\D/g,'').slice(0,1);
@@ -164,158 +152,75 @@
       if(e.key==='Backspace'&&!inp.value&&i>0)inputs[i-1].focus();
     });
   });
-
   const codeValue=()=>inputs.map(i=>i.value).join('');
-  const clearCode=()=>{inputs.forEach(i=>i.value=''); inputs[0].focus();};
+  const clearCode=()=>inputs.forEach(i=>i.value='');
   const setMsg=(el,t,c='')=>{el.textContent=t||''; el.className='msg '+c;};
 
-  // SIGN IN
+  // SIGNUP
   joinBtn.addEventListener('click', async ()=>{
     const first=$('#firstName').value.trim();
     const last=$('#lastName').value.trim();
     const email=$('#email').value.trim().toLowerCase();
     const consent=$('#consent').checked;
 
-    if(!first||!email){
-      setMsg(joinMsg,'First name and email are required','err');
-      return;
-    }
-    if(!consent){
-      setMsg(joinMsg,'Please agree to the Terms to continue.','err');
-      return;
-    }
+    if(!first||!email){setMsg(joinMsg,'Name and email required','err');return;}
+    if(!consent){setMsg(joinMsg,'You must agree to continue','err');return;}
 
-    joinBtn.disabled=true;
-    setMsg(joinMsg,'Connecting to server…','');
-
+    joinBtn.disabled=true; setMsg(joinMsg,'Connecting...');
     try{
       const res=await fetch(WEB_APP_URL,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          action:'signup',
-          name:first+(last?' '+last:''),
-          email,
-          consent,
-          userAgent:navigator.userAgent
-        })
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'signup',name:first+' '+last,email,consent,userAgent:navigator.userAgent})
       });
-      
-      if(!res.ok){
-        throw new Error('Server returned status: '+res.status);
-      }
-      
       const data=await res.json();
-      console.log('Response:', data);
-
-      if(data.success===false){
-        setMsg(joinMsg,data.error||'Server error','err');
-        return;
-      }
+      if(!data.success){setMsg(joinMsg,data.error||'Error','err');return;}
 
       if(data.verified && !data.requiresOtp){
-        welcome.textContent='Welcome back, '+first+'!';
-        welcome.style.display='block';
-        stepJoin.classList.add('hide');
-        stepDone.classList.remove('hide');
-        setMsg(joinMsg,'');
+        stepJoin.classList.add('hide'); stepDone.classList.remove('hide');
+        setTimeout(()=>location.href='/landingpage.html',1000);
         return;
       }
 
-      currentEmail=email;
-      currentName=first;
+      currentEmail=email; currentName=first;
       otpEmail.textContent=email;
-      welcome.style.display='none';
-      stepJoin.classList.add('hide');
-      stepOtp.style.display='block';
-      clearCode();
-      setMsg(joinMsg,'');
-
-    }catch(err){
-      console.error('Sign in error:',err);
-      setMsg(joinMsg,'Connection failed: '+err.message,'err');
-    }finally{
-      joinBtn.disabled=false;
-    }
+      stepJoin.classList.add('hide'); stepOtp.style.display='block'; clearCode();
+    }catch(e){setMsg(joinMsg,'Network error: '+e.message,'err');}
+    finally{joinBtn.disabled=false;}
   });
 
   // VERIFY
   $('#verifyBtn').addEventListener('click', async ()=>{
     const code=codeValue();
-    if(code.length!==6){
-      setMsg(otpMsg,'Enter the 6-digit code.','err');
-      return;
-    }
-
+    if(code.length!==6){setMsg(otpMsg,'Enter 6 digits','err');return;}
     try{
       const res=await fetch(WEB_APP_URL,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
+        method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({action:'verify',email:currentEmail,code})
       });
-      
-      if(!res.ok){
-        throw new Error('Server returned status: '+res.status);
-      }
-      
       const data=await res.json();
-      console.log('Verify response:', data);
-
-      if(!data.success){
-        setMsg(otpMsg,data.error||'Verification failed','err');
-        return;
-      }
-
+      if(!data.success){setMsg(otpMsg,data.error,'err');return;}
       if(data.verified){
         stepOtp.style.display='none';
         stepDone.classList.remove('hide');
-        welcome.textContent='Welcome, '+currentName+'!';
-        welcome.style.display='block';
-      }else{
-        setMsg(otpMsg,'Unexpected response.','err');
+        setMsg(otpMsg,'','');
+        setTimeout(()=>location.href='/landingpage.html',1000);
       }
-    }catch(err){
-      console.error('Verify error:',err);
-      setMsg(otpMsg,'Verification failed: '+err.message,'err');
-    }
+    }catch(e){setMsg(otpMsg,'Error: '+e.message,'err');}
   });
 
   // RESEND
   $('#resendBtn').addEventListener('click', async ()=>{
     try{
       const res=await fetch(WEB_APP_URL,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({action:'resend',email:currentEmail,name:currentName||'there'})
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'resend',email:currentEmail,name:currentName})
       });
-      
-      if(!res.ok){
-        throw new Error('Server returned status: '+res.status);
-      }
-      
       const data=await res.json();
-      console.log('Resend response:', data);
-
-      if(!data.success){
-        setMsg(otpMsg,data.error||'Resend failed','err');
-        return;
-      }
-
-      setMsg(otpMsg,'A new code has been sent.','ok');
-      clearCode();
-    }catch(err){
-      console.error('Resend error:',err);
-      setMsg(otpMsg,'Resend failed: '+err.message,'err');
-    }
+      if(!data.success){setMsg(otpMsg,data.error,'err');return;}
+      setMsg(otpMsg,'Code resent.','ok'); clearCode();
+    }catch(e){setMsg(otpMsg,'Resend failed: '+e.message,'err');}
   });
 })();
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
