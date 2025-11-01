@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LinkTradeNetwork • Sign In</title>
+<style>
+  :root { --bg:#0b0f17; --panel:#101726; --ink:#eaf0ff; --muted:#a9b7d0; --line:#26324b; --brand:#ea6a00; --ok:#22c55e; --err:#ef4444; }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  .wrap{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.35);padding:24px 20px;width:100%;max-width:440px}
+  h1{text-align:center;margin-bottom:6px}
+  p.sub{text-align:center;color:var(--muted);margin-bottom:18px}
+  label{display:block;margin-top:10px;font-size:14px;color:var(--muted)}
+  input{width:100%;margin-top:4px;background:#0d1422;color:#eaf0ff;border:1px solid #2a3956;border-radius:10px;padding:10px;font-size:14px}
+  input:focus{outline:none;border-color:#3d5278}
+  .agree{display:flex;gap:8px;margin-top:8px;font-size:13px}
+  .agree a{color:#6b94f7;text-decoration:none}
+  .agree a:hover{text-decoration:underline}
+  button{width:100%;margin-top:14px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700;font-size:15px;cursor:pointer}
+  button:hover{background:#c35700}
+  .msg{margin-top:10px;font-size:13px}
+  .err{color:var(--err)} .ok{color:var(--ok)}
+  .otp-box{margin-top:18px;display:none}
+  .otp-inputs{display:flex;gap:8px;margin:10px 0}
+  .otp-inputs input{width:44px;height:48px;text-align:center;font-size:20px;border:1px solid #2a3956;border-radius:10px;background:#0d1422;color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Sign In</h1>
+    <p class="sub">Verify your email to continue</p>
+
+    <div id="joinStep">
+      <label>Full Name</label>
+      <input id="name" placeholder="John Doe" />
+      <label>Email</label>
+      <input id="email" type="email" placeholder="you@example.com" />
+      <label class="agree">
+        <input id="consent" type="checkbox">
+        <span>I agree to the <a href="/terms.html" target="_blank">Terms &amp; Conditions</a>.</span>
+      </label>
+      <button id="joinBtn">Sign In</button>
+      <div id="joinMsg" class="msg"></div>
+    </div>
+
+    <div id="otpStep" class="otp-box">
+      <div>Enter the 6-digit code sent to <b id="otpEmail"></b>.</div>
+      <div class="otp-inputs">
+        <input maxlength="1"><input maxlength="1"><input maxlength="1">
+        <input maxlength="1"><input maxlength="1"><input maxlength="1">
+      </div>
+      <button id="verifyBtn">Verify</button>
+      <button id="resendBtn" style="background:#374151;margin-top:10px">Resend</button>
+      <div id="otpMsg" class="msg"></div>
+    </div>
+
+    <div id="doneStep" class="msg ok" style="display:none">
+      ✅ Verified — redirecting…
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const joinBtn=$('#joinBtn'), joinMsg=$('#joinMsg');
+const otpBox=$('#otpStep'), otpMsg=$('#otpMsg'), otpEmail=$('#otpEmail');
+const verifyBtn=$('#verifyBtn'), resendBtn=$('#resendBtn');
+const nameInput=$('#name'), emailInput=$('#email'), consent=$('#consent');
+const codeInputs=$$('#otpStep input');
+let currentEmail='', currentName='';
+
+function code(){return codeInputs.map(i=>i.value).join('');}
+codeInputs.forEach((inp,i)=>{
+  inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'');if(inp.value && i<5)codeInputs[i+1].focus();});
+});
+
+joinBtn.onclick=async()=>{
+  const name=nameInput.value.trim(), email=emailInput.value.trim().toLowerCase();
+  if(!name||!email){joinMsg.textContent='Name and email required';joinMsg.className='msg err';return;}
+  if(!consent.checked){joinMsg.textContent='Please agree to the Terms.';joinMsg.className='msg err';return;}
+  joinMsg.textContent='Sending code…';joinBtn.disabled=true;
+  try{
+    const r=await postJSON({action:'signup',name,email,consent:true,userAgent:navigator.userAgent});
+    if(r.success){
+      currentEmail=email;currentName=name;otpEmail.textContent=email;
+      $('#joinStep').style.display='none';otpBox.style.display='block';
+    }else throw new Error(r.error||'Failed');
+  }catch(e){joinMsg.textContent=e.message;joinMsg.className='msg err';}
+  joinBtn.disabled=false;
+};
+
+verifyBtn.onclick=async()=>{
+  const c=code();
+  if(c.length!==6){otpMsg.textContent='Enter full code';otpMsg.className='msg err';return;}
+  try{
+    const r=await postJSON({action:'verify',email:currentEmail,code:c});
+    if(r.success){
+      // ✅ Save user to localStorage
+      localStorage.setItem('ltn_user', JSON.stringify({name:currentName,email:currentEmail}));
+      
+      // Show success message
+      otpBox.style.display='none';$('#doneStep').style.display='block';
+      
+      // ✅ Redirect immediately to first.html
+      window.location.replace("/first.html");
+    }else throw new Error(r.error||'Invalid');
+  }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
+};
+
+resendBtn.onclick=async()=>{
+  try{
+    const r=await postJSON({action:'resend',email:currentEmail,name:currentName});
+    otpMsg.textContent=r.success?'New code sent':'Resend failed';
+    otpMsg.className='msg '+(r.success?'ok':'err');
+  }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
+};
+</script>
+</body>
+</html>
