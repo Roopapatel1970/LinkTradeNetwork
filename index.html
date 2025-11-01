@@ -75,7 +75,7 @@ let currentEmail='', currentName='';
 
 function code(){return codeInputs.map(i=>i.value).join('');}
 codeInputs.forEach((inp,i)=>{
-  inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\\D/g,'');if(inp.value && i<5)codeInputs[i+1].focus();});
+  inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'');if(inp.value && i<5)codeInputs[i+1].focus();});
 });
 
 joinBtn.onclick=async()=>{
@@ -101,8 +101,10 @@ verifyBtn.onclick=async()=>{
     if(r.success){
       saveUser({name:currentName,email:currentEmail});
       otpBox.style.display='none';$('#doneStep').style.display='block';
-      // ✅ Redirect RELATIVE (no / to avoid Azure root confusion)
-      setTimeout(()=>{ window.location.href = "first.html"; }, 900);
+      // ✅ FIXED: Use absolute path from root
+      setTimeout(()=>{ 
+        window.location.href = "/first.html"; 
+      }, 900);
     }else throw new Error(r.error||'Invalid');
   }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
 };
