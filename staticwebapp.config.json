@@ -3,8 +3,7 @@
     "rewrite": "/index.html",
     "exclude": [
       "/index.html",
-      "/landingpage.html",
-      "/Landingpage.html",
+      "/first.html",
       "/front.html",
       "/build-profile.html",
       "/my-profile.html",
