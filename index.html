@@ -5,31 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LinkTradeNetwork • Sign In</title>
 <style>
-  :root { --bg:#0b0f17; --panel:#101726; --ink:#eaf0ff; --muted:#a9b7d0; --line:#26324b; --brand:#ea6a00; --ok:#22c55e; --err:#ef4444; }
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
-  .wrap{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;flex-direction:column}
-  .logo-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-  .logo{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#4facfe,#00f2fe);display:grid;place-items:center;font-size:28px}
-  .brand-name{font-size:24px;font-weight:800;color:var(--ink)}
-  .trades{display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap;justify-content:center;max-width:600px}
-  .trade-badge{background:#1f2937;border:1px solid #2a3956;color:var(--muted);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.35);padding:24px 20px;width:100%;max-width:440px}
-  h1{text-align:center;margin-bottom:6px}
-  p.sub{text-align:center;color:var(--muted);margin-bottom:18px}
-  label{display:block;margin-top:10px;font-size:14px;color:var(--muted)}
-  input{width:100%;margin-top:4px;background:#0d1422;color:#eaf0ff;border:1px solid #2a3956;border-radius:10px;padding:10px;font-size:14px}
-  input:focus{outline:none;border-color:#3d5278}
-  .name-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .agree{display:flex;gap:8px;margin-top:8px;font-size:13px}
-  .agree a{color:#6b94f7;text-decoration:none}
-  .agree a:hover{text-decoration:underline}
-  button{width:100%;margin-top:14px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700;font-size:15px;cursor:pointer}
-  button:hover{background:#c35700}
-  .msg{margin-top:10px;font-size:13px}
-  .err{color:var(--err)} .ok{color:var(--ok)}
-  .otp-box{margin-top:18px;display:none}
-  .otp-inputs{display:flex;gap:8px;margin:10px 0}
-  .otp-inputs input{width:44px;height:48px;text-align:center;font-size:20px;border:1px solid #2a3956;border-radius:10px;background:#0d1422;color:#fff}
+  :root { 
+    --bg:#0b0f17; 
+    --panel:#101726; 
+    --ink:#eaf0ff; 
+    --muted:#a9b7d0; 
+    --line:#26324b; 
+    --brand:#ea6a00; 
+    --ok:#22c55e; 
+    --err:#ef4444; 
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+  }
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    flex-direction:column;
+  }
+  .logo-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .logo{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    display:grid;
+    place-items:center;
+    font-size:28px;
+  }
+  .brand-name{
+    font-size:24px;
+    font-weight:800;
+    color:var(--ink);
+  }
+  .trades{
+    display:flex;
+    gap:10px;
+    margin-bottom:32px;
+    flex-wrap:wrap;
+    justify-content:center;
+    max-width:600px;
+  }
+  .trade-badge{
+    background:#1f2937;
+    border:1px solid #2a3956;
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 6px 16px rgba(0,0,0,.35);
+    padding:24px 20px;
+    width:100%;
+    max-width:440px;
+  }
+  h1{
+    text-align:center;
+    margin-bottom:6px;
+  }
+  p.sub{
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:18px;
+  }
+  label{
+    display:block;
+    margin-top:10px;
+    font-size:14px;
+    color:var(--muted);
+  }
+  input{
+    width:100%;
+    margin-top:4px;
+    background:#0d1422;
+    color:#eaf0ff;
+    border:1px solid #2a3956;
+    border-radius:10px;
+    padding:10px;
+    font-size:14px;
+  }
+  input:focus{
+    outline:none;
+    border-color:#3d5278;
+  }
+  .name-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .agree{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+    font-size:13px;
+    align-items:center;
+  }
+  .agree a{
+    color:#6b94f7;
+    text-decoration:none;
+  }
+  .agree a:hover{
+    text-decoration:underline;
+  }
+  button{
+    width:100%;
+    margin-top:14px;
+    background:var(--brand);
+    color:#fff;
+    border:0;
+    border-radius:10px;
+    padding:12px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+  }
+  button:hover{
+    background:#c35700;
+  }
+  .msg{
+    margin-top:10px;
+    font-size:13px;
+  }
+  .err{color:var(--err);}
+  .ok{color:var(--ok);}
+  .otp-box{
+    margin-top:18px;
+    display:none;
+  }
+  .otp-inputs{
+    display:flex;
+    gap:8px;
+    margin:10px 0;
+  }
+  .otp-inputs input{
+    width:44px;
+    height:48px;
+    text-align:center;
+    font-size:20px;
+    border:1px solid #2a3956;
+    border-radius:10px;
+    background:#0d1422;
+    color:#fff;
+  }
 </style>
 </head>
 <body>
@@ -129,20 +263,14 @@ verifyBtn.onclick=async()=>{
   try{
     const r=await postJSON({action:'verify',email:currentEmail,code:c});
     if(r.success){
-      // ✅ Save user with firstName and lastName separately
       localStorage.setItem('ltn_user', JSON.stringify({
         firstName: currentFirstName,
         lastName: currentLastName,
         name: `${currentFirstName} ${currentLastName}`,
         email: currentEmail
       }));
-      
       otpBox.style.display='none';$('#doneStep').style.display='block';
-      
-      // ✅ REDIRECT TO FRONT.HTML (Your main home page)
-      setTimeout(()=>{ 
-        window.location.replace("/front.html"); 
-      }, 900);
+      setTimeout(()=>{window.location.replace("/front.html");}, 900);
     }else throw new Error(r.error||'Invalid');
   }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
 };
@@ -155,6 +283,12 @@ resendBtn.onclick=async()=>{
     otpMsg.className='msg '+(r.success?'ok':'err');
   }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
 };
+
+// ✅ Dummy postJSON function placeholder (replace with your real API call)
+async function postJSON(data){
+  console.log("Mock sending:", data);
+  return {success:true};
+}
 </script>
 </body>
 </html>
