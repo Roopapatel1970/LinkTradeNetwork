@@ -99,11 +99,14 @@ verifyBtn.onclick=async()=>{
   try{
     const r=await postJSON({action:'verify',email:currentEmail,code:c});
     if(r.success){
-      saveUser({name:currentName,email:currentEmail});
+      // ✅ Save user directly to localStorage
+      localStorage.setItem('ltn_user', JSON.stringify({name:currentName,email:currentEmail}));
+      
       otpBox.style.display='none';$('#doneStep').style.display='block';
-      // ✅ FIXED: Use absolute path from root
+      
+      // ✅ FIXED: Added leading slash and use .replace()
       setTimeout(()=>{ 
-        window.location.href = "first.html"; 
+        window.location.replace("/first.html"); 
       }, 900);
     }else throw new Error(r.error||'Invalid');
   }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
