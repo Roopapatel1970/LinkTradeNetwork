@@ -103,7 +103,7 @@ verifyBtn.onclick=async()=>{
       otpBox.style.display='none';$('#doneStep').style.display='block';
       // ✅ FIXED: Use absolute path from root
       setTimeout(()=>{ 
-        window.location.href = "/first.html"; 
+        window.location.href = "first.html"; 
       }, 900);
     }else throw new Error(r.error||'Invalid');
   }catch(e){otpMsg.textContent=e.message;otpMsg.className='msg err';}
