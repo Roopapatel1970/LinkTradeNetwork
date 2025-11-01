@@ -38,7 +38,7 @@
     <div class="logo">🌍</div>
     <div class="brand">LinkTradeNetwork</div>
     <div class="right">
-      <a class="ghost" href="/landingpage.html">Home</a>
+      <a class="ghost" href="/first.html">Home</a>
       <a class="ghost" href="/network.html">Network</a>
       <a class="ghost" href="/messages.html">Messages</a>
       <a class="ghost" href="#" id="logoutBtn">Sign Out</a>
@@ -93,7 +93,7 @@
 
       <div class="btnbar">
         <button id="saveBtn" class="btn">Save Profile</button>
-        <a href="/landingpage.html" class="ghostbtn">Cancel</a>
+        <a href="/first.html" class="ghostbtn">Cancel</a>
       </div>
       <div id="formMsg" class="msg"></div>
     </div>
@@ -131,9 +131,9 @@
     try{
       // Try backend save (will succeed once backend supports action 'save_profile')
       await postJSON({ action:'save_profile', email, profile: p });
-      setMsg('Profile saved ✔ and synced to server.', 'ok');
+      setMsg('Profile saved ✓ and synced to server.', 'ok');
     }catch(e){
-      setMsg('Profile saved ✔ locally. (Server sync pending backend update.)', 'ok');
+      setMsg('Profile saved ✓ locally. (Server sync pending backend update.)', 'ok');
     }
   });
 
@@ -188,12 +188,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-         
-
-
-
-
